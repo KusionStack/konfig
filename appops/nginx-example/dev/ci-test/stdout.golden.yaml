@@ -1,0 +1,57 @@
+attributes:
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: nginx-exampledev
+    namespace: nginx-example
+  spec:
+    replicas: 1
+    selector: {}
+    template:
+      metadata: {}
+      spec:
+        containers:
+          - image: nginx:1.7.8
+            name: main
+            ports:
+              - containerPort: 80
+                protocol: TCP
+            resources:
+              limits:
+                cpu: 100m
+                ephemeral-storage: 1Gi
+                memory: 100Mi
+              requests:
+                cpu: 100m
+                ephemeral-storage: 1Gi
+                memory: 100Mi
+dependsOn:
+  - v1:Namespace:nginx-example
+  - v1:Service:nginx-example:nginx-example
+id: apps/v1:Deployment:nginx-example:nginx-exampledev
+mode: managed
+---
+attributes:
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: nginx-example
+id: v1:Namespace:nginx-example
+mode: managed
+---
+attributes:
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: nginx-example
+    namespace: nginx-example
+  spec:
+    ports:
+      - nodePort: 30201
+        port: 80
+        targetPort: 80
+    type: NodePort
+dependsOn:
+  - v1:Namespace:nginx-example
+id: v1:Service:nginx-example:nginx-example
+mode: managed

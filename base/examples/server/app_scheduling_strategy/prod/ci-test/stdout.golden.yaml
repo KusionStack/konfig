@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampleappprod
+  namespace: sampleapp
+spec:
+  replicas: 1
+  selector: {}
+  template:
+    metadata: {}
+    spec:
+      containers:
+        - image: gcr.io/google-samples/gb-frontend:v4
+          name: main
+          resources:
+            limits:
+              cpu: "1"
+              ephemeral-storage: 30Gi
+              memory: 1Gi
+            requests:
+              cpu: "1"
+              ephemeral-storage: 30Gi
+              memory: 1Gi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp

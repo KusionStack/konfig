@@ -1,0 +1,78 @@
+attributes:
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: http-echodev
+    namespace: http-echo
+  spec:
+    replicas: 1
+    selector: {}
+    template:
+      metadata: {}
+      spec:
+        containers:
+          - args:
+              - -text=apple
+            image: hashicorp/http-echo
+            name: apple-app
+            resources:
+              limits:
+                cpu: 100m
+                ephemeral-storage: 1Gi
+                memory: 100Mi
+              requests:
+                cpu: 100m
+                ephemeral-storage: 1Gi
+                memory: 100Mi
+dependsOn:
+  - v1:Namespace:http-echo
+  - v1:Service:http-echo:apple-service
+id: apps/v1:Deployment:http-echo:http-echodev
+mode: managed
+---
+attributes:
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: http-echo
+id: v1:Namespace:http-echo
+mode: managed
+---
+attributes:
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: apple-service
+    namespace: http-echo
+  spec:
+    ports:
+      - port: 5678
+    type: NodePort
+dependsOn:
+  - v1:Namespace:http-echo
+id: v1:Service:http-echo:apple-service
+mode: managed
+---
+attributes:
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: example-ingress
+    namespace: http-echo
+  spec:
+    rules:
+      - http:
+          paths:
+            - backend:
+                service:
+                  name: app-service
+                  port:
+                    number: 5678
+              path: /apple
+              pathType: Prefix
+dependsOn:
+  - v1:Namespace:http-echo
+  - v1:Service:http-echo:apple-service
+  - apps/v1:Deployment:http-echo:http-echodev
+id: networking.k8s.io/v1:Ingress:http-echo:example-ingress
+mode: managed

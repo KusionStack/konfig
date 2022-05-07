@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sampleappprod
+  namespace: sampleapp
+spec:
+  replicas: 1
+  selector: {}
+  serviceName: sampleappprod
+  template:
+    metadata: {}
+    spec:
+      containers:
+        - image: gcr.io/google-samples/gb-frontend:v4
+          name: main
+          resources:
+            limits:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sampleappprod
+  namespace: sampleapp
+spec:
+  clusterIP: None
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp

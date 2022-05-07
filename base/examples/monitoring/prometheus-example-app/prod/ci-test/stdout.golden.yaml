@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-example-appprod
+  namespace: prometheus-example-app
+spec:
+  replicas: 1
+  selector: {}
+  template:
+    metadata: {}
+    spec:
+      containers:
+        - image: quay.io/brancz/prometheus-example-app:v0.3.0
+          name: prometheus-example-app
+          ports:
+            - containerPort: 8080
+              name: web
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prometheus-example-app
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: prometheus-example-appprod
+  namespace: prometheus-example-app
+spec:
+  podMetricsEndpoints:
+    - port: web
+  selector: {}

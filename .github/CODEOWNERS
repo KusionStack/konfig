@@ -1,0 +1,38 @@
+# This is a comment.
+# Each line is a file pattern followed by one or more owners.
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @howieyuen and @elliotxx will be requested for review
+# when someone opens a pull request.
+* @howieyuen @elliotxx
+
+# The `/.github/workflows/*` pattern will match files like
+# `/.github/workflows/main.yml` but not further nested files like
+# `/.github/workflows/foo/bar.yml`.
+/.github/workflows/* @howieyuen
+
+# @elliotxx owns any files in the appops/guestbook-frontend
+# directory at the root of the repository and any of its
+# subdirectories.
+/appops/guestbook-frontend/ @elliotxx
+
+/appops/http-echo/ @elliotxx
+
+/appops/nginx-example/ @elliotxx
+
+/base/examples/ @elliotxx
+
+/base/pkg/kusion_kubernetes @elliotxx
+
+/base/pkg/kusion_models @elliotxx
+
+/base/pkg/kusion_provider @elliotxx
+
+# Order is important; the last matching pattern takes the most
+# precedence. When someone opens a pull request that only
+# modifies Python files, only @elliotxx and not the global
+# owner(s) will be requested for a review.
+*.py @elliotxx
+
+*.sh @elliotxx

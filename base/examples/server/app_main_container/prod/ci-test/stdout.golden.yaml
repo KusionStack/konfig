@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampleappprod
+  namespace: sampleapp
+spec:
+  replicas: 1
+  selector: {}
+  template:
+    metadata: {}
+    spec:
+      containers:
+        - args:
+            - start
+          command:
+            - /home/admin/server.sh
+          env:
+            - name: app.version
+              value: v1.0.0
+          envFrom:
+            - configMapRef:
+                name: my-configmap
+          image: gcr.io/google-samples/gb-frontend:v4
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - echo livenessProbe
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: main
+          ports:
+            - containerPort: 12201
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - echo readinessProbe
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 2
+            timeoutSeconds: 10
+          resources:
+            limits:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+          startupProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - echo startupProbe
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 2
+            timeoutSeconds: 10
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp

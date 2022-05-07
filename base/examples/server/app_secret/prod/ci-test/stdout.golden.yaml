@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampleappprod
+  namespace: sampleapp
+spec:
+  replicas: 1
+  selector: {}
+  template:
+    metadata: {}
+    spec:
+      containers:
+        - image: gcr.io/google-samples/gb-frontend:v4
+          name: main
+          resources:
+            limits:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp
+---
+apiVersion: v1
+data:
+  ca.conf: ZG9tYWluSWQ9CmdhdGV3YXk9aHR0cDovL2xhYi5nYXRld2F5LmdhbGF4eS5teWJhbmsuY2
+kind: Secret
+metadata:
+  name: sampleappprod0
+  namespace: sampleapp
+type: Opaque
+---
+apiVersion: v1
+data:
+  token: cVZFZGowOGg1Zm5nbWlJS0FzMWw2OUhPUVdEd1pNeHo=
+kind: Secret
+metadata:
+  name: sampleappprod1
+  namespace: sampleapp
+type: Opaque

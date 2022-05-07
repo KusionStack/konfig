@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampleappprod
+  namespace: sampleapp
+spec:
+  replicas: 1
+  selector: {}
+  template:
+    metadata: {}
+    spec:
+      containers:
+        - image: gcr.io/google-samples/gb-frontend:v4
+          name: main
+          resources:
+            limits:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+          volumeMounts:
+            - mountPath: /home/admin/logs
+              name: log-volume
+      volumes:
+        - emptyDir: {}
+          name: log-volume
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp

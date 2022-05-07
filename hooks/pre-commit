@@ -1,0 +1,188 @@
+#!/usr/bin/env kclvm
+
+import os
+import sys
+import subprocess
+from typing import Callable, List, Tuple
+from pathlib import Path
+
+PROJECT_FILE = 'project.yaml'
+KCLMOD_FILE = 'kcl.mod'
+HACK_DIR = 'hack'
+
+# 初始化色彩
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+BOLD="\033[1m"
+RESET="\033[m"
+
+
+# 环境变量
+add_to_stage_after_compile = os.getenv("ADD_TO_STAGE_AFTER_COMPILE", "True") in ["true", "True", "1"]
+
+
+class TaskResult:
+    """任务执行结果"""
+    success: bool
+    suggest: str
+
+    def __init__(self, success: bool, suggest: str):
+        self.success = success
+        self.suggest = suggest
+
+
+class Task:
+    """pre commit 中执行的任务"""
+    name: str
+    work: Callable[[], TaskResult]
+
+    def __init__(self, name, func):
+        self.name = name
+        self.work = func
+
+
+# TODO: 工具方法，后续移到 lib 中
+def is_project_dir(p: Path) -> bool:
+    """当前目录是否为项目目录
+    """
+    project_file = p / PROJECT_FILE
+    return project_file.is_file()
+
+
+def get_project_root(p: Path) -> Path:
+    """获取 Project 根目录
+    """
+    while (str(p.resolve()) != "/"):
+        if is_project_dir(p):
+            return p
+        p = p.resolve().parent
+    return None
+
+
+def get_konfig_root() -> Path:
+    """获取大库根目录
+    """
+    p = Path(os.getcwd())
+    while (str(p.resolve()) != "/"):
+        if (p / KCLMOD_FILE).is_file() and (p / HACK_DIR).is_dir():
+            return p
+        p = p.resolve().parent
+    return Path(os.getcwd())
+
+
+def add_code_to_stage() -> Tuple[int, str]:
+    """将修改加入到暂存区(stage)，作为本次提交内容"""
+    konfig_root = get_konfig_root()
+    # 将修改加入到暂存区
+    process = subprocess.run(["git", "add", "."],
+                            capture_output=True,
+                            cwd=konfig_root,
+                            env=dict(os.environ))
+    return (process.returncode, process.stderr)
+
+
+# pre-commit 任务
+def pre_compile() -> TaskResult:
+    """预编译任务"""
+    result = subprocess.run(['git', 'diff', '--cached', '--name-only'], stdout=subprocess.PIPE)
+    changedFilesPaths = result.stdout.decode('utf-8').split("\n")
+
+    # get changed projects
+    changed_projects = set();
+    konfig_root = get_konfig_root()
+    for changeFilePath in changedFilesPaths:
+        project_dir = get_project_root(konfig_root / changeFilePath)
+        # not a project path
+        if project_dir is None:
+            continue
+        if str(project_dir).startswith(os.path.join(konfig_root, "appops")):
+            if not str(project_dir).startswith(os.path.join(konfig_root, "base")):
+                # process /sigma/* (exclude /sigma/base)
+                changed_projects.add(str(project_dir)[len(str(konfig_root))+1:])
+
+    if len(changed_projects) > 0:
+        compileRocketFile = os.path.join(konfig_root, "hack", "compile-rocket.py")
+        command = "kclvm {} {}".format(compileRocketFile, " ".join(changed_projects))
+        print(f"{GREEN}Running {command} ...{RESET}")
+        # 执行命令
+        process = subprocess.run(command.split(),
+                                capture_output=True,
+                                cwd=konfig_root,
+                                env=dict(os.environ))
+        # 任务结束，输出提示信息
+        stdout, stderr = process.stdout, process.stderr
+        if stdout.decode().strip() != "":
+            print(stdout.decode().strip(), flush=True)
+        if process.returncode == 0:
+            # 编译成功
+            if add_to_stage_after_compile:
+                print(f"{GREEN}🕒 正在将编译结果加入到暂存区(stage)，作为本次提交内容...{RESET}")
+                return_code, err_msg = add_code_to_stage()
+                if return_code == 0:
+                    # 编译结果成功添加到本地提交
+                    return TaskResult(True, "")
+                else:
+                    # 编译结果添加到本地提交失败，提示用户
+                    print(str(err_msg))
+                    return TaskResult(True, "请检查预编译结果(stdout.golden.yaml)是否发生变化，如果发生变化，请确认符合预期后再次提交")
+            else:
+                return TaskResult(True, "请检查预编译结果(stdout.golden.yaml)是否发生变化，如果发生变化，请确认符合预期后再次提交")
+        else:
+            # 编译失败
+            print(stderr.decode().strip(), flush=True)
+            return TaskResult(False, "请根据预编译输出日志，排查本次变更的 KCL 配置问题")
+    else:
+        # 无需编译
+        print(f"{GREEN}💡 没有项目配置发生变化，无需预编译{RESET}")
+        return TaskResult(True, "")
+
+
+# 执行框架
+def run_tasks(tasks: List[Task]) -> List[TaskResult]:
+    """运行 pre commit 任务列表"""
+    results = []
+    for task in tasks:
+        print(f"{GREEN}🕒 开始自动执行{task.name}...{RESET}")
+        result = task.work()
+        print(f"{GREEN}💡 {task.name}执行结束{RESET}")
+        results.append(result)
+    return results
+
+
+def main() -> int:
+    try:
+        print(f"{GREEN}{BOLD}------------- 开始执行提交前置检查 🚀 -------------{RESET}")
+
+        # 准备 & 执行 pre commit 任务列表
+        tasks = [Task("预编译", pre_compile)]
+        results = run_tasks(tasks)
+
+        # 输出检查结果
+        print(f"\n{GREEN}{BOLD}------------- 执行结果 -------------{RESET}")
+        for task, result in zip(tasks, results):
+            resultInfo = f"{GREEN}{BOLD}成功{RESET}" if result.success else f"{RED}{BOLD}失败{RESET}"
+            print(f"{GREEN}{task.name}:\t{resultInfo}{RESET}")
+
+        # 输出检查建议
+        print(f"\n{GREEN}{BOLD}------------- 建议 -------------{RESET}")
+        for task, result in zip(tasks, results):
+            suggestInfo = "无" if result.suggest.strip() == "" else (f"{GREEN}{BOLD}{result.suggest}{RESET}" if result.success else f"{RED}{BOLD}{result.suggest}{RESET}")
+            print(f"{GREEN}{task.name}:\t{suggestInfo}{RESET}")
+
+        # 返回错误码
+        allSuccess = all([result.success for result in results])
+        return 0 if allSuccess else 1
+    except Exception as e:
+        print(e)
+        print(f"{RED}{BOLD}pre-commit 任务执行异常结束 ❌{RESET}")
+        return 1
+    finally:
+        commitInfo = "" if allSuccess else "中止"
+        commitLogo = "✅" if allSuccess else "❌"
+        print(f"{GREEN}{BOLD}\n------------- 前置检查完成，已{commitInfo}提交 {commitLogo} -------------{RESET}\n")
+
+
+if __name__ == '__main__':
+    sys.exit(main())

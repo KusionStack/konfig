@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampleappprod
+  namespace: sampleapp
+spec:
+  replicas: 1
+  selector: {}
+  template:
+    metadata: {}
+    spec:
+      containers:
+        - image: gcr.io/google-samples/gb-frontend:v4
+          name: main
+          resources:
+            limits:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 1Gi
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sampleapp
+---
+apiVersion: v1
+data:
+  app.name: sampleapp
+kind: ConfigMap
+metadata:
+  name: sampleappprod0
+  namespace: sampleapp
+---
+apiVersion: v1
+data:
+  nginx.conf: configuration_content
+kind: ConfigMap
+metadata:
+  name: sampleappprod1
+  namespace: sampleapp

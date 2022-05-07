@@ -1,0 +1,46 @@
+attributes:
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: guestbook-frontendtest
+    namespace: guestbook-frontend
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        tier: frontend
+    template:
+      metadata:
+        labels:
+          tier: frontend
+      spec:
+        containers:
+          - env:
+              - name: GET_HOSTS_FROM
+                value: dns
+            image: gcr.io/google-samples/gb-frontend:v4-test
+            name: php-redis
+            ports:
+              - containerPort: 80
+                protocol: TCP
+            resources:
+              limits:
+                cpu: 100m
+                ephemeral-storage: 1Gi
+                memory: 100Mi
+              requests:
+                cpu: 100m
+                ephemeral-storage: 1Gi
+                memory: 100Mi
+dependsOn:
+  - v1:Namespace:guestbook-frontend
+id: apps/v1:Deployment:guestbook-frontend:guestbook-frontendtest
+mode: managed
+---
+attributes:
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: guestbook-frontend
+id: v1:Namespace:guestbook-frontend
+mode: managed

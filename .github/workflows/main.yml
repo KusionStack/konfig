@@ -1,0 +1,119 @@
+on:
+  pull_request:
+    branches:
+    - main
+  push:
+    branches:
+    - main
+
+jobs: 
+  diff:
+    runs-on: ubuntu-latest
+    name: git diff
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - id: diff
+        uses: technote-space/get-diff-action@v6
+    outputs:
+      CHANGED_FILE: ${{ steps.diff.outputs.diff }}
+  structure-check:
+    needs: diff
+    runs-on: ubuntu-latest
+    container: 
+      image: elliotxx/kusion-open:v0.3.11-9cb1b965
+      env: 
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: install-pytest-html
+        run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+      - id: structure-check
+        run: |
+          kclvm -mpytest -v hack/verify-project-structure.py --junitxml ./hack/report/TEST-structure.xml --html=./hack/report/structure.html
+      - id: upload-structure-check-report
+        uses: actions/upload-artifact@v2
+        with:
+          name: structure-check-report
+          path: |
+            hack/report/TEST-structure.xml
+            hack/report/structure.html
+  base-test:
+    needs: diff
+    runs-on: ubuntu-latest
+    container: 
+      image: elliotxx/kusion-open:v0.3.11-9cb1b965
+      env: 
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: install-pytest-html
+        run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+      - id: base-test
+        run: |
+          export KCL_TEST_MODE="base"
+          kclvm -mpytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST-base.xml --html=./hack/report/base.html
+      - id: upload-base-test-report
+        uses: actions/upload-artifact@v2
+        with:
+          name: base-test-report
+          path: |
+            hack/report/TEST-base.xml
+            hack/report/base.html
+  biz-test:
+    needs: diff
+    runs-on: ubuntu-latest
+    container: 
+      image: elliotxx/kusion-open:v0.3.11-9cb1b965
+      env: 
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: install-pytest-html
+        run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+      - id: biz-test
+        run: |
+          export KCL_TEST_MODE="biz"
+          kclvm -mpytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST-biz.xml --html=./hack/report/biz.html
+      - id: upload-biz-test-report
+        uses: actions/upload-artifact@v2
+        with:
+          name: biz-test-report
+          path: |
+            hack/report/TEST-biz.xml
+            hack/report/biz.html
+  apply:
+    if: github.ref == 'refs/heads/main'
+    needs: [diff, structure-check, base-test, biz-test]
+    runs-on: ubuntu-latest 
+    steps:
+      - uses: actions/checkout@v2
+      # - name: Setup Minikube
+      #   uses: manusa/actions-setup-minikube@v2.4.3
+      #   with:
+      #     minikube version: 'v1.24.0'
+      #     kubernetes version: 'v1.23.0'
+      # - name: Install Kusion 
+      #   run: curl -s "http://kusion-public.oss-cn-hzfinance.aliyuncs.com/cli/kusionup/scripts/install_kusionup.sh" | bash -s -- --skip-install && source $HOME/.kusionup/env && kusionup reinstall open@latest
+      # - name: Kusion Apply
+      #   run: |
+      #     source $HOME/.kusionup/env 
+      #     kclvm hack/apply.py
+      #   env: 
+      #     CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+      #     ALICLOUD_ACCESS_KEY: ${{ secrets.ALICLOUD_ACCESS_KEY }}
+      #     ALICLOUD_SECRET_KEY: ${{ secrets.ALICLOUD_SECRET_KEY }}
+      # - name: Interact with the cluster
+      #   run: kubectl get ns
+      - id: kusion-apply
+        uses: elliotxx/kusion-action@main
+        env:
+          ALICLOUD_ACCESS_KEY: ${{ secrets.ALICLOUD_ACCESS_KEY }}
+          ALICLOUD_SECRET_KEY: ${{ secrets.ALICLOUD_SECRET_KEY }}
+        with:
+          subcommand: 'apply'
+          yes: 'true'
+          detail: 'true'
+          dryRun: 'true'
+          diffs: ${{needs.diff.outputs.CHANGED_FILE}}
