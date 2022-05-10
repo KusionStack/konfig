@@ -14,9 +14,6 @@ from lib.common import *
 from lib import utils
 from packaging import version
 
-# 由于官方提示load方法存在安全漏洞，所以读取文件时会报错。加上warning忽略，就不会显示警告
-yaml.warnings({"YAMLLoadWarning": False})
-
 # 最大线程数
 MAX_THREADING_NUM = 5
 max_threading_control = BoundedSemaphore(MAX_THREADING_NUM)
@@ -264,7 +261,7 @@ def validate_expected():
         if exitcode != 0:
             print(KUSION_UPDATE_NOTICE + "\n")
             return
-        versionInfo = yaml.load(out)
+        versionInfo = yaml.load(out, Loader=yaml.FullLoader)
         dependency = versionInfo.get("dependency", {})
         current_kclvm_version = dependency.get("kclvmVersion", "v0.0.0")
         current_kcl_plugin_version = dependency.get("kclPluginVersion", "v0.0.0")
