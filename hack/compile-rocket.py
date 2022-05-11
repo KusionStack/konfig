@@ -261,7 +261,7 @@ def validate_expected():
         if exitcode != 0:
             print(KUSION_UPDATE_NOTICE + "\n")
             return
-        versionInfo = yaml.load(out, Loader=yaml.FullLoader)
+        versionInfo = yaml.safe_load(out, Loader=yaml.FullLoader)
         dependency = versionInfo.get("dependency", {})
         current_kclvm_version = dependency.get("kclvmVersion", "v0.0.0")
         current_kcl_plugin_version = dependency.get("kclPluginVersion", "v0.0.0")
