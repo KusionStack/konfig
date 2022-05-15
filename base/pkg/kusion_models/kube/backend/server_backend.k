@@ -7,15 +7,6 @@ import base.pkg.kusion_models.kube.utils
 import base.pkg.kusion_models.kube.resource
 import base.pkg.kusion_prometheus.mixins.pod_monitor_mixin
 
-# Frontend volume to kubernetes volume mapping.
-VOLUME_SOURCE_TYPE_MAPPING = {
-    EmptyDir = "emptyDir"
-    Secret = "secret"
-    ConfigMap = "configMap"
-    DownwardAPI = "downwardAPI"
-    CSI = "csi"
-}
-
 schema ServerBackend[inputConfig: server.Server]:
     """ServerBackend converts the user-written front-end model `Server` into a 
     collection of kubernetes resources and places the resource collection into 

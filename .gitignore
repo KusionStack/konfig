@@ -21,3 +21,7 @@ report/
 kusion_state.json
 
 changed_list.txt
+
+# kclvm temp output
+_a.out.*
+__main__.*
