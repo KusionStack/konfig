@@ -6,6 +6,8 @@ import base.pkg.kusion_models.kube.frontend.ingress
 
 # application configuration
 appConfiguration: frontend.Server {
+    useBuiltInLabels = False
+    useBuiltInSelector = False
     # main container configuration
     mainContainer = container.Main {
         name = "kcl-vault-test"

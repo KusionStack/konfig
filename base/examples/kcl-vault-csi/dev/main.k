@@ -9,6 +9,8 @@ import base.pkg.kusion_models.kube.metadata
 # The application configuration in stack will overwrite 
 # the configuration with the same attribute in base.
 appConfiguration: frontend.Server {
+    useBuiltInLabels = False
+    useBuiltInSelector = False
     selector = {
         "app" = "kcl-vault-csi"
     }
