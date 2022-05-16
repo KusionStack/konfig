@@ -28,7 +28,6 @@ kubernetesOrders: [str] = [
     "ReplicationController",
     "ReplicaSet",
     "Deployment",
-    "CafeDeployment",
     "HorizontalPodAutoscaler",
     "StatefulSet",
     "Job",
