@@ -110,10 +110,10 @@ schema Server:
     initContainers?: [s.Sidecar]
 
     # Workload configuration
-    useBuiltInLabels?: bool = False
+    useBuiltInLabels?: bool = True
     labels?: {str:str}
     annotations?: {str:str}
-    useBuiltInSelector?: bool = False
+    useBuiltInSelector?: bool = True
     selector?: {str:str}
     podMetadata?: apis.ObjectMeta
     volumes?: [volume.Volume]
