@@ -6,9 +6,19 @@ attributes:
     namespace: nginx-example
   spec:
     replicas: 1
-    selector: {}
+    selector:
+      matchLabels:
+        app.kubernetes.io/env: dev
+        app.kubernetes.io/instance: nginx-example-dev
+        app.kubernetes.io/name: nginx-example
+        cluster.x-k8s.io/cluster-name: default
     template:
-      metadata: {}
+      metadata:
+        labels:
+          app.kubernetes.io/env: dev
+          app.kubernetes.io/instance: nginx-example-dev
+          app.kubernetes.io/name: nginx-example
+          cluster.x-k8s.io/cluster-name: default
       spec:
         containers:
           - image: nginx:1.7.8
@@ -50,6 +60,11 @@ attributes:
       - nodePort: 30201
         port: 80
         targetPort: 80
+    selector:
+      app.kubernetes.io/env: dev
+      app.kubernetes.io/instance: nginx-example-dev
+      app.kubernetes.io/name: nginx-example
+      cluster.x-k8s.io/cluster-name: default
     type: NodePort
 dependsOn:
   - v1:Namespace:nginx-example
