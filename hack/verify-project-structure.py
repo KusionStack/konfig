@@ -77,4 +77,5 @@ def read_to_yaml(file_path):
     with open(file_path) as file:
         # The FullLoader parameter handles the conversion from YAML
         # scalar values to Python the dictionary format
-        return yaml.safe_load(file, Loader=yaml.FullLoader)
+        # See: https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation#how-to-disable-the-warning
+        return yaml.load(file, Loader=yaml.FullLoader)
