@@ -1,34 +1,48 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: kcl-vault-agentdev
-  namespace: kcl-vault-agent
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: kcl-vault-agent-test
-  template:
-    metadata:
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/agent-inject-secret-database-config.txt: internal/data/database/config
-        vault.hashicorp.com/role: kcl-vault-agent-role
-      labels:
+id: apps/v1:Deployment:kcl-vault-agent:kcl-vault-agentdev
+mode: managed
+dependsOn:
+- v1:Namespace:kcl-vault-agent
+- v1:ServiceAccount:kcl-vault-agent:kcl-vault-agent-sa
+attributes:
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: kcl-vault-agentdev
+    namespace: kcl-vault-agent
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
         app: kcl-vault-agent-test
-    spec:
-      containers:
+    template:
+      metadata:
+        annotations:
+          vault.hashicorp.com/agent-inject: 'true'
+          vault.hashicorp.com/role: kcl-vault-agent-role
+          vault.hashicorp.com/agent-inject-secret-database-config.txt: internal/data/database/config
+        labels:
+          app: kcl-vault-agent-test
+      spec:
+        containers:
         - image: jweissig/app:0.0.1
           name: kcl-vault-test
-      serviceAccountName: kcl-vault-agent-sa
+        serviceAccountName: kcl-vault-agent-sa
 ---
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: kcl-vault-agent
+id: v1:Namespace:kcl-vault-agent
+mode: managed
+attributes:
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: kcl-vault-agent
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: kcl-vault-agent-sa
-  namespace: kcl-vault-agent
+id: v1:ServiceAccount:kcl-vault-agent:kcl-vault-agent-sa
+mode: managed
+dependsOn:
+- v1:Namespace:kcl-vault-agent
+attributes:
+  apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: kcl-vault-agent-sa
+    namespace: kcl-vault-agent
