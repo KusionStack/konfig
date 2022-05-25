@@ -49,14 +49,17 @@ def test_konfigs(test_dir):
     assert ci_test_dir.is_dir(), f"missing ci-test dir for test case: {kcl_file_name}"
     golden_file = ci_test_dir / STDOUT_GOLDEN_FILE
     assert golden_file.is_file(), f"missing golden file for main.k in dir {golden_file}"
-    kcl_command = ["kcl"]
+    kusion_cmd = ["kusion"]
+    kusion_cmd.append("compile")
     if utils.has_settings_file(ci_test_dir):
-        kcl_command.append("-Y")
-        kcl_command.append(f"{CI_TEST_DIR}/{SETTINGS_FILE} kcl.yaml")
+        kusion_cmd.append("-Y")
+        kusion_cmd.append(f"{CI_TEST_DIR}/{SETTINGS_FILE}")
+        kusion_cmd.append("-Y")
+        kusion_cmd.append("kcl.yaml")
     else:
-        kcl_command.append(f"{MAIN_FILE}")
+        kusion_cmd.append(f"{MAIN_FILE}")
     process = subprocess.run(
-        kcl_command, capture_output=True, cwd=test_dir, env=dict(os.environ)
+        kusion_cmd, capture_output=True, cwd=test_dir, env=dict(os.environ)
     )
     stdout, stderr = process.stdout, process.stderr
     print(f"STDOUT:\n{stdout.decode()}")

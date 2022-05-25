@@ -1,3 +1,8 @@
+id: apps/v1:Deployment:http-echo:http-echodev
+mode: managed
+dependsOn:
+- v1:Namespace:http-echo
+- v1:Service:http-echo:apple-service
 attributes:
   apiVersion: apps/v1
   kind: Deployment
@@ -6,38 +11,47 @@ attributes:
     namespace: http-echo
   spec:
     replicas: 1
-    selector: {}
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: http-echo
+        app.kubernetes.io/env: dev
+        app.kubernetes.io/instance: http-echo-dev
+        cluster.x-k8s.io/cluster-name: default
     template:
-      metadata: {}
+      metadata:
+        labels:
+          app.kubernetes.io/name: http-echo
+          app.kubernetes.io/env: dev
+          app.kubernetes.io/instance: http-echo-dev
+          cluster.x-k8s.io/cluster-name: default
       spec:
         containers:
-          - args:
-              - -text=apple
-            image: hashicorp/http-echo
-            name: apple-app
-            resources:
-              limits:
-                cpu: 100m
-                ephemeral-storage: 1Gi
-                memory: 100Mi
-              requests:
-                cpu: 100m
-                ephemeral-storage: 1Gi
-                memory: 100Mi
-dependsOn:
-  - v1:Namespace:http-echo
-  - v1:Service:http-echo:apple-service
-id: apps/v1:Deployment:http-echo:http-echodev
-mode: managed
+        - args:
+          - -text=apple
+          image: hashicorp/http-echo
+          name: apple-app
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+              ephemeral-storage: 1Gi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+              ephemeral-storage: 1Gi
 ---
+id: v1:Namespace:http-echo
+mode: managed
 attributes:
   apiVersion: v1
   kind: Namespace
   metadata:
     name: http-echo
-id: v1:Namespace:http-echo
-mode: managed
 ---
+id: v1:Service:http-echo:apple-service
+mode: managed
+dependsOn:
+- v1:Namespace:http-echo
 attributes:
   apiVersion: v1
   kind: Service
@@ -46,13 +60,20 @@ attributes:
     namespace: http-echo
   spec:
     ports:
-      - port: 5678
+    - port: 5678
+    selector:
+      app.kubernetes.io/name: http-echo
+      app.kubernetes.io/env: dev
+      app.kubernetes.io/instance: http-echo-dev
+      cluster.x-k8s.io/cluster-name: default
     type: NodePort
-dependsOn:
-  - v1:Namespace:http-echo
-id: v1:Service:http-echo:apple-service
-mode: managed
 ---
+id: networking.k8s.io/v1:Ingress:http-echo:example-ingress
+mode: managed
+dependsOn:
+- v1:Namespace:http-echo
+- v1:Service:http-echo:apple-service
+- apps/v1:Deployment:http-echo:http-echodev
 attributes:
   apiVersion: networking.k8s.io/v1
   kind: Ingress
@@ -61,18 +82,12 @@ attributes:
     namespace: http-echo
   spec:
     rules:
-      - http:
-          paths:
-            - backend:
-                service:
-                  name: app-service
-                  port:
-                    number: 5678
-              path: /apple
-              pathType: Prefix
-dependsOn:
-  - v1:Namespace:http-echo
-  - v1:Service:http-echo:apple-service
-  - apps/v1:Deployment:http-echo:http-echodev
-id: networking.k8s.io/v1:Ingress:http-echo:example-ingress
-mode: managed
+    - http:
+        paths:
+        - path: /apple
+          pathType: Prefix
+          backend:
+            service:
+              name: app-service
+              port:
+                number: 5678
