@@ -5,6 +5,15 @@ import base.pkg.kusion_models.kube.utils
 import base.pkg.kusion_models.kube.metadata
 import base.pkg.kusion_models.kube.resource
 
+# Frontend volume to kubernetes volume mapping.
+VOLUME_SOURCE_TYPE_MAPPING = {
+    EmptyDir = "emptyDir"
+    Secret = "secret"
+    ConfigMap = "configMap"
+    DownwardAPI = "downwardAPI"
+    CSI = "csi"
+}
+
 schema JobBackend[inputConfig: frontend.Job]:
     # mixins
     mixin [
