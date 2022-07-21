@@ -93,7 +93,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: kusion-apply
-        uses: elliotxx/kusion-action@main
+        uses: KusionStack/kusion-actions@main
         env:
           ALICLOUD_ACCESS_KEY: ${{ secrets.ALICLOUD_ACCESS_KEY }}
           ALICLOUD_SECRET_KEY: ${{ secrets.ALICLOUD_SECRET_KEY }}
