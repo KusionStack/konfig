@@ -3,6 +3,7 @@ import base.pkg.kusion_models.kube.frontend.container
 import base.pkg.kusion_models.kube.frontend.container.env as e
 import base.pkg.kusion_models.kube.frontend.container.port as cp
 import base.pkg.kusion_models.kube.frontend.container.probe as p
+import base.pkg.kusion_models.kube.frontend.container.lifecycle as lc
 
 # The application configuration in stack will overwrite 
 # the configuration with the same attribute in base.
@@ -27,6 +28,11 @@ appConfiguration: frontend.Server {
                 configMapRef = "my-configmap"
             }
         ]
+        lifecycle = lc.Lifecycle {
+           preStop = p.Exec {
+               command = ["/bin/sh", "-c", "echo 1"]
+           }
+        }
         # 主容器端口，可选
         ports = [
             cp.ContainerPort {

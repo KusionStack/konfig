@@ -1,7 +1,3 @@
-id: apps/v1:Deployment:sampleapp:sampleappprod
-mode: managed
-dependsOn:
-- v1:Namespace:sampleapp
 attributes:
   apiVersion: apps/v1
   kind: Deployment
@@ -12,16 +8,16 @@ attributes:
     replicas: 1
     selector:
       matchLabels:
-        app.kubernetes.io/name: sampleapp
         app.kubernetes.io/env: prod
         app.kubernetes.io/instance: sampleapp-prod
+        app.kubernetes.io/name: sampleapp
         cluster.x-k8s.io/cluster-name: demo-cluster-name
     template:
       metadata:
         labels:
-          app.kubernetes.io/name: sampleapp
           app.kubernetes.io/env: prod
           app.kubernetes.io/instance: sampleapp-prod
+          app.kubernetes.io/name: sampleapp
           cluster.x-k8s.io/cluster-name: demo-cluster-name
       spec:
         containers:
@@ -40,6 +36,13 @@ attributes:
           ports:
           - containerPort: 12201
             protocol: TCP
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - echo 1
           livenessProbe:
             failureThreshold: 3
             initialDelaySeconds: 30
@@ -82,11 +85,15 @@ attributes:
               - /bin/sh
               - -c
               - echo startupProbe
----
-id: v1:Namespace:sampleapp
+dependsOn:
+- v1:Namespace:sampleapp
+id: apps/v1:Deployment:sampleapp:sampleappprod
 mode: managed
+---
 attributes:
   apiVersion: v1
   kind: Namespace
   metadata:
     name: sampleapp
+id: v1:Namespace:sampleapp
+mode: managed
