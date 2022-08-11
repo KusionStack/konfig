@@ -93,28 +93,28 @@ ContainerFrontend2Kube = lambda c -> {str:} {
             preStop: {
                 exec: kubev1.ExecAction {
                     command: c.lifecycle.preStop.command
-                } if c.lifecycle.preStop.type == "exec" else Undefined
+                } if typeof(c.lifecycle.preStop) == "Exec" else Undefined
                 httpGet: kubev1.HTTPGetAction {
                     path: c.lifecycle.preStop.path
                     port: c.lifecycle.preStop.port
                     scheme: c.lifecycle.preStop.scheme
-                } if c.lifecycle.preStop.type == "http" else Undefined
+                } if typeof(c.lifecycle.preStop) == "Http" else Undefined
                 tcpSocket: kubev1.TCPSocketAction {
                     port: c.lifecycle.preStop.tcpSocket
-                } if c.lifecycle.preStop.type == "tcp" else Undefined
+                } if typeof(c.lifecycle.preStop) == "Tcp" else Undefined
             } if c.lifecycle.preStop else Undefined
             postStart: {
                 exec: kubev1.ExecAction {
                     command: c.lifecycle.postStart.command
-                } if c.lifecycle.postStart.type == "exec" else Undefined
+                } if typeof(c.lifecycle.preStop) == "Exec" else Undefined
                 httpGet: kubev1.HTTPGetAction {
                     path: c.lifecycle.postStart.path
                     port: c.lifecycle.postStart.port
                     scheme: c.lifecycle.postStart.scheme
-                } if c.lifecycle.postStart.type == "http" else Undefined
+                } if typeof(c.lifecycle.preStop) == "Http" else Undefined
                 tcpSocket: kubev1.TCPSocketAction {
                     port: c.lifecycle.postStart.tcpSocket
-                } if c.lifecycle.postStart.type == "tcp" else Undefined
+                } if typeof(c.lifecycle.preStop) == "Tcp" else Undefined
             } if c.lifecycle.postStart else Undefined
         }
 
