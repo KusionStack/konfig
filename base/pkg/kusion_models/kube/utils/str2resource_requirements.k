@@ -26,25 +26,25 @@ schema Str2ResourceRequirements[resourcePara: str | res.Resource]:
 
     result: {str:} = {
         requests = {
-            cpu = resource?[0]?.cpu?.requests or resource?[1]?.cpu?.requests or resource?[2]?.cpu?.requests
-            memory = resource?[0]?.memory?.requests or resource?[1]?.memory?.requests or resource?[2]?.memory?.requests
-            "ephemeral-storage" = resource?[0]?.disk?.requests or resource?[1]?.disk?.requests or resource?[2]?.disk?.requests
+            cpu = [r?.cpu?.requests for r in resource if r?.cpu?.requests]?[-1] or Undefined
+            memory = [r?.memory?.requests for r in resource if r?.memory?.requests]?[-1] or Undefined
+            "ephemeral-storage" = [r?.disk?.requests for r in resource if r?.disk?.requests]?[-1] or Undefined
         }
         limits = {
-            cpu = resource?[0]?.cpu?.limits or resource?[1]?.cpu?.limits or resource?[2]?.cpu?.limits
-            memory = resource?[0]?.memory?.limits or resource?[1]?.memory?.limits or resource?[2]?.memory?.limits
-            "ephemeral-storage" = resource?[0]?.disk?.limits or resource?[1]?.disk?.limits or resource?[2]?.disk?.limits
+            cpu = [r?.cpu?.limits for r in resource if r?.cpu?.limits]?[-1] or Undefined
+            memory = [r?.memory?.limits for r in resource if r?.memory?.limits]?[-1] or Undefined
+            "ephemeral-storage" = [r?.disk?.limits for r in resource if r?.disk?.limits]?[-1] or Undefined
         }
     } if resourceStr else {
         requests = {
             cpu = str(resourceUnit.cpu)
             memory = str(resourceUnit.memory)
-            "ephemeral-storage" = str(resourceUnit.disk)
+            "ephemeral-storage" = str(resourceUnit.disk) if resourceUnit.disk else Undefined
         }
         limits = {
             cpu = str(resourceUnit.cpu)
             memory = str(resourceUnit.memory)
-            "ephemeral-storage" = str(resourceUnit.disk)
+            "ephemeral-storage" = str(resourceUnit.disk) if resourceUnit.disk else Undefined
         }
     }
 
