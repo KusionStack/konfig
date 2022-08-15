@@ -2,7 +2,6 @@ import os
 from .common import *
 from pathlib import Path
 from typing import List, Union
-import requests
 import time
 
 RETRY_MAX_NUM = os.getenv("RETRY_MAX_NUM", 5)  # 最大重试次数（默认五次）
@@ -53,30 +52,6 @@ def get_konfig_projects_relative() -> List[Path]:
     return [item.relative_to(konfig_root) for item in project_dirs]
 
 
-def get_changed_files_from_oss(change_paths_url):
-    """从OSS获取文件变更列表"""
-    times = 0  # 重试计数
-    while times < RETRY_MAX_NUM:
-        try:
-            down_res = requests.get(change_paths_url)
-            if not down_res:
-                raise Exception(f"Empty down resource: {down_res}")
-            down_res_content = down_res.content
-            if not down_res_content:
-                raise Exception(f"Empty down resource content: {down_res_content}")
-            change_paths_str = down_res_content.decode()
-            break
-        except Exception as e:
-            times += 1
-            if times >= RETRY_MAX_NUM:
-                print(f">> Exceed maximal retry {RETRY_MAX_NUM}, Raise exception...")
-                raise (e)  # will stop the program without further handling
-            else:
-                time.sleep(RETRY_INTERVAL)
-                print(f">> Exception, Retry {times} begins...")
-    return change_paths_str
-
-
 def is_project_dir(p: Path) -> bool:
     """当前目录是否为项目目录"""
     project_file = p / PROJECT_FILE
@@ -111,59 +86,14 @@ def check_path_is_relative_to(path_a: Union[str, Path], path_b: Union[str, Path]
     return Path(path_b) in [p for p in Path(path_a).parents] + [Path(path_a)]
 
 
-def filter_project_dir() -> List[Path]:
-    """
-    filter the project_dirs by $CHANGED_FILE_URL and $IGNORE_PATHS, only changed project will be reserved.
-    $CHANGED_FILE_URL:
-        string type.
-        the url contains a changed_file.txt file and the file's content is changed file paths separated by newline.
-        passed from env variable $CHANGED_FILE_URL
-    $IGNORE_PATHS:
-        ignore_paths_str: string type.
-        paths to ignore separated by ','. the path to ignore should be project level directory or higher.
-        passed from env variable IGNORE_PATHS
-    :return: the filtered dirs
-    """
-    all_project_dirs = get_konfig_projects_relative()
-    # use string output directly
-    change_file = os.getenv("CHANGED_FILE")
-    ignore_paths_str = os.getenv("IGNORE_PATHS")
-    mode_filter = os.getenv("KCL_TEST_MODE")
+def get_affected_projects() -> List[str]:
+    affected_projects_str = os.getenv("AFFECTED_PROJECTS") or ""
+    return [project for project in affected_projects_str.split("\n") if project]
 
-    if mode_filter != "biz":
-        # when KCL_TEST_MODE is 'base', all test cases under Konfig/sigma will be tested
-        change_paths = all_project_dirs
-    else:
-        # change_paths_str = get_changed_files_from_oss(change_paths_url)
-        change_paths_str = change_file
-        print(f"Change Path: {change_paths_str}")
-        if change_paths_str == EMPTY_CHANGE_LIST or not change_paths_str:
-            return []
-        if change_paths_str == TRIGGER_ALL_TEST:
-            # when change_paths' content is zz_all_test, all test cases under Konfig/sigma will be tested
-            change_paths = all_project_dirs
-        else:
-            # when KCL_TEST_MODE is 'biz', only cases under specified root dir will be tested
-            change_paths = [item[1:-1] for item in change_paths_str.split(" ") if item]
-    ignore_path_list = []
-    if ignore_paths_str:
-        ignore_path_list = [item for item in ignore_paths_str.split(",") if item]
-    changed_projects = []
-    for change_path in change_paths:
-        if any(
-            [
-                check_path_is_relative_to(change_path, ignore_path)
-                for ignore_path in ignore_path_list
-            ]
-        ):
-            continue
-        for project_path in all_project_dirs:
-            if (
-                check_path_is_relative_to(change_path, project_path)
-                and project_path not in changed_projects
-            ):
-                changed_projects.append(project_path)
-    return changed_projects
+
+def get_affected_stacks() -> List[str]:
+    affected_stacks_str = os.getenv("AFFECTED_STACKS") or ""
+    return [stack for stack in affected_stacks_str.split("\n") if stack]
 
 
 def get_stack_files_paths_from_change_paths(change_paths_str):
