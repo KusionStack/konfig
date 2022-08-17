@@ -88,7 +88,7 @@ attributes:
 dependsOn:
 - v1:Namespace:sampleapp
 id: apps/v1:Deployment:sampleapp:sampleappprod
-mode: managed
+type: Kubernetes
 ---
 attributes:
   apiVersion: v1
@@ -96,4 +96,4 @@ attributes:
   metadata:
     name: sampleapp
 id: v1:Namespace:sampleapp
-mode: managed
+type: Kubernetes

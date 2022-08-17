@@ -22,23 +22,23 @@ spec:
         tier: frontend
     spec:
       containers:
-        - env:
-            - name: GET_HOSTS_FROM
-              value: dns
-          image: gcr.io/google-samples/gb-frontend:v5
-          name: php-redis
-          ports:
-            - containerPort: 80
-              protocol: TCP
-          resources:
-            limits:
-              cpu: "2"
-              ephemeral-storage: 35Gi
-              memory: 4Gi
-            requests:
-              cpu: "2"
-              ephemeral-storage: 35Gi
-              memory: 4Gi
+      - env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        image: gcr.io/google-samples/gb-frontend:v5
+        name: php-redis
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            cpu: '2'
+            memory: 4Gi
+            ephemeral-storage: 35Gi
+          requests:
+            cpu: '2'
+            memory: 4Gi
+            ephemeral-storage: 35Gi
 ---
 apiVersion: v1
 kind: Namespace
