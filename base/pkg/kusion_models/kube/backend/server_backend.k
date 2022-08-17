@@ -14,6 +14,7 @@ VOLUME_SOURCE_TYPE_MAPPING = {
     ConfigMap = "configMap"
     DownwardAPI = "downwardAPI"
     CSI = "csi"
+    HostPath = "hostPath"
 }
 
 schema ServerBackend[inputConfig: server.Server]:
