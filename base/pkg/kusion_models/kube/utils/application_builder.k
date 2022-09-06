@@ -1,5 +1,4 @@
 import base.pkg.kusion_models.kube.metadata
-import base.pkg.kusion_models.kube.protocol
 
 schema ApplicationBuilder:
     """ApplicationBuilder contains the workload labels, selector and environments about the application

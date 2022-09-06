@@ -1,5 +1,4 @@
 import base.pkg.kusion_models.kube.frontend.common
-import base.pkg.kusion_kubernetes.api.core.v1 as corev1
 
 schema ServiceAccount(common.Metadata):
     """A service account provides an identity for processes that run in a Pod.

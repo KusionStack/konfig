@@ -1,6 +1,4 @@
 import base.pkg.kusion_models.kube.frontend
-import base.pkg.kusion_models.kube.templates.resource as res_tpl
-import base.pkg.kusion_kubernetes.api.core.v1 as corev1
 import base.pkg.kusion_kubernetes.apimachinery.apis
 import base.pkg.kusion_models.kube.frontend.serviceaccount as sa
 import base.pkg.kusion_models.kube.frontend.volume
