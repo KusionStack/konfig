@@ -26,12 +26,6 @@ def find_test_dirs() -> typing.List[str]:
         result.extend(stack_dirs)
     return result
 
-
-def compare_results(result, golden_result):
-    # Convert result and golden_result string to string lines with line ending stripped, then compare.
-    assert list(yaml.load_all(result)) == list(yaml.load_all(golden_result))
-
-
 print("##### K Language Grammar Test Suite #####")
 # this stub test case exists to avoid the real test be skipped. ACI counts the skipped tests as failed tests, but in our pipeline it's valid
 # when no test cases should be executed. To reach a 100% pass rate in that case, we add a stub case to the test cases.
