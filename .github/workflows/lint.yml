@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: install-pytest-html
-        run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/
+        run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
       - id: lint-check
         run: |
           export KCL_TEST_MODE="base"
