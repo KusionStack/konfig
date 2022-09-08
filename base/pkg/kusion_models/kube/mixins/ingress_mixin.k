@@ -12,5 +12,6 @@ mixin IngressMixin for protocol.ServerProtocol:
                     name = _s?.name or "{}{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME, _i)
                 }
                 spec.rules = _s?.rules
+                spec.tls = _s?.tls
             } for _i, _s in config.ingresses]
         }

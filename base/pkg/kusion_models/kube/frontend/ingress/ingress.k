@@ -38,6 +38,8 @@ schema Ingress(common.Metadata):
         Optional.
     rules: [networking_v1beta1.IngressRule]
         A list of host rules used to configure the Ingress. If unspecified, or no rule matches, all traffic is sent to the default backend.
+    tls : [IngressTLS], default is Undefined, optional
+        TLS configuration. Currently the Ingress only supports a single TLS port, 443. If multiple members of this list specify different hosts, they will be multiplexed on the same port according to the hostname specified through the SNI TLS extension, if the ingress controller fulfilling the ingress supports SNI.
 
     Examples
     --------
@@ -45,6 +47,7 @@ schema Ingress(common.Metadata):
         name = "example-ingress"
         rules = [
             {
+                host = "your-domain.com"
                 http.paths = [
                     {
                         path = "/apple"
@@ -57,6 +60,13 @@ schema Ingress(common.Metadata):
                 ]
             }
         ]
+        tls = [
+            {
+              hosts = ["your-domain.com"]
+              secretName = "example-ingress-tls"
+            }
+        ]
     }
     """
     rules?: [networking_v1.IngressRule]
+    tls?: [networking_v1.IngressTLS]
