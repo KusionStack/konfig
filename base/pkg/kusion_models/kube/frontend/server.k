@@ -1,4 +1,3 @@
-import base.pkg.kusion_kubernetes.api.core.v1 as kubev1
 import base.pkg.kusion_kubernetes.apimachinery.apis
 import base.pkg.kusion_models.kube.frontend.configmap
 import base.pkg.kusion_models.kube.frontend.secret
@@ -7,10 +6,8 @@ import base.pkg.kusion_models.kube.frontend.serviceaccount as sa
 import base.pkg.kusion_models.kube.frontend.ingress
 import base.pkg.kusion_models.kube.frontend.container
 import base.pkg.kusion_models.kube.frontend.volume
-import base.pkg.kusion_models.kube.frontend.resource as res
 import base.pkg.kusion_models.kube.frontend.sidecar as s
 import base.pkg.kusion_models.kube.frontend.strategy
-import base.pkg.kusion_models.kube.metadata
 
 schema Server:
     """Server is abstaction of Deployment and StatefulSet.

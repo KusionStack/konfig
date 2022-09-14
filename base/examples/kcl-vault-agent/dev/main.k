@@ -1,6 +1,5 @@
 import base.pkg.kusion_models.kube.frontend
 import base.pkg.kusion_models.kube.frontend.serviceaccount as sa
-import base.pkg.kusion_models.kube.templates.resource as res_tpl
 import base.pkg.kusion_kubernetes.apimachinery.apis
 
 # The application configuration in stack will overwrite 

@@ -1,8 +1,6 @@
 import base.pkg.kusion_models.kube.frontend
 import base.pkg.kusion_models.kube.frontend.sidecar as s
 import base.pkg.kusion_models.kube.frontend.container.env as e
-import base.pkg.kusion_models.kube.frontend.container.port as cp
-import base.pkg.kusion_models.kube.frontend.container.probe as p
 import base.pkg.kusion_models.kube.frontend.volume as v
 import base.pkg.kusion_models.kube.templates.resource as res_tpl
 
