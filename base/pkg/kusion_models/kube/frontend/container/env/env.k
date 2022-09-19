@@ -1,4 +1,5 @@
 import regex
+import units
 
 schema Env:
     """ Env represents an environment variable present in a Container.
@@ -39,15 +40,22 @@ schema EnvValueFrom:
     secretKeyRef: ObjectKeySelector, default is Undefined, optional.
         A Container-level attribute.
         Selects a key of a secret.
+    resourceFieldRef: ResourceFieldSelector, default is Undefined, optional.
+        A Container-level attribute.
+        Selects a resource of the container: only resources limits and requests 
+        (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported.
     """
 
     fieldRef?: ObjectFieldSelector
     configMapKeyRef?: ObjectKeySelector
     secretKeyRef?: ObjectKeySelector
+    resourceFieldRef?: ResourceFieldSelector
 
     check:
-        notfieldRef or notconfigMapKeyRef or notsecretKeyRef, "may not have more than one field specified at a time"
-        fieldRef or configMapKeyRef or secretKeyRef, "must specify one of: `fieldRef`, `configMapKeyRef` or `secretKeyRef`"
+        (fieldRef and not configMapKeyRef and not secretKeyRef and not resourceFieldRef) or \
+        (not fieldRef and configMapKeyRef and not secretKeyRef and not resourceFieldRef) or \
+        (not fieldRef and not configMapKeyRef and secretKeyRef and not resourceFieldRef) or \
+        (not fieldRef and not configMapKeyRef and not secretKeyRef and resourceFieldRef), "must specify one of: `fieldRef`, `configMapKeyRef`, `secretKeyRef` or `resourceFieldRef`"
 
 schema ObjectKeySelector:
     """ ObjectKeySelector contains enough information to let you locate the referenced object.
@@ -70,16 +78,35 @@ schema ObjectFieldSelector:
 
     Attributes
     ----------
-    apiVersion: str, default is Undefined, required.
+    apiVersion: str, default is v1, optional.
         A Container-level attribute.
-        Version of the schema the FieldPath is written in terms of.
+        Version of the schema the FieldPath is written in terms of, defaults to "v1".
     fieldPath: str, default is Undefined, required.
         A Container-level attribute.
         Path of the field to select of an object.
     """
 
-    apiVersion: str
+    apiVersion?: str = "v1"
     fieldPath: str
+
+type Unit = units.NumberMultiplier
+schema ResourceFieldSelector:
+    """ ResourceFieldSelector represents container resources (cpu, memory) and their output format.
+
+    Attributes
+    ----------
+    containerName: str, default is Undefined, required for volumes, optional for env vars.
+        A Container-level attribute.
+    resource: str, default is Undefined, required.
+        A Container-level attribute.
+        Resource to select.
+    divisor: int | Unit, default is 1, optional.
+        A Container-level attribute.
+        Specifies the output format of the exposed resources, defaults to 1
+    """
+    containerName?: str
+    resource: str
+    divisor?: int | Unit = 1
 
 schema EnvFromSource:
     """ EnvFromSource represents the source of a set of ConfigMaps or Secrets.

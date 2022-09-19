@@ -31,6 +31,12 @@ ContainerFrontend2Kube = lambda c -> {str:} {
                         name: e.valueFrom.secretKeyRef.name
                         key: e.valueFrom.secretKeyRef.key
                     } if e.valueFrom.secretKeyRef else Undefined
+                    resourceFieldRef: {
+                        containerName: e.valueFrom.resourceFieldRef.containerName
+                        resource: e.valueFrom.resourceFieldRef.resource
+                        if e.valueFrom.resourceFieldRef.divisor:
+                            divisor: str(e.valueFrom.resourceFieldRef.divisor)
+                    } if e.valueFrom.resourceFieldRef else Undefined
                 } if e.valueFrom else Undefined
             } for e in c.env
         ]
