@@ -32,8 +32,7 @@ schema ServerBackend[inputConfig: server.Server]:
         mixins.ServiceAccountMixin,
 
         # Monitor mixin
-        pod_monitor_mixin.PodMonitorMixin,
-        mixins.OutputTypeMixin
+        pod_monitor_mixin.PodMonitorMixin
     ]
     
     # Store the input config parameter, ensure it can be seen in protocol and mixin.
