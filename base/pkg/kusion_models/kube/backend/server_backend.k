@@ -5,7 +5,7 @@ import base.pkg.kusion_models.kube.mixins
 import base.pkg.kusion_models.kube.metadata
 import base.pkg.kusion_models.kube.utils
 import base.pkg.kusion_models.kube.resource
-import base.pkg.kusion_prometheus.mixins.pod_monitor_mixin
+import base.pkg.kusion_prometheus.mixins as pmixins
 
 # Frontend volume to kubernetes volume mapping.
 VOLUME_SOURCE_TYPE_MAPPING = {
@@ -32,7 +32,7 @@ schema ServerBackend[inputConfig: server.Server]:
         mixins.ServiceAccountMixin,
 
         # Monitor mixin
-        pod_monitor_mixin.PodMonitorMixin
+        pmixins.MonitorMixin
     ]
     
     # Store the input config parameter, ensure it can be seen in protocol and mixin.
