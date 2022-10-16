@@ -1,0 +1,7 @@
+kcl_cli_configs:
+  file:
+    - ${KCL_MOD}/base/pkg/kusion_models/kube/metadata/metadata.k
+    - ../base/base.k
+    - ../base/rbac.k
+    - main.k
+    - ${KCL_MOD}/base/pkg/kusion_models/kube/render/render.k
