@@ -1,0 +1,17 @@
+id: monitoring.coreos.com/v1:PrometheusRule:default:example-alert
+type: Kubernetes
+attributes:
+  apiVersion: monitoring.coreos.com/v1
+  kind: PrometheusRule
+  metadata:
+    labels:
+      prometheus: example
+      role: alert-rules
+    name: example-alert
+    namespace: default
+  spec:
+    groups:
+    - name: ./example.rules
+      rules:
+      - alert: ExampleAlert
+        expr: vector(1)

@@ -1,0 +1,47 @@
+import base.pkg.kusion_prometheus.monitoring.v1 as monitoringv1
+
+node_rules = monitoringv1.RuleGroup{
+    name = "node.rules"
+    rules = [
+        {
+            expr = """\
+topk by(cluster, namespace, pod) (1,
+  max by (cluster, node, namespace, pod) (
+    label_replace(kube_pod_info{job="kube-state-metrics",node!=""}, "pod", "$1", "pod", "(.*)")
+))
+"""
+            record = "node_namespace_pod:kube_pod_info:"
+        }
+        {
+            expr = """\
+count by (cluster, node) (sum by (node, cpu) (
+  node_cpu_seconds_total{job="node-exporter"}
+* on (namespace, pod) group_left(node)
+  topk by(namespace, pod) (1, node_namespace_pod:kube_pod_info:)
+))
+"""
+            record = "node:node_num_cpu:sum"
+        }
+        {
+            expr = """\
+sum(
+  node_memory_MemAvailable_bytes{job="node-exporter"} or
+  (
+    node_memory_Buffers_bytes{job="node-exporter"} +
+    node_memory_Cached_bytes{job="node-exporter"} +
+    node_memory_MemFree_bytes{job="node-exporter"} +
+    node_memory_Slab_bytes{job="node-exporter"}
+  )
+) by (cluster)
+"""
+            record = ":node_memory_MemAvailable_bytes:sum"
+        }
+        {
+            expr = """\
+sum(rate(node_cpu_seconds_total{job="node-exporter",mode!="idle",mode!="iowait",mode!="steal"}[5m])) /
+count(sum(node_cpu_seconds_total{job="node-exporter"}) by (cluster, instance, cpu))
+"""
+            record = "cluster:node_cpu:ratio_rate5m"
+        }
+    ]
+}
