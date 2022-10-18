@@ -35,4 +35,4 @@ schema WebhookConfig:
 
 
     check:
-        maxAlerts >= 0
+        maxAlerts >= 0 if maxAlerts
