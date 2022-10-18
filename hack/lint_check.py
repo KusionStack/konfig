@@ -17,7 +17,7 @@ yaml = YAML(typ="unsafe", pure=True)
 
 
 def find_test_dirs() -> typing.List[str]:
-    projects = utils.filter_project_dir()
+    projects = utils.get_affected_projects()
     result = []
     for project in projects:
         stack_dirs = [
