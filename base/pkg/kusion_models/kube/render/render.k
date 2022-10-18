@@ -2,6 +2,7 @@ import base.pkg.kusion_models.kube.frontend
 import base.pkg.kusion_models.kube.frontend.rbac
 import base.pkg.kusion_models.kube.backend
 import base.pkg.kusion_models.kube.resource
+import base.pkg.kusion_kubernetes.api.core.v1 as corev1
 import base.pkg.kusion_prometheus.monitoring.v1 as monitoringv1
 import base.pkg.kusion_prometheus.monitoring.v1alpha1 as monitoringv1alpha1
 
@@ -45,11 +46,17 @@ __prometheus_map__: {str:[]} = {
     Alertmanager += monitoringv1.Alertmanager.instances()
 }
 
+# k8s
+__k8s__: {str:[]} = {
+    Service += corev1.Service.instances()
+    ServiceAccount += corev1.ServiceAccount.instances()
+}
+
 # merge resource map
 __array_of_resource_map___: [{str:[]}] = [
     _inst?.kubernetes | __output_standalone__ \
     for _inst in __renderBackendInstances__ if _inst?.kubernetes
-] | [__rbac_map__] | [__prometheus_map__]
+] | [__rbac_map__] | [__prometheus_map__] | [__k8s__]
 
 # remove duplicates
 __resource_map___: {str: []} = {
