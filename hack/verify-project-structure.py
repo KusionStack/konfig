@@ -7,7 +7,7 @@ from lib.common import *
 from lib import utils
 
 
-project_dirs = [str(item) for item in utils.filter_project_dir()] or [STUB_CASE]
+project_dirs = utils.get_affected_projects() or [STUB_CASE]
 
 
 @pytest.mark.parametrize("project_dir", project_dirs)
