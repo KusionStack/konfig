@@ -17,14 +17,7 @@ yaml = YAML(typ="unsafe", pure=True)
 
 
 def find_test_dirs() -> typing.List[str]:
-    projects = utils.get_affected_projects()
-    result = []
-    for project in projects:
-        stack_dirs = [
-            str(d) for d in project.iterdir() if d.is_dir() and utils.is_stack_dir(d)
-        ]
-        result.extend(stack_dirs)
-    return result
+    return utils.get_affected_stacks()
 
 print("##### K Language Grammar Test Suite #####")
 # this stub test case exists to avoid the real test be skipped. ACI counts the skipped tests as failed tests, but in our pipeline it's valid
