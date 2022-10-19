@@ -9,6 +9,7 @@ import base.pkg.kusion_models.kube.frontend.volume
 import base.pkg.kusion_models.kube.frontend.sidecar as s
 import base.pkg.kusion_models.kube.frontend.strategy
 
+# test
 schema Server:
     """Server is abstaction of Deployment and StatefulSet.
 
