@@ -15,7 +15,7 @@ schema Rule:
         alert
     annotations : {str:str}, default is Undefined, optional
         annotations
-    expr : int, default is Undefined, required
+    expr : int or str, default is Undefined, required
         expr
     $for : str, default is Undefined, optional
         for
@@ -30,7 +30,7 @@ schema Rule:
 
     annotations?: {str:str}
 
-    expr: int
+    expr: int | str
 
     $for?: str
 
