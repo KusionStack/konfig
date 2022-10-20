@@ -41,6 +41,8 @@ __prometheus_map__: {str:[]} = {
     PrometheusRule += monitoringv1.PrometheusRule.instances()
     AlertmanagerConfig += monitoringv1alpha1.AlertmanagerConfig.instances()
     Probe += monitoringv1.Probe.instances()
+    Prometheus += monitoringv1.Prometheus.instances()
+    Alertmanager += monitoringv1.Alertmanager.instances()
 }
 
 # merge resource map
