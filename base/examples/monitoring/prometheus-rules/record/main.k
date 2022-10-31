@@ -24,7 +24,7 @@ monitoringv1.PrometheusRule {
         name = "k8s-rules"
         namespace = "default"
         labels: {
-            "prometheus": "example"
+            "prometheus": "main"
             "role": "alert-rules"
         }
     }
