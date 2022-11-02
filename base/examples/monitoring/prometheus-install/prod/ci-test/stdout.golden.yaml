@@ -57,15 +57,15 @@ attributes:
     name: prometheus
     namespace: default
 ---
-id: monitoring.coreos.com/v1alpha1:AlertmanagerConfig:default:config-example
+id: monitoring.coreos.com/v1alpha1:AlertmanagerConfig:default:main
 type: Kubernetes
 attributes:
   apiVersion: monitoring.coreos.com/v1alpha1
   kind: AlertmanagerConfig
   metadata:
     labels:
-      alertmanagerConfig: example
-    name: config-example
+      alertmanagerConfig: main
+    name: main
     namespace: default
   spec:
     receivers:
@@ -80,47 +80,47 @@ attributes:
       receiver: webhook
       repeatInterval: 12h
 ---
-id: monitoring.coreos.com/v1:Prometheus:default:example
+id: monitoring.coreos.com/v1:Prometheus:default:main
 type: Kubernetes
 attributes:
   apiVersion: monitoring.coreos.com/v1
   kind: Prometheus
   metadata:
-    name: example
+    name: main
     namespace: default
   spec:
     serviceMonitorSelector:
       matchLabels:
-        prometheus: example
-    replicas: 1
+        prometheus: main
+    replicas: 2
     scrapeInterval: 30s
     serviceAccountName: prometheus
     evaluationInterval: 30s
     alerting:
       alertmanagers:
-      - name: alertmanager-example
+      - name: alertmanager
         namespace: default
         port: web
     ruleSelector:
       matchLabels:
         role: alert-rules
-        prometheus: example
+        prometheus: main
 ---
-id: monitoring.coreos.com/v1:Alertmanager:default:example
+id: monitoring.coreos.com/v1:Alertmanager:default:main
 type: Kubernetes
 attributes:
   apiVersion: monitoring.coreos.com/v1
   kind: Alertmanager
   metadata:
-    name: example
+    name: main
     namespace: default
   spec:
     replicas: 3
     retention: 120h
     alertmanagerConfiguration:
-      name: config-example
+      name: main
 ---
-id: v1:Service:default:alertmanager-example
+id: v1:Service:default:alertmanager
 type: Kubernetes
 dependsOn:
 - rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
@@ -130,7 +130,7 @@ attributes:
   apiVersion: v1
   kind: Service
   metadata:
-    name: alertmanager-example
+    name: alertmanager
     namespace: default
   spec:
     ports:
@@ -141,10 +141,10 @@ attributes:
       port: 8080
       targetPort: reloader-web
     selector:
-      alertmanager: example
+      alertmanager: main
     sessionAffinity: ClientIP
 ---
-id: v1:Service:default:prometheus-example
+id: v1:Service:default:prometheus
 type: Kubernetes
 dependsOn:
 - rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
@@ -154,7 +154,7 @@ attributes:
   apiVersion: v1
   kind: Service
   metadata:
-    name: prometheus-example
+    name: prometheus
     namespace: default
   spec:
     ports:
@@ -165,7 +165,7 @@ attributes:
       port: 8080
       targetPort: reloader-web
     selector:
-      prometheus: example
+      prometheus: main
     sessionAffinity: ClientIP
 ---
 id: v1:ServiceAccount:default:prometheus

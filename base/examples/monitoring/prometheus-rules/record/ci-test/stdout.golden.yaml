@@ -5,7 +5,7 @@ attributes:
   kind: PrometheusRule
   metadata:
     labels:
-      prometheus: example
+      prometheus: main
       role: alert-rules
     name: k8s-rules
     namespace: default

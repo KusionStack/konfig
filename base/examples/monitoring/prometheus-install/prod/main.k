@@ -6,10 +6,10 @@ import base.pkg.kusion_prometheus.monitoring.v1alpha1 as monitoringv1alpha1
 # 1. creates an AlertmanagerConfig that sends notifications to a fictitious webhook service.
 _alertmanager_config: monitoringv1alpha1.AlertmanagerConfig{
     metadata = {
-        name = "config-example"
+        name = "main"
         namespace = _common_namespace
         labels = {
-            "alertmanagerConfig" = "example"
+            "alertmanagerConfig" = "main"
         }
     }
     spec = {
@@ -36,7 +36,7 @@ _alertmanager_config: monitoringv1alpha1.AlertmanagerConfig{
 # 2. create an alertmanager cluster with 3 replicas and configured with alertmanager config
 _alertmanager: monitoringv1.Alertmanager{
     metadata = {
-        name = "example"
+        name = "main"
         namespace = _common_namespace
     }
     spec = {
@@ -51,7 +51,7 @@ _alertmanager: monitoringv1.Alertmanager{
 # 3. expose alertmanager service
 _alertmanager_svc: corev1.Service{
     metadata = {
-        name = "alertmanager-example"
+        name = "alertmanager"
         namespace = _common_namespace
     }
     spec = {
@@ -74,26 +74,26 @@ _alertmanager_svc: corev1.Service{
     }
 }
 
-# 4. create a prometheus instance, intergated with alertmanager cluster
+# 4. create a prometheus cluster with 2 replicas, intergated with alertmanager cluster
 _prometheus: monitoringv1.Prometheus{
     metadata = {
-        name = "example"
+        name = "main"
         namespace = _common_namespace
     }
     spec = {
         # specify service account, default sa has no permissions
         serviceAccountName = _rbac_name
-        replicas = 1
+        replicas = 2
         # ruleSelector is nil meaning that the operator picks up no rule
         ruleSelector = {
             matchLabels = {
                 "role" = "alert-rules"
-                "prometheus" = "example"
+                "prometheus" = "main"
             }
         }
         serviceMonitorSelector = {
             matchLabels = {
-                "prometheus" = "example"
+                "prometheus" = "main"
             }
         }
         # intergating with alert manager by its service
@@ -112,7 +112,7 @@ _prometheus: monitoringv1.Prometheus{
 # 5. expose prometheus service
 _prometheus_svc: corev1.Service{
     metadata = {
-        name = "prometheus-example"
+        name = "prometheus"
         namespace = _common_namespace
     }
     spec = {
