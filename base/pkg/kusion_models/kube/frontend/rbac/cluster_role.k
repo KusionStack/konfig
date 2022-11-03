@@ -4,9 +4,9 @@ import base.pkg.kusion_models.kube.mixins
 
 schema ClusterRole(common.Metadata):
     """
-    rules : [PolicyRule], default is Undefined, optional
+    rules: [PolicyRule], default is Undefined, optional
         Rules holds all the PolicyRules for this ClusterRole
-    aggregationRule : AggregationRule, default is Undefined, optional
+    aggregationRule: AggregationRule, default is Undefined, optional
         AggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller.
     """
     mixin [

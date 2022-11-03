@@ -4,7 +4,7 @@ schema Metadata:
 
     Attributes
     ----------
-    name: str, default is Undefined, required.
+    name: str, default is Undefined, optional.
         The name of the resource.
         Name must be unique within a namespace. It's required when creating
         resources, although some resources may allow a client to request the

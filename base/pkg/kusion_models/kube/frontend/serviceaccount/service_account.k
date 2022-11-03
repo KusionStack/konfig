@@ -2,7 +2,7 @@ import base.pkg.kusion_models.kube.frontend.common
 
 schema ServiceAccount(common.Metadata):
     """A service account provides an identity for processes that run in a Pod.
-     ServiceAccount binds together:
+    ServiceAccount binds together:
         - a name, understood by users, and perhaps by peripheral systems, for an identity
         - a principal that can be authenticated and authorized
         - a set of secrets

@@ -21,12 +21,12 @@ schema Sidecar:
     env: [e.Env], default is Undefined, optional.
         A Container-level attribute.
         List of environment variables in the container.
-    envFrom: [EnvFromSource], default is Undefined, optional
+    envFrom: [e.EnvFromSource], default is Undefined, optional
         A Container-level attribute.
         List of sources to populate environment variables in the container.
-    image: str, default is Undefined, optional
+    image: str, default is Undefined, required
         A Container-level attribute.
-        Docker image name. More info: https://kubernetes.io/docs/concepts/containers/images
+        Container image name. More info: https://kubernetes.io/docs/concepts/containers/images
     livenessProbe: p.Probe, default is Undefined, optional.
         A Container-level attribute.
         The probe to check whether container is live or not.
@@ -36,19 +36,21 @@ schema Sidecar:
     startupProbe: p.Probe, default is Undefined, optional.
         A Container-level attribute.
         The probe to indicates that the Pod has successfully initialized.
-    resource: str, default is "1<cpu<2,1Gi<memory<2Gi,disk=20Gi", required.
+    resource: str | res.Resource, default is "1<cpu<2,1Gi<memory<2Gi,disk=20Gi", required.
         A Pod-level attribute.
         Sidecar container resource. 
-    lifecycle: Lifecycle, default is Undefined, optional
+    lifecycle: lc.Lifecycle, default is Undefined, optional
         Actions that the management system should take in response to container lifecycle events.
         Cannot be updated.
     workingDir: str, default is Undefined, optional
         Container's working directory. If not specified, the container runtime's default will be used, 
         which might be configured in the container image. Cannot be updated.
-    securityContext: SecurityContext, default is Undefined, optional
+    securityContext: {str:}, default is Undefined, optional
         SecurityContext defines the security options the container should be run with.
         If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext.
         More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    ports: [cp.ContainerPort], default is Undefined, optional
+        List of ports to expose from the container. Exposing a port here gives the system additional information about the network connections a container uses, but is primarily informational. Not specifying a port here DOES NOT prevent that port from being exposed. Any port which is listening on the default "0.0.0.0" address inside a container will be accessible from the network. Cannot be updated.
 
     Examples
     --------

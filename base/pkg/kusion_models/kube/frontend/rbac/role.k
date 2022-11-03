@@ -4,8 +4,8 @@ import base.pkg.kusion_models.kube.mixins
 
 schema Role(common.Metadata):
     """
-    rules : [PolicyRule], default is Undefined, optional
-    Rules holds all the PolicyRules for this ClusterRole
+    rules: [PolicyRule], default is Undefined, optional
+        Rules holds all the PolicyRules for this ClusterRole
     """
     mixin [
         mixins.MetadataMixin

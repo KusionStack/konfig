@@ -27,10 +27,6 @@ schema Service(common.Metadata):
         externalTrafficPolicy denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints.
     healthCheckNodePort: int, default is Undefined, optional
         healthCheckNodePort specifies the healthcheck nodePort for the service.
-    internalTrafficPolicy: str, default is Undefined, optional
-        InternalTrafficPolicy specifies if the cluster internal traffic should be routed to all endpoints or node-local endpoints only.
-    ipFamilies: [str], default is Undefined, optional
-        ipFamilies is a list of IP families (e.g. IPv4, IPv6) assigned to this service, and is gated by the "IPv6DualStack" feature gate.
     ipFamilyPolicy: str, default is Undefined, optional
         ipFamilyPolicy represents the dual-stack-ness requested or required by this Service, and is gated by the "IPv6DualStack" feature gate.
     loadBalancerIP: str, default is Undefined, optional
@@ -39,16 +35,16 @@ schema Service(common.Metadata):
         If specified and supported by the platform, this will restrict traffic through the cloud-provider load-balancer will be restricted to the specified client IPs.
         This field will be ignored if the cloud-provider does not support the feature.
         More info: https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/
-    ports: [ServicePort], default is Undefined, optional
+    ports: [corev1.ServicePort], default is Undefined, optional
         The list of ports that are exposed by this service. 
         More info: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
     publishNotReadyAddresses: bool, default is Undefined, optional
         publishNotReadyAddresses indicates that any agent which deals with endpoints for this Service should disregard any indications of ready/not-ready.
-    sessionAffinity : str, default is Undefined, optional
+    sessionAffinity: str, default is Undefined, optional
         Supports "ClientIP" and "None". Used to maintain session affinity.
         More info: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
-    sessionAffinityConfig : SessionAffinityConfig, default is Undefined, optional
-         sessionAffinityConfig contains the configurations of session affinity.
+    sessionAffinityConfig: {str:}, default is Undefined, optional
+        sessionAffinityConfig contains the configurations of session affinity.
 
     Examples
     --------

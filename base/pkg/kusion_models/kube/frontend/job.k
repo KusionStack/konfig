@@ -18,7 +18,7 @@ schema Job:
         before the system tries to terminate it; value must be positive integer
     backoffLimit: int, default is 6, optional.
         Specifies the number of retries before marking this job failed. Defaults to 6
-    completionMode: str, default is Undefined, optional
+    completionMode: "NonIndexed" | "Indexed", default is NonIndexed, optional
         CompletionMode specifies how Pod completions are tracked. It can be `NonIndexed` (default) or `Indexed`.
     completions: int, default is Undefined, optional.
         Specifies the desired number of successfully finished pods the job should be run with.
@@ -33,7 +33,7 @@ schema Job:
         Suspend specifies whether the Job controller should create Pods or not.
     ttlSecondsAfterFinished: int, default is Undefined, optional.
         ttlSecondsAfterFinished limits the lifetime of a Job that has finished execution (either Complete or Failed).
-    selector: apis.LabelSelector, default is Undefined, optional.
+    selector: {str:str}, default is Undefined, optional.
         A label query over pods that should match the pod count.
         More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
     podMetadata: apis.ObjectMeta, default is Undefined, optional.
@@ -44,20 +44,20 @@ schema Job:
     annotations: {str:str}, default is Undefined, optional.
         Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata.
         More info: http://kubernetes.io/docs/user-guide/annotations
-    restartPolicy: str, default is Never, optional.
+    restartPolicy: "Never" | "OnFailure", default is Never, optional.
         Restart policy for all containers within the pod. One of Always, OnFailure, Never.
         Default to Always. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy
     mainContainer: container.Main, default is Undefined, required.
         MainContainer describes the main container configuration that is expected to be run on the host.
-    image: str, default is Undefined, optional.
-        Docker image name. More info: https://kubernetes.io/docs/concepts/containers/images
-    schedulingStrategy: strategy.SchedulingStrategy, default is Undefined, required.
+    image: str, default is Undefined, required.
+        Container image name. More info: https://kubernetes.io/docs/concepts/containers/images
+    schedulingStrategy: strategy.SchedulingStrategy, default is Undefined, optional.
         SchedulingStrategy represents scheduling strategy.
     sidecarContainers: [s.Sidecar], default is Undefined, optional.
         SidecarContainers describes the list of sidecar container configuration that is expected to be run on the host.
     initContainers: [s.Sidecar], default is Undefined, optional.
         InitContainers describes the list of sidecar container configuration that is expected to be run on the host.
-    needNamespace: bool，default is True, optional.
+    needNamespace: bool, default is True, optional.
         NeedNamespace mark server is namespace scoped or not.
     volumes: [volume.Volume], default is Undefined, optional.
         Volumes represents a named volume and corresponding mounts in containers.
