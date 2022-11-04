@@ -9,10 +9,10 @@ schema NamespaceSelector:
 
     Attributes
     ----------
-    any : bool, default is Undefined, optional
-         Boolean describing whether all namespaces are selected in contrast to a list restricting them.
-    matchNames : [str], default is Undefined, optional
-         List of namespace names to select from.
+    any: bool, default is Undefined, optional
+        Boolean describing whether all namespaces are selected in contrast to a list restricting them.
+    matchNames: [str], default is Undefined, optional
+        List of namespace names to select from.
     """
 
 

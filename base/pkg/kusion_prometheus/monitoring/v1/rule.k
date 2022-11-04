@@ -11,17 +11,17 @@ schema Rule:
 
     Attributes
     ----------
-    alert : str, default is Undefined, optional
+    alert: str, default is Undefined, optional
         alert
-    annotations : {str:str}, default is Undefined, optional
+    annotations: {str:str}, default is Undefined, optional
         annotations
-    expr : int or str, default is Undefined, required
+    expr: int | str, default is Undefined, required
         expr
-    $for : str, default is Undefined, optional
+    $for: str, default is Undefined, optional
         for
-    labels : {str:str}, default is Undefined, optional
+    labels: {str:str}, default is Undefined, optional
         labels
-    record : str, default is Undefined, optional
+    record: str, default is Undefined, optional
         record
     """
 

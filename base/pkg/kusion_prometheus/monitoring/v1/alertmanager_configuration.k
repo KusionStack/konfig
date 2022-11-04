@@ -9,11 +9,11 @@ schema AlertmanagerConfiguration:
 
     Attributes
     ----------
-    name : str, default is Undefined, required
-         The name of the AlertmanagerConfig resource which is used to generate the Alertmanager configuration. It must be defined in the same namespace as the Alertmanager object. The operator will not enforce a `namespace` label for routes and inhibition rules.
-    templates : [SecretOrConfigMap], default is Undefined, optional
-         Custom notification templates.
-    global : AlertmanagerGlobalConfig, default is Undefined, optional
+    name: str, default is Undefined, required
+        The name of the AlertmanagerConfig resource which is used to generate the Alertmanager configuration. It must be defined in the same namespace as the Alertmanager object. The operator will not enforce a `namespace` label for routes and inhibition rules.
+    templates: [SecretOrConfigMap], default is Undefined, optional
+        Custom notification templates.
+    global: AlertmanagerGlobalConfig, default is Undefined, optional
         global
     """
 

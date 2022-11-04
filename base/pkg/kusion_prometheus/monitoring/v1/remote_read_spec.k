@@ -10,32 +10,32 @@ schema RemoteReadSpec:
 
     Attributes
     ----------
-    authorization : Authorization, default is Undefined, optional
+    authorization: Authorization, default is Undefined, optional
         authorization
-    basicAuth : BasicAuth, default is Undefined, optional
+    basicAuth: BasicAuth, default is Undefined, optional
         basic auth
-    bearerToken : str, default is Undefined, optional
-         Bearer token for remote read.
-    bearerTokenFile : str, default is Undefined, optional
-         File to read bearer token for remote read.
-    headers : {str:str}, default is Undefined, optional
-         Custom HTTP headers to be sent along with each remote read request. Be aware that headers that are set by Prometheus itself can't be overwritten. Only valid in Prometheus versions 2.26.0 and newer.
-    name : str, default is Undefined, optional
-         The name of the remote read queue, it must be unique if specified. The name is used in metrics and logging in order to differentiate read configurations.  Only valid in Prometheus versions 2.15.0 and newer.
-    oauth2 : OAuth2, default is Undefined, optional
+    bearerToken: str, default is Undefined, optional
+        Bearer token for remote read.
+    bearerTokenFile: str, default is Undefined, optional
+        File to read bearer token for remote read.
+    headers: {str:str}, default is Undefined, optional
+        Custom HTTP headers to be sent along with each remote read request. Be aware that headers that are set by Prometheus itself can't be overwritten. Only valid in Prometheus versions 2.26.0 and newer.
+    name: str, default is Undefined, optional
+        The name of the remote read queue, it must be unique if specified. The name is used in metrics and logging in order to differentiate read configurations.  Only valid in Prometheus versions 2.15.0 and newer.
+    oauth2: OAuth2, default is Undefined, optional
         oauth2
-    proxyUrl : str, default is Undefined, optional
-         Optional ProxyURL.
-    readRecent : bool, default is Undefined, optional
-         Whether reads should be made for queries for time ranges that the local storage should have complete data for.
-    remoteTimeout : str, default is Undefined, optional
-         Timeout for requests to the remote read endpoint.
-    requiredMatchers : {str:str}, default is Undefined, optional
-         An optional list of equality matchers which have to be present in a selector to query the remote read endpoint.
-    tlsConfig : TLSConfig, default is Undefined, optional
+    proxyUrl: str, default is Undefined, optional
+        Optional ProxyURL.
+    readRecent: bool, default is Undefined, optional
+        Whether reads should be made for queries for time ranges that the local storage should have complete data for.
+    remoteTimeout: str, default is Undefined, optional
+        Timeout for requests to the remote read endpoint.
+    requiredMatchers: {str:str}, default is Undefined, optional
+        An optional list of equality matchers which have to be present in a selector to query the remote read endpoint.
+    tlsConfig: TLSConfig, default is Undefined, optional
         tls config
-    url : str, default is Undefined, required
-         The URL of the endpoint to query from.
+    url: str, default is Undefined, required
+        The URL of the endpoint to query from.
     """
 
 

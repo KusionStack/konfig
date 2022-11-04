@@ -10,22 +10,22 @@ schema TLSConfig:
 
     Attributes
     ----------
-    ca : SecretOrConfigMap, default is Undefined, optional
+    ca: SecretOrConfigMap, default is Undefined, optional
         ca
-    caFile : str, default is Undefined, optional
-         Path to the CA cert in the Prometheus container to use for the targets.
-    cert : SecretOrConfigMap, default is Undefined, optional
+    caFile: str, default is Undefined, optional
+        Path to the CA cert in the Prometheus container to use for the targets.
+    cert: SecretOrConfigMap, default is Undefined, optional
         cert
-    certFile : str, default is Undefined, optional
-         Path to the client cert file in the Prometheus container for the targets.
-    insecureSkipVerify : bool, default is Undefined, optional
-         Disable target certificate validation.
-    keyFile : str, default is Undefined, optional
-         Path to the client key file in the Prometheus container for the targets.
-    keySecret : v1.SecretKeySelector, default is Undefined, optional
+    certFile: str, default is Undefined, optional
+        Path to the client cert file in the Prometheus container for the targets.
+    insecureSkipVerify: bool, default is Undefined, optional
+        Disable target certificate validation.
+    keyFile: str, default is Undefined, optional
+        Path to the client key file in the Prometheus container for the targets.
+    keySecret: v1.SecretKeySelector, default is Undefined, optional
         key secret
-    serverName : str, default is Undefined, optional
-         Used to verify the hostname for the targets.
+    serverName: str, default is Undefined, optional
+        Used to verify the hostname for the targets.
     """
 
 

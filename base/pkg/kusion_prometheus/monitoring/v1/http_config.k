@@ -10,19 +10,19 @@ schema HTTPConfig:
 
     Attributes
     ----------
-    authorization : SafeAuthorization, default is Undefined, optional
+    authorization: SafeAuthorization, default is Undefined, optional
         authorization
-    basicAuth : BasicAuth, default is Undefined, optional
+    basicAuth: BasicAuth, default is Undefined, optional
         basic auth
-    bearerTokenSecret : corev1.SecretKeySelector, default is Undefined, optional
+    bearerTokenSecret: corev1.SecretKeySelector, default is Undefined, optional
         bearer token secret
-    followRedirects : bool, default is Undefined, optional
-         FollowRedirects specifies whether the client should follow HTTP 3xx redirects.
-    oauth2 : OAuth2, default is Undefined, optional
+    followRedirects: bool, default is Undefined, optional
+        FollowRedirects specifies whether the client should follow HTTP 3xx redirects.
+    oauth2: OAuth2, default is Undefined, optional
         oauth2
-    proxyURL : str, default is Undefined, optional
-         Optional proxy URL.
-    tlsConfig : SafeTLSConfig, default is Undefined, optional
+    proxyURL: str, default is Undefined, optional
+        Optional proxy URL.
+    tlsConfig: SafeTLSConfig, default is Undefined, optional
         tls config
     """
 

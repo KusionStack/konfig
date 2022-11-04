@@ -10,10 +10,10 @@ schema MetadataConfig:
 
     Attributes
     ----------
-    send : bool, default is Undefined, optional
-         Whether metric metadata is sent to the remote storage or not.
-    sendInterval : str, default is Undefined, optional
-         How frequently metric metadata is sent to the remote storage.
+    send: bool, default is Undefined, optional
+        Whether metric metadata is sent to the remote storage or not.
+    sendInterval: str, default is Undefined, optional
+        How frequently metric metadata is sent to the remote storage.
     """
 
 

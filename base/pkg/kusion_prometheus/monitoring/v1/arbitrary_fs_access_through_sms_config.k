@@ -9,7 +9,7 @@ schema ArbitraryFSAccessThroughSMsConfig:
 
     Attributes
     ----------
-    deny : bool, default is Undefined, optional
+    deny: bool, default is Undefined, optional
         deny
     """
 

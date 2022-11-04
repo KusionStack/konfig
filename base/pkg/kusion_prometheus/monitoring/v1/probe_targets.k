@@ -9,9 +9,9 @@ schema ProbeTargets:
 
     Attributes
     ----------
-    ingress : ProbeTargetIngress, default is Undefined, optional
+    ingress: ProbeTargetIngress, default is Undefined, optional
         ingress
-    staticConfig : ProbeTargetStaticConfig, default is Undefined, optional
+    staticConfig: ProbeTargetStaticConfig, default is Undefined, optional
         static config
     """
 

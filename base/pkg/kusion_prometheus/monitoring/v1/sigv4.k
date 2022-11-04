@@ -10,15 +10,15 @@ schema Sigv4:
 
     Attributes
     ----------
-    accessKey : v1.SecretKeySelector, default is Undefined, optional
+    accessKey: v1.SecretKeySelector, default is Undefined, optional
         access key
-    profile : str, default is Undefined, optional
-         Profile is the named AWS profile used to authenticate.
-    region : str, default is Undefined, optional
-         Region is the AWS region. If blank, the region from the default credentials chain used.
-    roleArn : str, default is Undefined, optional
-         RoleArn is the named AWS profile used to authenticate.
-    secretKey : v1.SecretKeySelector, default is Undefined, optional
+    profile: str, default is Undefined, optional
+        Profile is the named AWS profile used to authenticate.
+    region: str, default is Undefined, optional
+        Region is the AWS region. If blank, the region from the default credentials chain used.
+    roleArn: str, default is Undefined, optional
+        RoleArn is the named AWS profile used to authenticate.
+    secretKey: v1.SecretKeySelector, default is Undefined, optional
         secret key
     """
 

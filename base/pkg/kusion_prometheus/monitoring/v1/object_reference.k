@@ -9,14 +9,14 @@ schema ObjectReference:
 
     Attributes
     ----------
-    group : str, default is "monitoring.coreos.com", optional
-         Group of the referent. When not specified, it defaults to `monitoring.coreos.com`
-    name : str, default is Undefined, optional
-         Name of the referent. When not set, all resources are matched.
-    namespace : str, default is Undefined, required
-         Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
-    resource : str, default is Undefined, required
-         Resource of the referent.
+    group: str, default is "monitoring.coreos.com", optional
+        Group of the referent. When not specified, it defaults to `monitoring.coreos.com`
+    name: str, default is Undefined, optional
+        Name of the referent. When not set, all resources are matched.
+    namespace: str, default is Undefined, required
+        Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
+    resource: "prometheusrules" | "servicemonitors" | "podmonitors" | "probes", default is Undefined, required
+        Resource of the referent.
     """
 
 

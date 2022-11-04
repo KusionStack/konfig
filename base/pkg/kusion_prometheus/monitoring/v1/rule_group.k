@@ -11,13 +11,13 @@ schema RuleGroup:
 
     Attributes
     ----------
-    interval : str, default is Undefined, optional
+    interval: str, default is Undefined, optional
         interval
-    name : str, default is Undefined, required
+    name: str, default is Undefined, required
         name
-    partial_response_strategy : str, default is Undefined, optional
+    partial_response_strategy: str, default is Undefined, optional
         partial response strategy
-    rules : [Rule], default is Undefined, required
+    rules: [Rule], default is Undefined, required
         rules
     """
 

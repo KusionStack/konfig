@@ -9,12 +9,12 @@ schema ProbeTargetStaticConfig:
 
     Attributes
     ----------
-    labels : {str:str}, default is Undefined, optional
-         Labels assigned to all metrics scraped from the targets.
-    relabelingConfigs : [RelabelConfig], default is Undefined, optional
-         RelabelConfigs to apply to the label set of the targets before it gets scraped. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
-    static : [str], default is Undefined, optional
-         The list of hosts to probe.
+    labels: {str:str}, default is Undefined, optional
+        Labels assigned to all metrics scraped from the targets.
+    relabelingConfigs: [RelabelConfig], default is Undefined, optional
+        RelabelConfigs to apply to the label set of the targets before it gets scraped. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
+    static: [str], default is Undefined, optional
+        The list of hosts to probe.
     """
 
 

@@ -9,16 +9,16 @@ schema AlertmanagerStatus:
 
     Attributes
     ----------
-    availableReplicas : int, default is Undefined, required
-         Total number of available pods (ready for at least minReadySeconds) targeted by this Alertmanager cluster.
-    paused : bool, default is Undefined, required
-         Represents whether any actions on the underlying managed objects are being performed. Only delete actions will be performed.
-    replicas : int, default is Undefined, required
-         Total number of non-terminated pods targeted by this Alertmanager cluster (their labels match the selector).
-    unavailableReplicas : int, default is Undefined, required
-         Total number of unavailable pods targeted by this Alertmanager cluster.
-    updatedReplicas : int, default is Undefined, required
-         Total number of non-terminated pods targeted by this Alertmanager cluster that have the desired version spec.
+    availableReplicas: int, default is Undefined, required
+        Total number of available pods (ready for at least minReadySeconds) targeted by this Alertmanager cluster.
+    paused: bool, default is Undefined, required
+        Represents whether any actions on the underlying managed objects are being performed. Only delete actions will be performed.
+    replicas: int, default is Undefined, required
+        Total number of non-terminated pods targeted by this Alertmanager cluster (their labels match the selector).
+    unavailableReplicas: int, default is Undefined, required
+        Total number of unavailable pods targeted by this Alertmanager cluster.
+    updatedReplicas: int, default is Undefined, required
+        Total number of non-terminated pods targeted by this Alertmanager cluster that have the desired version spec.
     """
 
 

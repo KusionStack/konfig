@@ -9,9 +9,9 @@ schema WebHTTPConfig:
 
     Attributes
     ----------
-    http2 : bool, default is Undefined, optional
-         Enable HTTP/2 support. Note that HTTP/2 is only supported with TLS. When TLSConfig is not configured, HTTP/2 will be disabled. Whenever the value of the field changes, a rolling update will be triggered.
-    headers : WebHTTPHeaders, default is Undefined, optional
+    http2: bool, default is Undefined, optional
+        Enable HTTP/2 support. Note that HTTP/2 is only supported with TLS. When TLSConfig is not configured, HTTP/2 will be disabled. Whenever the value of the field changes, a rolling update will be triggered.
+    headers: WebHTTPHeaders, default is Undefined, optional
         headers
     """
 

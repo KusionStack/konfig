@@ -9,14 +9,14 @@ schema ProberSpec:
 
     Attributes
     ----------
-    path : str, default is "/probe", optional
-         Path to collect metrics from. Defaults to `/probe`.
-    proxyUrl : str, default is Undefined, optional
-         Optional ProxyURL.
-    scheme : str, default is Undefined, optional
-         HTTP scheme to use for scraping. Defaults to `http`.
-    url : str, default is Undefined, required
-         Mandatory URL of the prober.
+    path: str, default is "/probe", optional
+        Path to collect metrics from. Defaults to `/probe`.
+    proxyUrl: str, default is Undefined, optional
+        Optional ProxyURL.
+    scheme: str, default is Undefined, optional
+        HTTP scheme to use for scraping. Defaults to `http`.
+    url: str, default is Undefined, required
+        Mandatory URL of the prober.
     """
 
 

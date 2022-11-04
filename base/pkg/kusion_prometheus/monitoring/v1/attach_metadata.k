@@ -9,8 +9,8 @@ schema AttachMetadata:
 
     Attributes
     ----------
-    node : bool, default is Undefined, optional
-         When set to true, Prometheus must have permissions to get Nodes.
+    node: bool, default is Undefined, optional
+        When set to true, Prometheus must have permissions to get Nodes.
     """
 
 

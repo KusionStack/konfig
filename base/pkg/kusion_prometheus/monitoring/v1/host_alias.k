@@ -9,10 +9,10 @@ schema HostAlias:
 
     Attributes
     ----------
-    hostnames : [str], default is Undefined, required
-         Hostnames for the above IP address.
-    ip : str, default is Undefined, required
-         IP address of the host file entry.
+    hostnames: [str], default is Undefined, required
+        Hostnames for the above IP address.
+    ip: str, default is Undefined, required
+        IP address of the host file entry.
     """
 
 

@@ -10,27 +10,27 @@ schema PodMonitorSpec:
 
     Attributes
     ----------
-    jobLabel : str, default is Undefined, optional
-         The label to use to retrieve the job name from.
-    labelLimit : int, default is Undefined, optional
-         Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-    labelNameLengthLimit : int, default is Undefined, optional
-         Per-scrape limit on length of labels name that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-    labelValueLengthLimit : int, default is Undefined, optional
-         Per-scrape limit on length of labels value that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-    podMetricsEndpoints : [PodMetricsEndpoint], default is Undefined, required
-         A list of endpoints allowed as part of this PodMonitor.
-    podTargetLabels : [str], default is Undefined, optional
-         PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
-    sampleLimit : int, default is Undefined, optional
-         SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
-    targetLimit : int, default is Undefined, optional
-         TargetLimit defines a limit on the number of scraped targets that will be accepted.
-    attachMetadata : AttachMetadata, default is Undefined, optional
+    jobLabel: str, default is Undefined, optional
+        The label to use to retrieve the job name from.
+    labelLimit: int, default is Undefined, optional
+        Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
+    labelNameLengthLimit: int, default is Undefined, optional
+        Per-scrape limit on length of labels name that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
+    labelValueLengthLimit: int, default is Undefined, optional
+        Per-scrape limit on length of labels value that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
+    podMetricsEndpoints: [PodMetricsEndpoint], default is Undefined, required
+        A list of endpoints allowed as part of this PodMonitor.
+    podTargetLabels: [str], default is Undefined, optional
+        PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
+    sampleLimit: int, default is Undefined, optional
+        SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
+    targetLimit: int, default is Undefined, optional
+        TargetLimit defines a limit on the number of scraped targets that will be accepted.
+    attachMetadata: AttachMetadata, default is Undefined, optional
         attach metadata
-    namespaceSelector : NamespaceSelector, default is Undefined, optional
+    namespaceSelector: NamespaceSelector, default is Undefined, optional
         namespace selector
-    selector : apis.LabelSelector, default is Undefined, required
+    selector: apis.LabelSelector, default is Undefined, required
         selector
     """
 

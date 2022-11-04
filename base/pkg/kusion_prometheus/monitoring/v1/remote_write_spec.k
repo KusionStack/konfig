@@ -10,38 +10,38 @@ schema RemoteWriteSpec:
 
     Attributes
     ----------
-    authorization : Authorization, default is Undefined, optional
+    authorization: Authorization, default is Undefined, optional
         authorization
-    basicAuth : BasicAuth, default is Undefined, optional
+    basicAuth: BasicAuth, default is Undefined, optional
         basic auth
-    bearerToken : str, default is Undefined, optional
-         Bearer token for remote write.
-    bearerTokenFile : str, default is Undefined, optional
-         File to read bearer token for remote write.
-    headers : {str:str}, default is Undefined, optional
-         Custom HTTP headers to be sent along with each remote write request. Be aware that headers that are set by Prometheus itself can't be overwritten. Only valid in Prometheus versions 2.25.0 and newer.
-    metadataConfig : MetadataConfig, default is Undefined, optional
+    bearerToken: str, default is Undefined, optional
+        Bearer token for remote write.
+    bearerTokenFile: str, default is Undefined, optional
+        File to read bearer token for remote write.
+    headers: {str:str}, default is Undefined, optional
+        Custom HTTP headers to be sent along with each remote write request. Be aware that headers that are set by Prometheus itself can't be overwritten. Only valid in Prometheus versions 2.25.0 and newer.
+    metadataConfig: MetadataConfig, default is Undefined, optional
         metadata config
-    name : str, default is Undefined, optional
-         The name of the remote write queue, it must be unique if specified. The name is used in metrics and logging in order to differentiate queues. Only valid in Prometheus versions 2.15.0 and newer.
-    oauth2 : OAuth2, default is Undefined, optional
+    name: str, default is Undefined, optional
+        The name of the remote write queue, it must be unique if specified. The name is used in metrics and logging in order to differentiate queues. Only valid in Prometheus versions 2.15.0 and newer.
+    oauth2: OAuth2, default is Undefined, optional
         oauth2
-    proxyUrl : str, default is Undefined, optional
-         Optional ProxyURL.
-    queueConfig : QueueConfig, default is Undefined, optional
+    proxyUrl: str, default is Undefined, optional
+        Optional ProxyURL.
+    queueConfig: QueueConfig, default is Undefined, optional
         queue config
-    remoteTimeout : str, default is Undefined, optional
-         Timeout for requests to the remote write endpoint.
-    sendExemplars : bool, default is Undefined, optional
-         Enables sending of exemplars over remote write. Note that exemplar-storage itself must be enabled using the enableFeature option for exemplars to be scraped in the first place.  Only valid in Prometheus versions 2.27.0 and newer.
-    sigv4 : Sigv4, default is Undefined, optional
+    remoteTimeout: str, default is Undefined, optional
+        Timeout for requests to the remote write endpoint.
+    sendExemplars: bool, default is Undefined, optional
+        Enables sending of exemplars over remote write. Note that exemplar-storage itself must be enabled using the enableFeature option for exemplars to be scraped in the first place.  Only valid in Prometheus versions 2.27.0 and newer.
+    sigv4: Sigv4, default is Undefined, optional
         sigv4
-    tlsConfig : TLSConfig, default is Undefined, optional
+    tlsConfig: TLSConfig, default is Undefined, optional
         tls config
-    url : str, default is Undefined, required
-         The URL of the endpoint to send samples to.
-    writeRelabelConfigs : [RelabelConfig], default is Undefined, optional
-         The list of remote write relabel configurations.
+    url: str, default is Undefined, required
+        The URL of the endpoint to send samples to.
+    writeRelabelConfigs: [RelabelConfig], default is Undefined, optional
+        The list of remote write relabel configurations.
     """
 
 

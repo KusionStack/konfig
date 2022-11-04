@@ -9,10 +9,10 @@ schema PrometheusRuleExcludeConfig:
 
     Attributes
     ----------
-    ruleName : str, default is Undefined, required
-         RuleNamespace - name of excluded rule
-    ruleNamespace : str, default is Undefined, required
-         RuleNamespace - namespace of excluded rule
+    ruleName: str, default is Undefined, required
+        RuleNamespace - name of excluded rule
+    ruleNamespace: str, default is Undefined, required
+        RuleNamespace - namespace of excluded rule
     """
 
 

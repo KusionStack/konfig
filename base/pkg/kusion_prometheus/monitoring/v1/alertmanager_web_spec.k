@@ -9,9 +9,9 @@ schema AlertmanagerWebSpec:
 
     Attributes
     ----------
-    httpConfig : WebHTTPConfig, default is Undefined, optional
+    httpConfig: WebHTTPConfig, default is Undefined, optional
         http config
-    tlsConfig : WebTLSConfig, default is Undefined, optional
+    tlsConfig: WebTLSConfig, default is Undefined, optional
         tls config
     """
 

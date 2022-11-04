@@ -9,8 +9,8 @@ schema AlertingSpec:
 
     Attributes
     ----------
-    alertmanagers : [AlertmanagerEndpoints], default is Undefined, required
-         AlertmanagerEndpoints Prometheus should fire alerts against.
+    alertmanagers: [AlertmanagerEndpoints], default is Undefined, required
+        AlertmanagerEndpoints Prometheus should fire alerts against.
     """
 
 

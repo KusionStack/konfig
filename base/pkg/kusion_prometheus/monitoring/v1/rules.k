@@ -9,7 +9,7 @@ schema Rules:
 
     Attributes
     ----------
-    alert : PrometheusSpecRulesAlert, default is Undefined, optional
+    alert: RulesAlert, default is Undefined, optional
         alert
     """
 

@@ -8,11 +8,11 @@ schema PrometheusWebSpec:
 
     Attributes
     ----------
-    pageTitle : str, default is Undefined, optional
+    pageTitle: str, default is Undefined, optional
         The prometheus web page title
-    httpConfig : WebHTTPConfig, default is Undefined, optional
+    httpConfig: WebHTTPConfig, default is Undefined, optional
         http config
-    tlsConfig : WebTLSConfig, default is Undefined, optional
+    tlsConfig: WebTLSConfig, default is Undefined, optional
         tls config
     """
 

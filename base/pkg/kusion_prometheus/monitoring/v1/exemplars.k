@@ -9,8 +9,8 @@ schema Exemplars:
 
     Attributes
     ----------
-    maxSize : int, default is Undefined, optional
-         Maximum number of exemplars stored in memory for all series. If not set, Prometheus uses its default value. A value of zero or less than zero disables the storage.
+    maxSize: int, default is Undefined, optional
+        Maximum number of exemplars stored in memory for all series. If not set, Prometheus uses its default value. A value of zero or less than zero disables the storage.
     """
 
 

@@ -10,13 +10,13 @@ schema EmbeddedPersistentVolumeClaim:
 
     Attributes
     ----------
-    apiVersion : str, default is Undefined, optional
-         APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
-    kind : str, default is Undefined, optional
-         Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
-    metadata : EmbeddedObjectMetadata, default is Undefined, optional
+    apiVersion: str, default is Undefined, optional
+        APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+    kind: str, default is Undefined, optional
+        Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+    metadata: EmbeddedObjectMetadata, default is Undefined, optional
         metadata
-    spec : v1.PersistentVolumeClaimSpec, default is Undefined, optional
+    spec: v1.PersistentVolumeClaimSpec, default is Undefined, optional
         spec
     """
 

@@ -10,9 +10,9 @@ schema SecretOrConfigMap:
 
     Attributes
     ----------
-    configMap : v1.ConfigMapKeySelector, default is Undefined, optional
+    configMap: v1.ConfigMapKeySelector, default is Undefined, optional
         config map
-    secret : v1.SecretKeySelector, default is Undefined, optional
+    secret: v1.SecretKeySelector, default is Undefined, optional
         secret
     """
 

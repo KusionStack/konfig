@@ -9,7 +9,7 @@ schema Authorization(SafeAuthorization):
 
     Attributes
     ----------
-    credentialsFile : str, default is Undefined, optional
+    credentialsFile: str, default is Undefined, optional
         File to read a secret from, mutually exclusive with Credentials (from SafeAuthorization)
     """
 

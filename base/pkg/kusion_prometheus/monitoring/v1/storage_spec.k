@@ -10,13 +10,13 @@ schema StorageSpec:
 
     Attributes
     ----------
-    disableMountSubPath : bool, default is Undefined, optional
-         Deprecated: subPath usage will be disabled by default in a future release, this option will become unnecessary. DisableMountSubPath allows to remove any subPath usage in volume mounts.
-    emptyDir : v1.EmptyDirVolumeSource, default is Undefined, optional
+    disableMountSubPath: bool, default is Undefined, optional
+        Deprecated: subPath usage will be disabled by default in a future release, this option will become unnecessary. DisableMountSubPath allows to remove any subPath usage in volume mounts.
+    emptyDir: v1.EmptyDirVolumeSource, default is Undefined, optional
         empty dir
-    ephemeral : v1.EphemeralVolumeSource, default is Undefined, optional
+    ephemeral: v1.EphemeralVolumeSource, default is Undefined, optional
         ephemeral
-    volumeClaimTemplate : EmbeddedPersistentVolumeClaim, default is Undefined, optional
+    volumeClaimTemplate: EmbeddedPersistentVolumeClaim, default is Undefined, optional
         volume claim template
     """
 

@@ -11,39 +11,39 @@ schema ProbeSpec:
 
     Attributes
     ----------
-    interval : str, default is Undefined, optional
-         Interval at which targets are probed using the configured prober. If not specified Prometheus' global scrape interval is used.
-    jobName : str, default is Undefined, optional
-         The job name assigned to scraped metrics by default.
-    labelLimit : int, default is Undefined, optional
-         Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-    labelNameLengthLimit : int, default is Undefined, optional
-         Per-scrape limit on length of labels name that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-    labelValueLengthLimit : int, default is Undefined, optional
-         Per-scrape limit on length of labels value that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-    metricRelabelings : [RelabelConfig], default is Undefined, optional
-         MetricRelabelConfigs to apply to samples before ingestion.
-    module : str, default is Undefined, optional
-         The module to use for probing specifying how to probe the target. Example module configuring in the blackbox exporter: https://github.com/prometheus/blackbox_exporter/blob/master/example.yml
-    sampleLimit : int, default is Undefined, optional
-         SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
-    scrapeTimeout : str, default is Undefined, optional
-         Timeout for scraping metrics from the Prometheus exporter. If not specified, the Prometheus global scrape interval is used.
-    targetLimit : int, default is Undefined, optional
-         TargetLimit defines a limit on the number of scraped targets that will be accepted.
-    authorization : SafeAuthorization, default is Undefined, optional
+    interval: str, default is Undefined, optional
+        Interval at which targets are probed using the configured prober. If not specified Prometheus' global scrape interval is used.
+    jobName: str, default is Undefined, optional
+        The job name assigned to scraped metrics by default.
+    labelLimit: int, default is Undefined, optional
+        Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
+    labelNameLengthLimit: int, default is Undefined, optional
+        Per-scrape limit on length of labels name that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
+    labelValueLengthLimit: int, default is Undefined, optional
+        Per-scrape limit on length of labels value that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
+    metricRelabelings: [RelabelConfig], default is Undefined, optional
+        MetricRelabelConfigs to apply to samples before ingestion.
+    module: str, default is Undefined, optional
+        The module to use for probing specifying how to probe the target. Example module configuring in the blackbox exporter: https://github.com/prometheus/blackbox_exporter/blob/master/example.yml
+    sampleLimit: int, default is Undefined, optional
+        SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
+    scrapeTimeout: str, default is Undefined, optional
+        Timeout for scraping metrics from the Prometheus exporter. If not specified, the Prometheus global scrape interval is used.
+    targetLimit: int, default is Undefined, optional
+        TargetLimit defines a limit on the number of scraped targets that will be accepted.
+    authorization: SafeAuthorization, default is Undefined, optional
         authorization
-    basicAuth : BasicAuth, default is Undefined, optional
+    basicAuth: BasicAuth, default is Undefined, optional
         basic auth
-    bearerTokenSecret : v1.SecretKeySelector, default is Undefined, optional
+    bearerTokenSecret: v1.SecretKeySelector, default is Undefined, optional
         bearer token secret
-    oauth2 : OAuth2, default is Undefined, optional
+    oauth2: OAuth2, default is Undefined, optional
         oauth2
-    prober : ProberSpec, default is Undefined, optional
+    prober: ProberSpec, default is Undefined, optional
         prober
-    targets : ProbeTargets, default is Undefined, optional
+    targets: ProbeTargets, default is Undefined, optional
         targets
-    tlsConfig : ProbeTLSConfig, default is Undefined, optional
+    tlsConfig: ProbeTLSConfig, default is Undefined, optional
         tls config
     """
 
