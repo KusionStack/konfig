@@ -38,6 +38,12 @@ schema Main:
     startupProbe: p.Probe, default is Undefined, optional.
         A Container-level attribute.
         The probe to indicates that the Pod has successfully initialized.
+    lifecycle: lc.Lifecycle, default is Undefined, optional
+        Actions that the management system should take in response to container lifecycle events. Cannot be updated.
+    securityContext: {str:any}, default is Undefined, optional
+        SecurityContext defines the security options the container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext. More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    workingDir: str, default is Undefined, optional
+        Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated.
 
     Examples
     --------

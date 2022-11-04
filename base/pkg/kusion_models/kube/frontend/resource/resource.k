@@ -7,13 +7,13 @@ schema Resource:
 
     Attributes
     ----------
-    cpu: int | Unit, default is 1, required.
+    cpu: int | Unit, default is 1, optional.
         A Container-level attribute.
         CPU, in cores, default 1 core. (500m = .5 cores)
-    memory: Unit, default is 1024Mi, required.
+    memory: Unit, default is 1024Mi, optional.
         A Container-level attribute.
         Memory, in bytes, default 1024Mi. (500Gi = 500GiB = 500 * 1024 * 1024 * 1024)
-    disk: Unit, default is 10Gi, required.
+    disk: Unit, default is 10Gi, optional.
         A Container-level attribute.
         Local disk storage, in bytes, default 10Gi. (500Gi = 500GiB = 500 * 1024 * 1024 * 1024)
 

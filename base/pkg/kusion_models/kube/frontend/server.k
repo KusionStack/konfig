@@ -14,12 +14,12 @@ schema Server:
 
     Attributes
     ----------
-    workloadType: str, default is "Deployment", required.
+    workloadType: "Deployment" | "StatefulSet", default is "Deployment", required.
         Application workload type, default to 'Deployment'
     replicas: int, default is 1, required.
         Number of desired pods. This is a pointer to distinguish between explicit zero and not specified. Defaults to 1.
-    image: str, default is Undefined, optional.
-        Docker image name.
+    image: str, default is Undefined, required.
+        Container image name.
         More info: https://kubernetes.io/docs/concepts/containers/images
     schedulingStrategy: strategy.SchedulingStrategy, default is Undefined, required.
         SchedulingStrategy represents scheduling strategy.
@@ -34,7 +34,7 @@ schema Server:
     labels: {str:str}, default is Undefined, optional.
         Labels is a map of string keys and values that can be used to organize and categorize (scope and select) objects.
         More info: http://kubernetes.io/docs/user-guide/labels
-    annotations: {str:str}, default is Undefined, optional.
+    annotations: {str:str}, default is Undefined, optional
         Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata.
         More info: http://kubernetes.io/docs/user-guide/annotations
     useBuiltInSelector: bool, default is False, optional.
@@ -45,9 +45,9 @@ schema Server:
         PodMetadata is metadata that all persisted resources must have, which includes all objects users must create.
     volumes: [volume.Volume], default is Undefined, optional.
         Volumes represents a named volume and corresponding mounts in containers.
-    needNamespace: bool，default is True, optional.
+    needNamespace: bool, default is True, optional.
         NeedNamespace mark server is namespace scoped or not.
-    enableMonitoring: bool，default is False, optional.
+    enableMonitoring: bool, default is False, optional.
         EnableMonitoring mark server is enable monitor or not.
     configMaps: [configmap.ConfigMap], default is Undefined, optional.
         ConfigMaps is a list of ConfigMap which holds configuration data for server to consume.

@@ -8,14 +8,14 @@ schema Secret(common.Metadata):
     Attributes
     ----------
     data: {str:str}, default is Undefined, optional
-         Data contains the secret data. Each key must consist of alphanumeric characters, '-', '_' or '.'. 
-         More info: https://kubernetes.io/docs/concepts/configuration/secret/#restriction-names-data
+        Data contains the secret data. Each key must consist of alphanumeric characters, '-', '_' or '.'. 
+        More info: https://kubernetes.io/docs/concepts/configuration/secret/#restriction-names-data
     stringData: {str:str}, default is Undefined, optional
-         stringData allows specifying non-binary secret data in string form. 
-         More info: https://kubernetes.io/docs/concepts/configuration/secret/#restriction-names-data
+        stringData allows specifying non-binary secret data in string form. 
+        More info: https://kubernetes.io/docs/concepts/configuration/secret/#restriction-names-data
     type: str, default is Undefined, optional
-         Used to facilitate programmatic handling of secret data.
-         More info: https://kubernetes.io/docs/concepts/configuration/secret/#secret-types
+        Used to facilitate programmatic handling of secret data.
+        More info: https://kubernetes.io/docs/concepts/configuration/secret/#secret-types
     
     Examples
     --------

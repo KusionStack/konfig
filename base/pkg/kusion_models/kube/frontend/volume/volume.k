@@ -8,7 +8,7 @@ schema Volume:
     name: str, default is Undefined, required.
         Volume's name. Must be a DNS_LABEL and unique within the pod. 
         More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-    volumeSource: EmptyDir | Secret | ConfigMap | FlexVolume | HostPath | DownwardAPI, default is Undefined, required.
+    volumeSource: EmptyDir | Secret | ConfigMap | FlexVolume | HostPath | DownwardAPI | CSI, default is Undefined, required.
         VolumeSource represents the location and type of the mounted volume.
     mounts: [Mount], default is Undefined, optional.
         Volumes to mount into the container's filesystem.
@@ -198,7 +198,7 @@ schema CSI:
         A Pod-level attribute.
         Extra command options if any.
     """
-    driver?: str
+    driver: str
     fsType?: str
     readOnly?: bool
     volumeAttributes?: {str:str}

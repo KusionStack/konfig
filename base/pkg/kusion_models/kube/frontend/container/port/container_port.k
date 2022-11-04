@@ -10,7 +10,7 @@ schema ContainerPort:
     protocol: "TCP" | "UDP" | "SCTP", default is "TCP", required.
         A Container-level attribute.
         The protocol for port. Must be UDP, TCP or SCTP. Default is TCP.
-    containerPort: int, default is Undefined, optional.
+    containerPort: int, default is Undefined, required.
         A Container-level attribute.
         The number of port to expose on the container's IP address.
 
