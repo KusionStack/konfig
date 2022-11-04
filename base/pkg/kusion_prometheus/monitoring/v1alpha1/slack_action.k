@@ -9,19 +9,19 @@ schema SlackAction:
 
     Attributes
     ----------
-    confirm : SlackConfirmationField, default is Undefined, optional
+    confirm: SlackConfirmationField, default is Undefined, optional
         confirm
-    name : str, default is Undefined, optional
+    name: str, default is Undefined, optional
         name
-    style : str, default is Undefined, optional
+    style: str, default is Undefined, optional
         style
-    text : str, default is Undefined, required
+    text: str, default is Undefined, required
         text
-    $type : str, default is Undefined, required
+    $type: str, default is Undefined, required
         type
-    url : str, default is Undefined, optional
+    url: str, default is Undefined, optional
         url
-    value : str, default is Undefined, optional
+    value: str, default is Undefined, optional
         value
     """
 

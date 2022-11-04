@@ -9,12 +9,12 @@ schema PagerDutyImageConfig:
 
     Attributes
     ----------
-    alt : str, default is Undefined, optional
-         Alt is the optional alternative text for the image.
-    href : str, default is Undefined, optional
-         Optional URL; makes the image a clickable link.
-    src : str, default is Undefined, optional
-         Src of the image being attached to the incident
+    alt: str, default is Undefined, optional
+        Alt is the optional alternative text for the image.
+    href: str, default is Undefined, optional
+        Optional URL; makes the image a clickable link.
+    src: str, default is Undefined, optional
+        Src of the image being attached to the incident
     """
 
 

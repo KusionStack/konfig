@@ -10,36 +10,36 @@ schema OpsGenieConfig:
 
     Attributes
     ----------
-    actions : str, default is Undefined, optional
-         Comma separated list of actions that will be available for the alert.
-    apiKey : corev1.SecretKeySelector, default is Undefined, optional
+    actions: str, default is Undefined, optional
+        Comma separated list of actions that will be available for the alert.
+    apiKey: corev1.SecretKeySelector, default is Undefined, optional
         api key
-    apiURL : str, default is Undefined, optional
-         The URL to send OpsGenie API requests to.
-    description : str, default is Undefined, optional
-         Description of the incident.
-    details : [KeyValue], default is Undefined, optional
-         A set of arbitrary key/value pairs that provide further detail about the incident.
-    entity : str, default is Undefined, optional
-         Optional field that can be used to specify which domain alert is related to.
-    httpConfig : HTTPConfig, default is Undefined, optional
+    apiURL: str, default is Undefined, optional
+        The URL to send OpsGenie API requests to.
+    description: str, default is Undefined, optional
+        Description of the incident.
+    details: [KeyValue], default is Undefined, optional
+        A set of arbitrary key/value pairs that provide further detail about the incident.
+    entity: str, default is Undefined, optional
+        Optional field that can be used to specify which domain alert is related to.
+    httpConfig: HTTPConfig, default is Undefined, optional
         http config
-    message : str, default is Undefined, optional
-         Alert text limited to 130 characters.
-    note : str, default is Undefined, optional
-         Additional alert note.
-    priority : str, default is Undefined, optional
-         Priority level of alert. Possible values are P1, P2, P3, P4, and P5.
-    responders : [OpsGenieConfigResponder], default is Undefined, optional
-         List of responders responsible for notifications.
-    sendResolved : bool, default is Undefined, optional
-         Whether or not to notify about resolved alerts.
-    source : str, default is Undefined, optional
-         Backlink to the sender of the notification.
-    tags : str, default is Undefined, optional
-         Comma separated list of tags attached to the notifications.
-    updateAlerts : bool, default is Undefined, optional
-         Whether to update message and description of the alert in OpsGenie if it already exists By default, the alert is never updated in OpsGenie, the new message only appears in activity log.
+    message: str, default is Undefined, optional
+        Alert text limited to 130 characters.
+    note: str, default is Undefined, optional
+        Additional alert note.
+    priority: str, default is Undefined, optional
+        Priority level of alert. Possible values are P1, P2, P3, P4, and P5.
+    responders: [OpsGenieConfigResponder], default is Undefined, optional
+        List of responders responsible for notifications.
+    sendResolved: bool, default is Undefined, optional
+        Whether or not to notify about resolved alerts.
+    source: str, default is Undefined, optional
+        Backlink to the sender of the notification.
+    tags: str, default is Undefined, optional
+        Comma separated list of tags attached to the notifications.
+    updateAlerts: bool, default is Undefined, optional
+        Whether to update message and description of the alert in OpsGenie if it already exists By default, the alert is never updated in OpsGenie, the new message only appears in activity log.
     """
 
 

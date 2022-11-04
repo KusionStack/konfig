@@ -9,11 +9,11 @@ schema SlackField:
 
     Attributes
     ----------
-    short : bool, default is Undefined, optional
+    short: bool, default is Undefined, optional
         short
-    title : str, default is Undefined, required
+    title: str, default is Undefined, required
         title
-    value : str, default is Undefined, required
+    value: str, default is Undefined, required
         value
     """
 

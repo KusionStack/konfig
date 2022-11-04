@@ -9,10 +9,10 @@ schema MuteTimeInterval:
 
     Attributes
     ----------
-    name : str, default is Undefined, optional
-         Name of the time interval
-    timeIntervals : [TimeInterval], default is Undefined, optional
-         TimeIntervals is a list of TimeInterval
+    name: str, default is Undefined, optional
+        Name of the time interval
+    timeIntervals: [TimeInterval], default is Undefined, optional
+        TimeIntervals is a list of TimeInterval
     """
 
 

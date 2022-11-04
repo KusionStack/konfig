@@ -9,14 +9,14 @@ schema Matcher:
 
     Attributes
     ----------
-    matchType : str, default is Undefined, optional
-         Match operation available with AlertManager >= v0.22.0 and takes precedence over Regex (deprecated) if non-empty.
-    name : str, default is Undefined, required
-         Label to match.
-    regex : bool, default is Undefined, optional
-         Whether to match on equality (false) or regular-expression (true). Deprecated as of AlertManager >= v0.22.0 where a user should use MatchType instead.
-    value : str, default is Undefined, optional
-         Label value to match.
+    matchType: "!=" | "=" | "=~" | "!~", default is Undefined, optional
+        Match operation available with AlertManager >= v0.22.0 and takes precedence over Regex (deprecated) if non-empty.
+    name: str, default is Undefined, required
+        Label to match.
+    regex: bool, default is Undefined, optional
+        Whether to match on equality (false) or regular-expression (true). Deprecated as of AlertManager >= v0.22.0 where a user should use MatchType instead.
+    value: str, default is Undefined, optional
+        Label value to match.
     """
 
 

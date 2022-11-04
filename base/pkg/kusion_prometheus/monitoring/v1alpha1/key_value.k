@@ -9,10 +9,10 @@ schema KeyValue:
 
     Attributes
     ----------
-    key : str, default is Undefined, required
-         Key of the tuple.
-    value : str, default is Undefined, required
-         Value of the tuple.
+    key: str, default is Undefined, required
+        Key of the tuple.
+    value: str, default is Undefined, required
+        Value of the tuple.
     """
 
 

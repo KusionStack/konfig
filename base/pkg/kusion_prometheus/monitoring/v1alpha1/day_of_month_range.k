@@ -9,10 +9,10 @@ schema DayOfMonthRange:
 
     Attributes
     ----------
-    end : int, default is Undefined, optional
-         End of the inclusive range
-    start : int, default is Undefined, optional
-         Start of the inclusive range
+    end: int, default is Undefined, optional
+        End of the inclusive range
+    start: int, default is Undefined, optional
+        Start of the inclusive range
     """
 
 
