@@ -10,11 +10,11 @@ schema ProbeTargetIngress:
 
     Attributes
     ----------
-    relabelingConfigs : [RelabelConfig], default is Undefined, optional
-         RelabelConfigs to apply to the label set of the target before it gets scraped. The original ingress address is available via the `__tmp_prometheus_ingress_address` label. It can be used to customize the probed URL. The original scrape job's name is available via the `__tmp_prometheus_job_name` label. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
-    namespaceSelector : NamespaceSelector, default is Undefined, optional
+    relabelingConfigs: [RelabelConfig], default is Undefined, optional
+        RelabelConfigs to apply to the label set of the target before it gets scraped. The original ingress address is available via the `__tmp_prometheus_ingress_address` label. It can be used to customize the probed URL. The original scrape job's name is available via the `__tmp_prometheus_job_name` label. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
+    namespaceSelector: NamespaceSelector, default is Undefined, optional
         namespace selector
-    selector : apis.LabelSelector, default is Undefined, optional
+    selector: apis.LabelSelector, default is Undefined, optional
         selector
     """
 

@@ -9,8 +9,8 @@ schema PrometheusRuleSpec:
 
     Attributes
     ----------
-    groups : [RuleGroup], default is Undefined, optional
-         Content of Prometheus rule file
+    groups: [RuleGroup], default is Undefined, optional
+        Content of Prometheus rule file
     """
 
 

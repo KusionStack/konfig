@@ -9,17 +9,17 @@ schema APIServerConfig:
 
     Attributes
     ----------
-    bearerToken : str, default is Undefined, optional
-         Bearer token for accessing apiserver.
-    bearerTokenFile : str, default is Undefined, optional
-         File to read bearer token for accessing apiserver.
-    host : str, default is Undefined, required
-         Host of apiserver. A valid string consisting of a hostname or IP followed by an optional port number
-    authorization : Authorization, default is Undefined, optional
+    bearerToken: str, default is Undefined, optional
+        Bearer token for accessing apiserver.
+    bearerTokenFile: str, default is Undefined, optional
+        File to read bearer token for accessing apiserver.
+    host: str, default is Undefined, required
+        Host of apiserver. A valid string consisting of a hostname or IP followed by an optional port number
+    authorization: Authorization, default is Undefined, optional
         authorization
-    basicAuth : BasicAuth, default is Undefined, optional
+    basicAuth: BasicAuth, default is Undefined, optional
         basic auth
-    tlsConfig : TLSConfig, default is Undefined, optional
+    tlsConfig: TLSConfig, default is Undefined, optional
         tls config
     """
 

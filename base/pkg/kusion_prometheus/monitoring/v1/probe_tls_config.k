@@ -10,15 +10,15 @@ schema ProbeTLSConfig:
 
     Attributes
     ----------
-    insecureSkipVerify : bool, default is Undefined, optional
-         Disable target certificate validation.
-    serverName : str, default is Undefined, optional
-         Used to verify the hostname for the targets.
-    ca : SecretOrConfigMap, default is Undefined, optional
+    insecureSkipVerify: bool, default is Undefined, optional
+        Disable target certificate validation.
+    serverName: str, default is Undefined, optional
+        Used to verify the hostname for the targets.
+    ca: SecretOrConfigMap, default is Undefined, optional
         ca
-    cert : SecretOrConfigMap, default is Undefined, optional
+    cert: SecretOrConfigMap, default is Undefined, optional
         cert
-    keySecret : v1.SecretKeySelector, default is Undefined, optional
+    keySecret: v1.SecretKeySelector, default is Undefined, optional
         key secret
     """
 

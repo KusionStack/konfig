@@ -11,43 +11,43 @@ schema PodMetricsEndpoint:
 
     Attributes
     ----------
-    authorization : SafeAuthorization, default is Undefined, optional
+    authorization: SafeAuthorization, default is Undefined, optional
         authorization
-    basicAuth : BasicAuth, default is Undefined, optional
+    basicAuth: BasicAuth, default is Undefined, optional
         basic auth
-    bearerTokenSecret : v1.SecretKeySelector, default is Undefined, optional
+    bearerTokenSecret: v1.SecretKeySelector, default is Undefined, optional
         bearer token secret
-    enableHttp2 : bool, default is Undefined, optional
-         Whether to enable HTTP2.
-    followRedirects : bool, default is Undefined, optional
-         FollowRedirects configures whether scrape requests follow HTTP 3xx redirects.
-    honorLabels : bool, default is Undefined, optional
-         HonorLabels chooses the metric's labels on collisions with target labels.
-    honorTimestamps : bool, default is Undefined, optional
-         HonorTimestamps controls whether Prometheus respects the timestamps present in scraped data.
-    interval : str, default is Undefined, optional
-         Interval at which metrics should be scraped If not specified Prometheus' global scrape interval is used.
-    metricRelabelings : [RelabelConfig], default is Undefined, optional
-         MetricRelabelConfigs to apply to samples before ingestion.
-    oauth2 : OAuth2, default is Undefined, optional
+    enableHttp2: bool, default is Undefined, optional
+        Whether to enable HTTP2.
+    followRedirects: bool, default is Undefined, optional
+        FollowRedirects configures whether scrape requests follow HTTP 3xx redirects.
+    honorLabels: bool, default is Undefined, optional
+        HonorLabels chooses the metric's labels on collisions with target labels.
+    honorTimestamps: bool, default is Undefined, optional
+        HonorTimestamps controls whether Prometheus respects the timestamps present in scraped data.
+    interval: str, default is Undefined, optional
+        Interval at which metrics should be scraped If not specified Prometheus' global scrape interval is used.
+    metricRelabelings: [RelabelConfig], default is Undefined, optional
+        MetricRelabelConfigs to apply to samples before ingestion.
+    oauth2: OAuth2, default is Undefined, optional
         oauth2
-    params : {str:[str]}, default is Undefined, optional
-         Optional HTTP URL parameters
-    path : str, default is Undefined, optional
-         HTTP path to scrape for metrics. If empty, Prometheus uses the default value (e.g. `/metrics`).
-    port : str, default is Undefined, optional
-         Name of the pod port this endpoint refers to. Mutually exclusive with targetPort.
-    proxyUrl : str, default is Undefined, optional
-         ProxyURL eg http://proxyserver:2195 Directs scrapes to proxy through this endpoint.
-    relabelings : [RelabelConfig], default is Undefined, optional
-         RelabelConfigs to apply to samples before scraping. Prometheus Operator automatically adds relabelings for a few standard Kubernetes fields. The original scrape job's name is available via the `__tmp_prometheus_job_name` label. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
-    scheme : str, default is Undefined, optional
-         HTTP scheme to use for scraping.
-    scrapeTimeout : str, default is Undefined, optional
-         Timeout after which the scrape is ended If not specified, the Prometheus global scrape interval is used.
-    targetPort : int, default is Undefined, optional
-         Deprecated: Use 'port' instead.
-    tlsConfig : TLSConfig, default is Undefined, optional
+    params: {str:[str]}, default is Undefined, optional
+        Optional HTTP URL parameters
+    path: str, default is Undefined, optional
+        HTTP path to scrape for metrics. If empty, Prometheus uses the default value (e.g. `/metrics`).
+    port: str, default is Undefined, optional
+        Name of the pod port this endpoint refers to. Mutually exclusive with targetPort.
+    proxyUrl: str, default is Undefined, optional
+        ProxyURL eg http://proxyserver:2195 Directs scrapes to proxy through this endpoint.
+    relabelings: [RelabelConfig], default is Undefined, optional
+        RelabelConfigs to apply to samples before scraping. Prometheus Operator automatically adds relabelings for a few standard Kubernetes fields. The original scrape job's name is available via the `__tmp_prometheus_job_name` label. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
+    scheme: str, default is Undefined, optional
+        HTTP scheme to use for scraping.
+    scrapeTimeout: str, default is Undefined, optional
+        Timeout after which the scrape is ended If not specified, the Prometheus global scrape interval is used.
+    targetPort: int, default is Undefined, optional
+        Deprecated: Use 'port' instead.
+    tlsConfig: TLSConfig, default is Undefined, optional
         tls config
     """
 

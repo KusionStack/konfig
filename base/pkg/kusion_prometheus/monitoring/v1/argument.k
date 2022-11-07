@@ -9,10 +9,10 @@ schema Argument:
 
     Attributes
     ----------
-    name : str, default is Undefined, required
-         Name of the argument, e.g. "scrape.discovery-reload-interval".
-    value : str, default is Undefined, optional
-         Argument value, e.g. 30s. Can be empty for name-only arguments (e.g. --storage.tsdb.no-lockfile)
+    name: str, default is Undefined, required
+        Name of the argument, e.g. "scrape.discovery-reload-interval".
+    value: str, default is Undefined, optional
+        Argument value, e.g. 30s. Can be empty for name-only arguments (e.g. --storage.tsdb.no-lockfile)
     """
 
 

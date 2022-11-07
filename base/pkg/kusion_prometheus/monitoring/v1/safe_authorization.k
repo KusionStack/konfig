@@ -10,10 +10,10 @@ schema SafeAuthorization:
 
     Attributes
     ----------
-    credentials : v1.SecretKeySelector, default is Undefined, optional
+    credentials: v1.SecretKeySelector, default is Undefined, optional
         credentials
-    $type : str, default is Undefined, optional
-         Set the authentication type. Defaults to Bearer, Basic will cause an error
+    $type: str, default is Undefined, optional
+        Set the authentication type. Defaults to Bearer, Basic will cause an error
     """
 
 

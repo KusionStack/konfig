@@ -9,20 +9,20 @@ schema RelabelConfig:
 
     Attributes
     ----------
-    action : str, default is "replace", optional
-         Action to perform based on regex matching. Default is 'replace'. uppercase and lowercase actions require Prometheus >= 2.36.
-    modulus : int, default is Undefined, optional
-         Modulus to take of the hash of the source label values.
-    regex : str, default is Undefined, optional
-         Regular expression against which the extracted value is matched. Default is '(.*)'
-    replacement : str, default is Undefined, optional
-         Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. Default is '$1'
-    separator : str, default is Undefined, optional
-         Separator placed between concatenated source label values. default is ';'.
-    sourceLabels : [str], default is Undefined, optional
-         The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions.
-    targetLabel : str, default is Undefined, optional
-         Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available.
+    action: str, default is "replace", optional
+        Action to perform based on regex matching. Default is 'replace'. uppercase and lowercase actions require Prometheus >= 2.36.
+    modulus: int, default is Undefined, optional
+        Modulus to take of the hash of the source label values.
+    regex: str, default is Undefined, optional
+        Regular expression against which the extracted value is matched. Default is '(.*)'
+    replacement: str, default is Undefined, optional
+        Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. Default is '$1'
+    separator: str, default is Undefined, optional
+        Separator placed between concatenated source label values. default is ';'.
+    sourceLabels: [str], default is Undefined, optional
+        The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions.
+    targetLabel: str, default is Undefined, optional
+        Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available.
     """
 
 

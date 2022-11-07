@@ -10,25 +10,25 @@ schema AlertmanagerEndpoints:
 
     Attributes
     ----------
-    apiVersion : str, default is Undefined, optional
-         Version of the Alertmanager API that Prometheus uses to send alerts. It can be "v1" or "v2".
-    authorization : SafeAuthorization, default is Undefined, optional
+    apiVersion: str, default is Undefined, optional
+        Version of the Alertmanager API that Prometheus uses to send alerts. It can be "v1" or "v2".
+    authorization: SafeAuthorization, default is Undefined, optional
         authorization
-    bearerTokenFile : str, default is Undefined, optional
-         BearerTokenFile to read from filesystem to use when authenticating to Alertmanager.
-    name : str, default is Undefined, required
-         Name of Endpoints object in Namespace.
-    namespace : str, default is Undefined, required
-         Namespace of Endpoints object.
-    pathPrefix : str, default is Undefined, optional
-         Prefix for the HTTP path alerts are pushed to.
-    port : int or str, default is Undefined, required
-         Port the Alertmanager API is exposed on.
-    scheme : str, default is Undefined, optional
-         Scheme to use when firing alerts.
-    timeout : str, default is Undefined, optional
-         Timeout is a per-target Alertmanager timeout when pushing alerts.
-    tlsConfig : TLSConfig, default is Undefined, optional
+    bearerTokenFile: str, default is Undefined, optional
+        BearerTokenFile to read from filesystem to use when authenticating to Alertmanager.
+    name: str, default is Undefined, required
+        Name of Endpoints object in Namespace.
+    namespace: str, default is Undefined, required
+        Namespace of Endpoints object.
+    pathPrefix: str, default is Undefined, optional
+        Prefix for the HTTP path alerts are pushed to.
+    port: int | str, default is Undefined, required
+        Port the Alertmanager API is exposed on.
+    scheme: str, default is Undefined, optional
+        Scheme to use when firing alerts.
+    timeout: str, default is Undefined, optional
+        Timeout is a per-target Alertmanager timeout when pushing alerts.
+    tlsConfig: TLSConfig, default is Undefined, optional
         tls config
     """
 

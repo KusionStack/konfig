@@ -10,9 +10,9 @@ schema BasicAuth:
 
     Attributes
     ----------
-    password : v1.SecretKeySelector, default is Undefined, optional
+    password: v1.SecretKeySelector, default is Undefined, optional
         password
-    username : v1.SecretKeySelector, default is Undefined, optional
+    username: v1.SecretKeySelector, default is Undefined, optional
         username
     """
 

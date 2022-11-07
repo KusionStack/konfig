@@ -10,9 +10,9 @@ schema AlertmanagerGlobalConfig:
 
     Attributes
     ----------
-    resolveTimeout : str, default is Undefined, optional
-         ResolveTimeout is the default value used by alertmanager if the alert does not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.
-    httpConfig : HTTPConfig, default is Undefined, optional
+    resolveTimeout: str, default is Undefined, optional
+        ResolveTimeout is the default value used by alertmanager if the alert does not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.
+    httpConfig: HTTPConfig, default is Undefined, optional
         http config
     """
 

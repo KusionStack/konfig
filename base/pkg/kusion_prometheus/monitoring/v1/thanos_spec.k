@@ -12,41 +12,41 @@ schema ThanosSpec:
 
     Attributes
     ----------
-    additionalArgs : [Argument], default is Undefined, optional
+    additionalArgs: [Argument], default is Undefined, optional
         AdditionalArgs allows setting additional arguments for the Thanos container. The arguments are passed as-is to the Thanos container which may cause issues if they are invalid or not supported the given Thanos version. In case of an argument conflict (e.g. an argument which is already set by the operator itself) or when providing an invalid argument the reconciliation will fail and an error will be logged.
-    baseImage : str, default is Undefined, optional
-         Thanos base image if other than default. Deprecated: use 'image' instead
-    image : str, default is Undefined, optional
-         Image if specified has precedence over baseImage, tag and sha combinations. Specifying the version is still necessary to ensure the Prometheus Operator knows what version of Thanos is being configured.
-    listenLocal : bool, default is Undefined, optional
-         ListenLocal makes the Thanos sidecar listen on loopback, so that it does not bind against the Pod IP.
-    logFormat : str, default is Undefined, optional
-         LogFormat for Thanos sidecar to be configured with.
-    logLevel : str, default is Undefined, optional
-         LogLevel for Thanos sidecar to be configured with.
-    minTime : str, default is Undefined, optional
-         MinTime for Thanos sidecar to be configured with. Option can be a constant time in RFC3339 format or time duration relative to current time, such as -1d or 2h45m. Valid duration units are ms, s, m, h, d, w, y.
-    objectStorageConfigFile : str, default is Undefined, optional
-         ObjectStorageConfigFile specifies the path of the object storage configuration file. When used alongside with ObjectStorageConfig, ObjectStorageConfigFile takes precedence.
-    readyTimeout : str, default is Undefined, optional
-         ReadyTimeout is the maximum time Thanos sidecar will wait for Prometheus to start. Eg 10m
-    sha : str, default is Undefined, optional
-         SHA of Thanos container image to be deployed. Defaults to the value of `version`. Similar to a tag, but the SHA explicitly deploys an immutable container image. Version and Tag are ignored if SHA is set. Deprecated: use 'image' instead.  The image digest can be specified as part of the image URL.
-    tag : str, default is Undefined, optional
-         Tag of Thanos sidecar container image to be deployed. Defaults to the value of `version`. Version is ignored if Tag is set. Deprecated: use 'image' instead.  The image tag can be specified as part of the image URL.
-    tracingConfigFile : str, default is Undefined, optional
-         TracingConfig specifies the path of the tracing configuration file. When used alongside with TracingConfig, TracingConfigFile takes precedence.
-    version : str, default is Undefined, optional
-         Version describes the version of Thanos to use.
-    volumeMounts : [v1.VolumeMount], default is Undefined, optional
-         VolumeMounts allows configuration of additional VolumeMounts on the output StatefulSet definition. VolumeMounts specified will be appended to other VolumeMounts in the thanos-sidecar container.
-    grpcServerTlsConfig : TLSConfig, default is Undefined, optional
+    baseImage: str, default is Undefined, optional
+        Thanos base image if other than default. Deprecated: use 'image' instead
+    image: str, default is Undefined, optional
+        Image if specified has precedence over baseImage, tag and sha combinations. Specifying the version is still necessary to ensure the Prometheus Operator knows what version of Thanos is being configured.
+    listenLocal: bool, default is Undefined, optional
+        ListenLocal makes the Thanos sidecar listen on loopback, so that it does not bind against the Pod IP.
+    logFormat: "" | "logfmt" | "json", default is Undefined, optional
+        LogFormat for Thanos sidecar to be configured with.
+    logLevel: "" | "debug" | "info" | "warn" | "error", default is Undefined, optional
+        LogLevel for Thanos sidecar to be configured with.
+    minTime: str, default is Undefined, optional
+        MinTime for Thanos sidecar to be configured with. Option can be a constant time in RFC3339 format or time duration relative to current time, such as -1d or 2h45m. Valid duration units are ms, s, m, h, d, w, y.
+    objectStorageConfigFile: str, default is Undefined, optional
+        ObjectStorageConfigFile specifies the path of the object storage configuration file. When used alongside with ObjectStorageConfig, ObjectStorageConfigFile takes precedence.
+    readyTimeout: str, default is Undefined, optional
+        ReadyTimeout is the maximum time Thanos sidecar will wait for Prometheus to start. Eg 10m
+    sha: str, default is Undefined, optional
+        SHA of Thanos container image to be deployed. Defaults to the value of `version`. Similar to a tag, but the SHA explicitly deploys an immutable container image. Version and Tag are ignored if SHA is set. Deprecated: use 'image' instead.  The image digest can be specified as part of the image URL.
+    tag: str, default is Undefined, optional
+        Tag of Thanos sidecar container image to be deployed. Defaults to the value of `version`. Version is ignored if Tag is set. Deprecated: use 'image' instead.  The image tag can be specified as part of the image URL.
+    tracingConfigFile: str, default is Undefined, optional
+        TracingConfig specifies the path of the tracing configuration file. When used alongside with TracingConfig, TracingConfigFile takes precedence.
+    version: str, default is Undefined, optional
+        Version describes the version of Thanos to use.
+    volumeMounts: [v1.VolumeMount], default is Undefined, optional
+        VolumeMounts allows configuration of additional VolumeMounts on the output StatefulSet definition. VolumeMounts specified will be appended to other VolumeMounts in the thanos-sidecar container.
+    grpcServerTlsConfig: TLSConfig, default is Undefined, optional
         grpc server Tls config
-    objectStorageConfig : v1.SecretKeySelector, default is Undefined, optional
+    objectStorageConfig: v1.SecretKeySelector, default is Undefined, optional
         object storage config
-    resources : v1.ResourceRequirements, default is Undefined, optional
+    resources: v1.ResourceRequirements, default is Undefined, optional
         resources
-    tracingConfig : v1.SecretKeySelector, default is Undefined, optional
+    tracingConfig: v1.SecretKeySelector, default is Undefined, optional
         tracing config
     """
 

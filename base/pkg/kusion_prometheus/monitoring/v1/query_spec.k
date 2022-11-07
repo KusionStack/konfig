@@ -10,14 +10,14 @@ schema QuerySpec:
 
     Attributes
     ----------
-    lookbackDelta : str, default is Undefined, optional
-         The delta difference allowed for retrieving metrics during expression evaluations.
-    maxConcurrency : int, default is Undefined, optional
-         Number of concurrent queries that can be run at once.
-    maxSamples : int, default is Undefined, optional
-         Maximum number of samples a single query can load into memory. Note that queries will fail if they would load more samples than this into memory, so this also limits the number of samples a query can return.
-    timeout : str, default is Undefined, optional
-         Maximum time a query may take before being aborted.
+    lookbackDelta: str, default is Undefined, optional
+        The delta difference allowed for retrieving metrics during expression evaluations.
+    maxConcurrency: int, default is Undefined, optional
+        Number of concurrent queries that can be run at once.
+    maxSamples: int, default is Undefined, optional
+        Maximum number of samples a single query can load into memory. Note that queries will fail if they would load more samples than this into memory, so this also limits the number of samples a query can return.
+    timeout: str, default is Undefined, optional
+        Maximum time a query may take before being aborted.
     """
 
 

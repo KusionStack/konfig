@@ -9,18 +9,18 @@ schema PrometheusCondition:
 
     Attributes
     ----------
-    lastTransitionTime : str, default is Undefined, required
-         lastTransitionTime is the time of the last update to the current status property.
-    message : str, default is Undefined, optional
-         Human-readable message indicating details for the condition's last transition.
-    observedGeneration : int, default is Undefined, optional
-         ObservedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.
-    reason : str, default is Undefined, optional
-         Reason for the condition's last transition.
-    status : str, default is Undefined, required
-         status of the condition.
-    $type : str, default is Undefined, required
-         Type of the condition being reported.
+    lastTransitionTime: str, default is Undefined, required
+        lastTransitionTime is the time of the last update to the current status property.
+    message: str, default is Undefined, optional
+        Human-readable message indicating details for the condition's last transition.
+    observedGeneration: int, default is Undefined, optional
+        ObservedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.
+    reason: str, default is Undefined, optional
+        Reason for the condition's last transition.
+    status: str, default is Undefined, required
+        status of the condition.
+    $type: str, default is Undefined, required
+        Type of the condition being reported.
     """
 
 

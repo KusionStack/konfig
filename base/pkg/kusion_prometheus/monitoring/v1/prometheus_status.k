@@ -9,20 +9,20 @@ schema PrometheusStatus:
 
     Attributes
     ----------
-    availableReplicas : int, default is Undefined, required
-         Total number of available pods (ready for at least minReadySeconds) targeted by this Prometheus deployment.
-    conditions : [PrometheusCondition], default is Undefined, optional
-         The current state of the Prometheus deployment.
-    paused : bool, default is Undefined, required
-         Represents whether any actions on the underlying managed objects are being performed. Only delete actions will be performed.
-    replicas : int, default is Undefined, required
-         Total number of non-terminated pods targeted by this Prometheus deployment (their labels match the selector).
-    shardStatuses : [ShardStatus], default is Undefined, optional
-         The list has one entry per shard. Each entry provides a summary of the shard status.
-    unavailableReplicas : int, default is Undefined, required
-         Total number of unavailable pods targeted by this Prometheus deployment.
-    updatedReplicas : int, default is Undefined, required
-         Total number of non-terminated pods targeted by this Prometheus deployment that have the desired version spec.
+    availableReplicas: int, default is Undefined, required
+        Total number of available pods (ready for at least minReadySeconds) targeted by this Prometheus deployment.
+    conditions: [PrometheusCondition], default is Undefined, optional
+        The current state of the Prometheus deployment.
+    paused: bool, default is Undefined, required
+        Represents whether any actions on the underlying managed objects are being performed. Only delete actions will be performed.
+    replicas: int, default is Undefined, required
+        Total number of non-terminated pods targeted by this Prometheus deployment (their labels match the selector).
+    shardStatuses: [ShardStatus], default is Undefined, optional
+        The list has one entry per shard. Each entry provides a summary of the shard status.
+    unavailableReplicas: int, default is Undefined, required
+        Total number of unavailable pods targeted by this Prometheus deployment.
+    updatedReplicas: int, default is Undefined, required
+        Total number of non-terminated pods targeted by this Prometheus deployment that have the desired version spec.
     """
 
 

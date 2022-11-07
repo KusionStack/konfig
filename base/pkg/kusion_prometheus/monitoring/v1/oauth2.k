@@ -10,16 +10,16 @@ schema OAuth2:
 
     Attributes
     ----------
-    clientId : SecretOrConfigMap, default is Undefined, required
+    clientId: SecretOrConfigMap, default is Undefined, required
         client Id
-    clientSecret : v1.SecretKeySelector, default is Undefined, required
+    clientSecret: v1.SecretKeySelector, default is Undefined, required
         client secret
-    endpointParams : {str:str}, default is Undefined, optional
-         Parameters to append to the token URL
-    scopes : [str], default is Undefined, optional
-         OAuth2 scopes used for the token request
-    tokenUrl : str, default is Undefined, required
-         The URL to fetch the token from
+    endpointParams: {str:str}, default is Undefined, optional
+        Parameters to append to the token URL
+    scopes: [str], default is Undefined, optional
+        OAuth2 scopes used for the token request
+    tokenUrl: str, default is Undefined, required
+        The URL to fetch the token from
     """
 
 
