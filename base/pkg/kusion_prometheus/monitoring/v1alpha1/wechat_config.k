@@ -10,27 +10,27 @@ schema WeChatConfig:
 
     Attributes
     ----------
-    agentID : str, default is Undefined, optional
+    agentID: str, default is Undefined, optional
         agent ID
-    apiSecret : corev1.SecretKeySelector, default is Undefined, optional
+    apiSecret: corev1.SecretKeySelector, default is Undefined, optional
         api secret
-    apiURL : str, default is Undefined, optional
-         The WeChat API URL.
-    corpID : str, default is Undefined, optional
-         The corp id for authentication.
-    httpConfig : HTTPConfig, default is Undefined, optional
+    apiURL: str, default is Undefined, optional
+        The WeChat API URL.
+    corpID: str, default is Undefined, optional
+        The corp id for authentication.
+    httpConfig: HTTPConfig, default is Undefined, optional
         http config
-    message : str, default is Undefined, optional
-         API request data as defined by the WeChat API.
-    messageType : str, default is Undefined, optional
+    message: str, default is Undefined, optional
+        API request data as defined by the WeChat API.
+    messageType: str, default is Undefined, optional
         message type
-    sendResolved : bool, default is Undefined, optional
-         Whether or not to notify about resolved alerts.
-    toParty : str, default is Undefined, optional
+    sendResolved: bool, default is Undefined, optional
+        Whether or not to notify about resolved alerts.
+    toParty: str, default is Undefined, optional
         to party
-    toTag : str, default is Undefined, optional
+    toTag: str, default is Undefined, optional
         to tag
-    toUser : str, default is Undefined, optional
+    toUser: str, default is Undefined, optional
         to user
     """
 

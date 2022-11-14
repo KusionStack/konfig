@@ -10,36 +10,36 @@ schema PagerDutyConfig:
 
     Attributes
     ----------
-    class : str, default is Undefined, optional
-         The class/type of the event.
-    client : str, default is Undefined, optional
-         Client identification.
-    clientURL : str, default is Undefined, optional
-         Backlink to the sender of notification.
-    component : str, default is Undefined, optional
-         The part or component of the affected system that is broken.
-    description : str, default is Undefined, optional
-         Description of the incident.
-    details : [KeyValue], default is Undefined, optional
-         Arbitrary key/value pairs that provide further detail about the incident.
-    group : str, default is Undefined, optional
-         A cluster or grouping of sources.
-    httpConfig : HTTPConfig, default is Undefined, optional
+    class: str, default is Undefined, optional
+        The class/type of the event.
+    client: str, default is Undefined, optional
+        Client identification.
+    clientURL: str, default is Undefined, optional
+        Backlink to the sender of notification.
+    component: str, default is Undefined, optional
+        The part or component of the affected system that is broken.
+    description: str, default is Undefined, optional
+        Description of the incident.
+    details: [KeyValue], default is Undefined, optional
+        Arbitrary key/value pairs that provide further detail about the incident.
+    group: str, default is Undefined, optional
+        A cluster or grouping of sources.
+    httpConfig: HTTPConfig, default is Undefined, optional
         http config
-    pagerDutyImageConfigs : [PagerDutyImageConfig], default is Undefined, optional
-         A list of image details to attach that provide further detail about an incident.
-    pagerDutyLinkConfigs : [PagerDutyLinkConfig], default is Undefined, optional
-         A list of link details to attach that provide further detail about an incident.
-    routingKey : corev1.SecretKeySelector, default is Undefined, optional
+    pagerDutyImageConfigs: [PagerDutyImageConfig], default is Undefined, optional
+        A list of image details to attach that provide further detail about an incident.
+    pagerDutyLinkConfigs: [PagerDutyLinkConfig], default is Undefined, optional
+        A list of link details to attach that provide further detail about an incident.
+    routingKey: corev1.SecretKeySelector, default is Undefined, optional
         routing key
-    sendResolved : bool, default is Undefined, optional
-         Whether or not to notify about resolved alerts.
-    serviceKey : corev1.SecretKeySelector, default is Undefined, optional
+    sendResolved: bool, default is Undefined, optional
+        Whether or not to notify about resolved alerts.
+    serviceKey: corev1.SecretKeySelector, default is Undefined, optional
         service key
-    severity : str, default is Undefined, optional
-         Severity of the incident.
-    url : str, default is Undefined, optional
-         The URL to send requests to.
+    severity: str, default is Undefined, optional
+        Severity of the incident.
+    url: str, default is Undefined, optional
+        The URL to send requests to.
     """
 
 

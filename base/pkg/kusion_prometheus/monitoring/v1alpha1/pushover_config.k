@@ -11,31 +11,31 @@ schema PushoverConfig:
 
     Attributes
     ----------
-    expire : str, default is Undefined, optional
-         How long your notification will continue to be retried for, unless the user acknowledges the notification.
-    html : bool, default is Undefined, optional
-         Whether notification message is HTML or plain text.
-    httpConfig : HTTPConfig, default is Undefined, optional
+    expire: str, default is Undefined, optional
+        How long your notification will continue to be retried for, unless the user acknowledges the notification.
+    html: bool, default is Undefined, optional
+        Whether notification message is HTML or plain text.
+    httpConfig: HTTPConfig, default is Undefined, optional
         http config
-    message : str, default is Undefined, optional
-         Notification message.
-    priority : str, default is Undefined, optional
-         Priority, see https://pushover.net/api#priority
-    retry : str, default is Undefined, optional
-         How often the Pushover servers will send the same notification to the user. Must be at least 30 seconds.
-    sendResolved : bool, default is Undefined, optional
-         Whether or not to notify about resolved alerts.
-    sound : str, default is Undefined, optional
-         The name of one of the sounds supported by device clients to override the user's default sound choice
-    title : str, default is Undefined, optional
-         Notification title.
-    token : corev1.SecretKeySelector, default is Undefined, optional
+    message: str, default is Undefined, optional
+        Notification message.
+    priority: str, default is Undefined, optional
+        Priority, see https://pushover.net/api#priority
+    retry: str, default is Undefined, optional
+        How often the Pushover servers will send the same notification to the user. Must be at least 30 seconds.
+    sendResolved: bool, default is Undefined, optional
+        Whether or not to notify about resolved alerts.
+    sound: str, default is Undefined, optional
+        The name of one of the sounds supported by device clients to override the user's default sound choice
+    title: str, default is Undefined, optional
+        Notification title.
+    token: corev1.SecretKeySelector, default is Undefined, optional
         token
-    url : str, default is Undefined, optional
-         A supplementary URL shown alongside the message.
-    urlTitle : str, default is Undefined, optional
-         A title for supplementary URL, otherwise just the URL is shown
-    userKey : corev1.SecretKeySelector, default is Undefined, optional
+    url: str, default is Undefined, optional
+        A supplementary URL shown alongside the message.
+    urlTitle: str, default is Undefined, optional
+        A title for supplementary URL, otherwise just the URL is shown
+    userKey: corev1.SecretKeySelector, default is Undefined, optional
         user key
     """
 

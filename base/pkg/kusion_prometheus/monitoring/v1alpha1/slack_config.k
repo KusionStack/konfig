@@ -10,49 +10,49 @@ schema SlackConfig:
 
     Attributes
     ----------
-    actions : [SlackAction], default is Undefined, optional
-         A list of Slack actions that are sent with each notification.
-    apiURL : corev1.SecretKeySelector, default is Undefined, optional
+    actions: [SlackAction], default is Undefined, optional
+        A list of Slack actions that are sent with each notification.
+    apiURL: corev1.SecretKeySelector, default is Undefined, optional
         api URL
-    callbackId : str, default is Undefined, optional
+    callbackId: str, default is Undefined, optional
         callback Id
-    channel : str, default is Undefined, optional
-         The channel or user to send notifications to.
-    color : str, default is Undefined, optional
+    channel: str, default is Undefined, optional
+        The channel or user to send notifications to.
+    color: str, default is Undefined, optional
         color
-    fallback : str, default is Undefined, optional
+    fallback: str, default is Undefined, optional
         fallback
-    fields : [SlackField], default is Undefined, optional
-         A list of Slack fields that are sent with each notification.
-    footer : str, default is Undefined, optional
+    fields: [SlackField], default is Undefined, optional
+        A list of Slack fields that are sent with each notification.
+    footer: str, default is Undefined, optional
         footer
-    httpConfig : HTTPConfig, default is Undefined, optional
+    httpConfig: HTTPConfig, default is Undefined, optional
         http config
-    iconEmoji : str, default is Undefined, optional
+    iconEmoji: str, default is Undefined, optional
         icon emoji
-    iconURL : str, default is Undefined, optional
+    iconURL: str, default is Undefined, optional
         icon URL
-    imageURL : str, default is Undefined, optional
+    imageURL: str, default is Undefined, optional
         image URL
-    linkNames : bool, default is Undefined, optional
+    linkNames: bool, default is Undefined, optional
         link names
-    mrkdwnIn : [str], default is Undefined, optional
+    mrkdwnIn: [str], default is Undefined, optional
         mrkdwn in
-    pretext : str, default is Undefined, optional
+    pretext: str, default is Undefined, optional
         pretext
-    sendResolved : bool, default is Undefined, optional
-         Whether or not to notify about resolved alerts.
-    shortFields : bool, default is Undefined, optional
+    sendResolved: bool, default is Undefined, optional
+        Whether or not to notify about resolved alerts.
+    shortFields: bool, default is Undefined, optional
         short fields
-    text : str, default is Undefined, optional
+    text: str, default is Undefined, optional
         text
-    thumbURL : str, default is Undefined, optional
+    thumbURL: str, default is Undefined, optional
         thumb URL
-    title : str, default is Undefined, optional
+    title: str, default is Undefined, optional
         title
-    titleLink : str, default is Undefined, optional
+    titleLink: str, default is Undefined, optional
         title link
-    username : str, default is Undefined, optional
+    username: str, default is Undefined, optional
         username
     """
 

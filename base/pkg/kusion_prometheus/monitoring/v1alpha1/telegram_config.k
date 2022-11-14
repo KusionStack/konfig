@@ -10,22 +10,22 @@ schema TelegramConfig:
 
     Attributes
     ----------
-    apiURL : str, default is Undefined, optional
-         The Telegram API URL i.e. https://api.telegram.org. If not specified, default API URL will be used.
-    botToken : corev1.SecretKeySelector, default is Undefined, optional
+    apiURL: str, default is Undefined, optional
+        The Telegram API URL i.e. https://api.telegram.org. If not specified, default API URL will be used.
+    botToken: corev1.SecretKeySelector, default is Undefined, optional
         bot token
-    chatID : int, default is Undefined, optional
-         The Telegram chat ID.
-    disableNotifications : bool, default is Undefined, optional
-         Disable telegram notifications
-    httpConfig : HTTPConfig, default is Undefined, optional
+    chatID: int, default is Undefined, optional
+        The Telegram chat ID.
+    disableNotifications: bool, default is Undefined, optional
+        Disable telegram notifications
+    httpConfig: HTTPConfig, default is Undefined, optional
         http config
-    message : str, default is Undefined, optional
-         Message template
-    parseMode : str, default is Undefined, optional
-         Parse mode for telegram message
-    sendResolved : bool, default is Undefined, optional
-         Whether to notify about resolved alerts.
+    message: str, default is Undefined, optional
+        Message template
+    parseMode: "MarkdownV2" | "Markdown" | "HTML", default is Undefined, optional
+        Parse mode for telegram message
+    sendResolved: bool, default is Undefined, optional
+        Whether to notify about resolved alerts.
     """
 
 

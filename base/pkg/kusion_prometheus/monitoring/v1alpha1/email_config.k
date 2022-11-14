@@ -11,34 +11,34 @@ schema EmailConfig:
 
     Attributes
     ----------
-    authIdentity : str, default is Undefined, optional
-         The identity to use for authentication.
-    authPassword : corev1.SecretKeySelector, default is Undefined, optional
+    authIdentity: str, default is Undefined, optional
+        The identity to use for authentication.
+    authPassword: corev1.SecretKeySelector, default is Undefined, optional
         auth password
-    authSecret : corev1.SecretKeySelector, default is Undefined, optional
+    authSecret: corev1.SecretKeySelector, default is Undefined, optional
         auth secret
-    authUsername : str, default is Undefined, optional
-         The username to use for authentication.
-    from : str, default is Undefined, optional
-         The sender address.
-    headers : [KeyValue], default is Undefined, optional
-         Further headers email header key/value pairs. Overrides any headers previously set by the notification implementation.
-    hello : str, default is Undefined, optional
-         The hostname to identify to the SMTP server.
-    html : str, default is Undefined, optional
-         The HTML body of the email notification.
-    requireTLS : bool, default is Undefined, optional
-         The SMTP TLS requirement. Note that Go does not support unencrypted connections to remote SMTP endpoints.
-    sendResolved : bool, default is Undefined, optional
-         Whether or not to notify about resolved alerts.
-    smarthost : str, default is Undefined, optional
-         The SMTP host and port through which emails are sent. E.g. example.com:25
-    text : str, default is Undefined, optional
-         The text body of the email notification.
-    tlsConfig : monitoringv1.SafeTLSConfig, default is Undefined, optional
+    authUsername: str, default is Undefined, optional
+        The username to use for authentication.
+    from: str, default is Undefined, optional
+        The sender address.
+    headers: [KeyValue], default is Undefined, optional
+        Further headers email header key/value pairs. Overrides any headers previously set by the notification implementation.
+    hello: str, default is Undefined, optional
+        The hostname to identify to the SMTP server.
+    html: str, default is Undefined, optional
+        The HTML body of the email notification.
+    requireTLS: bool, default is Undefined, optional
+        The SMTP TLS requirement. Note that Go does not support unencrypted connections to remote SMTP endpoints.
+    sendResolved: bool, default is Undefined, optional
+        Whether or not to notify about resolved alerts.
+    smarthost: str, default is Undefined, optional
+        The SMTP host and port through which emails are sent. E.g. example.com:25
+    text: str, default is Undefined, optional
+        The text body of the email notification.
+    tlsConfig: monitoringv1.SafeTLSConfig, default is Undefined, optional
         tls config
-    to : str, default is Undefined, optional
-         The email address to send notifications to.
+    to: str, default is Undefined, optional
+        The email address to send notifications to.
     """
 
 

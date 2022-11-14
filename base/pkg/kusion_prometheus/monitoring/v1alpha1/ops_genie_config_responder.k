@@ -9,14 +9,14 @@ schema OpsGenieConfigResponder:
 
     Attributes
     ----------
-    id : str, default is Undefined, optional
-         ID of the responder.
-    name : str, default is Undefined, optional
-         Name of the responder.
-    $type : str, default is Undefined, required
-         Type of responder.
-    username : str, default is Undefined, optional
-         Username of the responder.
+    id: str, default is Undefined, optional
+        ID of the responder.
+    name: str, default is Undefined, optional
+        Name of the responder.
+    $type: "team" | "teams" | "user" | "escalation" | "schedule", default is Undefined, required
+        Type of responder.
+    username: str, default is Undefined, optional
+        Username of the responder.
     """
 
 

@@ -10,26 +10,26 @@ schema VictorOpsConfig:
 
     Attributes
     ----------
-    apiKey : corev1.SecretKeySelector, default is Undefined, optional
+    apiKey: corev1.SecretKeySelector, default is Undefined, optional
         api key
-    apiUrl : str, default is Undefined, optional
-         The VictorOps API URL.
-    customFields : [KeyValue], default is Undefined, optional
-         Additional custom fields for notification.
-    entityDisplayName : str, default is Undefined, optional
-         Contains summary of the alerted problem.
-    httpConfig : HTTPConfig, default is Undefined, optional
+    apiUrl: str, default is Undefined, optional
+        The VictorOps API URL.
+    customFields: [KeyValue], default is Undefined, optional
+        Additional custom fields for notification.
+    entityDisplayName: str, default is Undefined, optional
+        Contains summary of the alerted problem.
+    httpConfig: HTTPConfig, default is Undefined, optional
         http config
-    messageType : str, default is Undefined, optional
-         Describes the behavior of the alert (CRITICAL, WARNING, INFO).
-    monitoringTool : str, default is Undefined, optional
-         The monitoring tool the state message is from.
-    routingKey : str, default is Undefined, optional
-         A key used to map the alert to a team.
-    sendResolved : bool, default is Undefined, optional
-         Whether or not to notify about resolved alerts.
-    stateMessage : str, default is Undefined, optional
-         Contains long explanation of the alerted problem.
+    messageType: str, default is Undefined, optional
+        Describes the behavior of the alert (CRITICAL, WARNING, INFO).
+    monitoringTool: str, default is Undefined, optional
+        The monitoring tool the state message is from.
+    routingKey: str, default is Undefined, optional
+        A key used to map the alert to a team.
+    sendResolved: bool, default is Undefined, optional
+        Whether or not to notify about resolved alerts.
+    stateMessage: str, default is Undefined, optional
+        Contains long explanation of the alerted problem.
     """
 
 

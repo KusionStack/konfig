@@ -10,15 +10,15 @@ schema WebhookConfig:
 
     Attributes
     ----------
-    httpConfig : HTTPConfig, default is Undefined, optional
+    httpConfig: HTTPConfig, default is Undefined, optional
         http config
-    maxAlerts : int, default is Undefined, optional
-         Maximum number of alerts to be sent per webhook message. When 0, all alerts are included.
-    sendResolved : bool, default is Undefined, optional
-         Whether or not to notify about resolved alerts.
-    url : str, default is Undefined, optional
-         The URL to send HTTP POST requests to. `urlSecret` takes precedence over `url`. One of `urlSecret` and `url` should be defined.
-    urlSecret : corev1.SecretKeySelector, default is Undefined, optional
+    maxAlerts: int, default is Undefined, optional
+        Maximum number of alerts to be sent per webhook message. When 0, all alerts are included.
+    sendResolved: bool, default is Undefined, optional
+        Whether or not to notify about resolved alerts.
+    url: str, default is Undefined, optional
+        The URL to send HTTP POST requests to. `urlSecret` takes precedence over `url`. One of `urlSecret` and `url` should be defined.
+    urlSecret: corev1.SecretKeySelector, default is Undefined, optional
         url secret
     """
 

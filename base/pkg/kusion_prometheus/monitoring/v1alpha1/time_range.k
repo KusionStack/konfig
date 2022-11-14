@@ -9,10 +9,10 @@ schema TimeRange:
 
     Attributes
     ----------
-    endTime : str, default is Undefined, optional
-         EndTime is the end time in 24hr format.
-    startTime : str, default is Undefined, optional
-         StartTime is the start time in 24hr format.
+    endTime: str, default is Undefined, optional
+        EndTime is the end time in 24hr format.
+    startTime: str, default is Undefined, optional
+        StartTime is the start time in 24hr format.
     """
 
 

@@ -9,13 +9,13 @@ schema SlackConfirmationField:
 
     Attributes
     ----------
-    dismissText : str, default is Undefined, optional
+    dismissText: str, default is Undefined, optional
         dismiss text
-    okText : str, default is Undefined, optional
+    okText: str, default is Undefined, optional
         ok text
-    text : str, default is Undefined, required
+    text: str, default is Undefined, required
         text
-    title : str, default is Undefined, optional
+    title: str, default is Undefined, optional
         title
     """
 

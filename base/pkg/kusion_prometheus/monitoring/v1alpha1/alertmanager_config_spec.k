@@ -9,13 +9,13 @@ schema AlertmanagerConfigSpec:
 
     Attributes
     ----------
-    inhibitRules : [InhibitRule], default is Undefined, optional
-         List of inhibition rules. The rules will only apply to alerts matching the resource’s namespace.
-    muteTimeIntervals : [MuteTimeInterval], default is Undefined, optional
-         List of MuteTimeInterval specifying when the routes should be muted.
-    receivers : [Receiver], default is Undefined, optional
-         List of receivers.
-    route : Route, default is Undefined, optional
+    inhibitRules: [InhibitRule], default is Undefined, optional
+        List of inhibition rules. The rules will only apply to alerts matching the resource’s namespace.
+    muteTimeIntervals: [MuteTimeInterval], default is Undefined, optional
+        List of MuteTimeInterval specifying when the routes should be muted.
+    receivers: [Receiver], default is Undefined, optional
+        List of receivers.
+    route: Route, default is Undefined, optional
         route
     """
 

@@ -9,10 +9,10 @@ schema PagerDutyLinkConfig:
 
     Attributes
     ----------
-    alt : str, default is Undefined, optional
-         Text that describes the purpose of the link, and can be used as the link's text.
-    href : str, default is Undefined, optional
-         Href is the URL of the link to be attached
+    alt: str, default is Undefined, optional
+        Text that describes the purpose of the link, and can be used as the link's text.
+    href: str, default is Undefined, optional
+        Href is the URL of the link to be attached
     """
 
 

@@ -9,16 +9,16 @@ schema TimeInterval:
 
     Attributes
     ----------
-    daysOfMonth : [DayOfMonthRange], default is Undefined, optional
-         DaysOfMonth is a list of DayOfMonthRange
-    months : [str], default is Undefined, optional
-         Months is a list of MonthRange
-    times : [TimeRange], default is Undefined, optional
-         Times is a list of TimeRange
-    weekdays : [str], default is Undefined, optional
-         Weekdays is a list of WeekdayRange
-    years : [str], default is Undefined, optional
-         Years is a list of YearRange
+    daysOfMonth: [DayOfMonthRange], default is Undefined, optional
+        DaysOfMonth is a list of DayOfMonthRange
+    months: [str], default is Undefined, optional
+        Months is a list of MonthRange
+    times: [TimeRange], default is Undefined, optional
+        Times is a list of TimeRange
+    weekdays: [str], default is Undefined, optional
+        Weekdays is a list of WeekdayRange
+    years: [str], default is Undefined, optional
+        Years is a list of YearRange
     """
 
 
