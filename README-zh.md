@@ -1,5 +1,8 @@
 # Konfig
 
+[![用 GitHub Codespaces 打开](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=488867056&machine=standardLinux32gb&devcontainer_path=.devcontainer.json)
+
+
 [英语](README.md) | [中文](README-zh.md)
 
 Konfig 是 KCL（Kusion 配置语言）中基础设施配置的单一存储库。
