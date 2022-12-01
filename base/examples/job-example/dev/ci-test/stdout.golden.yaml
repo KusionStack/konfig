@@ -1,0 +1,89 @@
+attributes:
+  apiVersion: batch/v1
+  kind: Job
+  metadata:
+    name: job-example-dev
+    namespace: job-example
+  spec:
+    activeDeadlineSeconds: 100
+    backoffLimit: 5
+    completionMode: NonIndexed
+    completions: 5
+    manualSelector: true
+    parallelism: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/env: dev
+        app.kubernetes.io/instance: job-example-dev
+        app.kubernetes.io/name: job-example
+        cluster.x-k8s.io/cluster-name: minikube
+        foo: bar
+    template:
+      metadata:
+        labels:
+          app.kubernetes.io/env: dev
+          app.kubernetes.io/instance: job-example-dev
+          app.kubernetes.io/name: job-example
+          cluster.x-k8s.io/cluster-name: minikube
+          foo: bar
+      spec:
+        containers:
+        - command:
+          - perl
+          - -Mbignum=bpi
+          - -wle
+          - print bpi(2000)
+          image: perl
+          name: pi
+          volumeMounts:
+          - mountPath: /etc/config
+            name: config-vol
+        restartPolicy: Never
+        serviceAccountName: job-example-sa
+        volumes:
+        - name: config-vol
+          configMap:
+            name: job-log-config
+            items:
+            - key: log_level
+              path: log_level
+    ttlSecondsAfterFinished: 100
+dependsOn:
+- v1:Namespace:job-example
+- v1:ServiceAccount:job-example:job-example-sa
+- v1:ConfigMap:job-example:job-log-config
+id: batch/v1:Job:job-example:job-example-dev
+type: Kubernetes
+---
+attributes:
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: job-example
+id: v1:Namespace:job-example
+type: Kubernetes
+---
+attributes:
+  apiVersion: v1
+  data:
+    log_level: INFO
+  kind: ConfigMap
+  metadata:
+    name: job-log-config
+    namespace: job-example
+dependsOn:
+- v1:Namespace:job-example
+- v1:ServiceAccount:job-example:job-example-sa
+id: v1:ConfigMap:job-example:job-log-config
+type: Kubernetes
+---
+attributes:
+  apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: job-example-sa
+    namespace: job-example
+dependsOn:
+- v1:Namespace:job-example
+id: v1:ServiceAccount:job-example:job-example-sa
+type: Kubernetes

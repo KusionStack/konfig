@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guestbook-frontendprod
+  namespace: guestbook-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/env: prod
+      app.kubernetes.io/instance: guestbook-frontend-prod
+      app.kubernetes.io/name: guestbook-frontend
+      cluster.x-k8s.io/cluster-name: demo-cluster-name
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/env: prod
+        app.kubernetes.io/instance: guestbook-frontend-prod
+        app.kubernetes.io/name: guestbook-frontend
+        cluster.x-k8s.io/cluster-name: demo-cluster-name
+        tier: frontend
+    spec:
+      containers:
+      - env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        image: gcr.io/google-samples/gb-frontend:v5
+        name: php-redis
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            cpu: '2'
+            memory: 4Gi
+            ephemeral-storage: 35Gi
+          requests:
+            cpu: '2'
+            memory: 4Gi
+            ephemeral-storage: 35Gi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: guestbook-frontend

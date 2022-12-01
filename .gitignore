@@ -1,0 +1,23 @@
+# Mac OS X files
+.DS_Store
+
+# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
+.glide/
+
+# ide
+.idea/
+*.iml
+.vscode/
+
+# KCLVM cache
+__pycache__
+__kclcache__
+.kclvm
+
+
+# test report
+report/
+
+kusion_state.json
+
+changed_list.txt
