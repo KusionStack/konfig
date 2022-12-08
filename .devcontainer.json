@@ -28,5 +28,17 @@
 		"ghcr.io/devcontainers/features/docker-in-docker",
 		"ghcr.io/devcontainers/features/kubectl-helm-minikube",
 		"ghcr.io/KusionStack/devcontainer-features/kusion:0"
-	]
+	],
+	"extensions": [
+		"KusionStack.kusion",
+		"kcl.kcl-vscode-extension"
+	],
+	"customizations": {
+		"codespaces": {
+			"openFiles": [
+				"appops/guestbook-frontend/pre/main.k",
+				"appops/guestbook-frontend/base/base.k"
+			]
+		}
+	}
 }
