@@ -22,7 +22,7 @@ appConfiguration: frontend.Server {
     podMetadata.labels: {
         "tier" = "frontend"
     }
-    schedulingStrategy.resource = res_tpl.medium
+    schedulingStrategy.resource = res_tpl.tiny
     services = [
         service.Service {
             name = "frontend"

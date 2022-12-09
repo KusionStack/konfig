@@ -31,20 +31,20 @@ attributes:
         - env:
           - name: GET_HOSTS_FROM
             value: dns
-          image: gcr.io/google-samples/gb-frontend:v4-pre
+          image: gcr.io/google-samples/gb-frontend:v4
           name: php-redis
           ports:
           - containerPort: 80
             protocol: TCP
           resources:
             limits:
-              cpu: '2'
-              memory: 4Gi
-              ephemeral-storage: 35Gi
+              cpu: 100m
+              memory: 100Mi
+              ephemeral-storage: 1Gi
             requests:
-              cpu: '2'
-              memory: 4Gi
-              ephemeral-storage: 35Gi
+              cpu: 100m
+              memory: 100Mi
+              ephemeral-storage: 1Gi
 ---
 id: v1:Namespace:guestbook-frontend
 type: Kubernetes
