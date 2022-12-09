@@ -1,5 +1,6 @@
 import base.pkg.kusion_models.kube.frontend
 import base.pkg.kusion_models.kube.frontend.container
+import base.pkg.kusion_models.kube.frontend.service
 import base.pkg.kusion_models.kube.templates.resource as res_tpl
 
 # Application Configuration
@@ -22,4 +23,14 @@ appConfiguration: frontend.Server {
         "tier" = "frontend"
     }
     schedulingStrategy.resource = res_tpl.medium
+    services = [
+        service.Service {
+            name = "frontend"
+            ports = [
+                {
+                    "port" = 80
+                }
+            ]
+        }
+    ]
 }
