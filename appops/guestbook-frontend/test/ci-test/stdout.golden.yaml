@@ -1,3 +1,8 @@
+id: apps/v1:Deployment:guestbook-frontend:guestbook-frontendtest
+type: Kubernetes
+dependsOn:
+- v1:Namespace:guestbook-frontend
+- v1:Service:guestbook-frontend:frontend
 attributes:
   apiVersion: apps/v1
   kind: Deployment
@@ -8,17 +13,17 @@ attributes:
     replicas: 1
     selector:
       matchLabels:
+        app.kubernetes.io/name: guestbook-frontend
         app.kubernetes.io/env: test
         app.kubernetes.io/instance: guestbook-frontend-test
-        app.kubernetes.io/name: guestbook-frontend
         cluster.x-k8s.io/cluster-name: demo-cluster-name
         tier: frontend
     template:
       metadata:
         labels:
+          app.kubernetes.io/name: guestbook-frontend
           app.kubernetes.io/env: test
           app.kubernetes.io/instance: guestbook-frontend-test
-          app.kubernetes.io/name: guestbook-frontend
           cluster.x-k8s.io/cluster-name: demo-cluster-name
           tier: frontend
       spec:
@@ -40,15 +45,31 @@ attributes:
               cpu: 100m
               memory: 100Mi
               ephemeral-storage: 1Gi
-dependsOn:
-- v1:Namespace:guestbook-frontend
-id: apps/v1:Deployment:guestbook-frontend:guestbook-frontendtest
-type: Kubernetes
 ---
+id: v1:Namespace:guestbook-frontend
+type: Kubernetes
 attributes:
   apiVersion: v1
   kind: Namespace
   metadata:
     name: guestbook-frontend
-id: v1:Namespace:guestbook-frontend
+---
+id: v1:Service:guestbook-frontend:frontend
 type: Kubernetes
+dependsOn:
+- v1:Namespace:guestbook-frontend
+attributes:
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: frontend
+    namespace: guestbook-frontend
+  spec:
+    ports:
+    - port: 80
+    selector:
+      app.kubernetes.io/name: guestbook-frontend
+      app.kubernetes.io/env: test
+      app.kubernetes.io/instance: guestbook-frontend-test
+      cluster.x-k8s.io/cluster-name: demo-cluster-name
+      tier: frontend
