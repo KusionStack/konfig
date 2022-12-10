@@ -1,3 +1,8 @@
+id: apps/v1:Deployment:sampleapp:sampleappprod
+type: Kubernetes
+dependsOn:
+- v1:Namespace:sampleapp
+- v1:Service:sampleapp:frontend
 attributes:
   apiVersion: apps/v1
   kind: Deployment
@@ -8,16 +13,16 @@ attributes:
     replicas: 1
     selector:
       matchLabels:
+        app.kubernetes.io/name: sampleapp
         app.kubernetes.io/env: prod
         app.kubernetes.io/instance: sampleapp-prod
-        app.kubernetes.io/name: sampleapp
         cluster.x-k8s.io/cluster-name: demo-cluster-name
     template:
       metadata:
         labels:
+          app.kubernetes.io/name: sampleapp
           app.kubernetes.io/env: prod
           app.kubernetes.io/instance: sampleapp-prod
-          app.kubernetes.io/name: sampleapp
           cluster.x-k8s.io/cluster-name: demo-cluster-name
       spec:
         containers:
@@ -32,20 +37,19 @@ attributes:
               cpu: 100m
               memory: 100Mi
               ephemeral-storage: 1Gi
-dependsOn:
-- v1:Namespace:sampleapp
-- v1:Service:sampleapp:frontend
-id: apps/v1:Deployment:sampleapp:sampleappprod
-type: Kubernetes
 ---
+id: v1:Namespace:sampleapp
+type: Kubernetes
 attributes:
   apiVersion: v1
   kind: Namespace
   metadata:
     name: sampleapp
-id: v1:Namespace:sampleapp
-type: Kubernetes
 ---
+id: v1:Service:sampleapp:frontend
+type: Kubernetes
+dependsOn:
+- v1:Namespace:sampleapp
 attributes:
   apiVersion: v1
   kind: Service
@@ -56,12 +60,8 @@ attributes:
     ports:
     - port: 80
     selector:
+      app.kubernetes.io/name: sampleapp
       app.kubernetes.io/env: prod
       app.kubernetes.io/instance: sampleapp-prod
-      app.kubernetes.io/name: sampleapp
       cluster.x-k8s.io/cluster-name: demo-cluster-name
     type: NodePort
-dependsOn:
-- v1:Namespace:sampleapp
-id: v1:Service:sampleapp:frontend
-type: Kubernetes
