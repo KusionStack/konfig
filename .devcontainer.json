@@ -40,5 +40,8 @@
 				"appops/guestbook-frontend/base/base.k"
 			]
 		}
+	},
+	"containerEnv": {
+		"KUSION_QUICK_START": "true"
 	}
 }
