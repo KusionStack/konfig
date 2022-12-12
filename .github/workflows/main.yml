@@ -88,6 +88,30 @@ jobs:
     outputs:
       affected_stacks: ${{ steps.deps.outputs.affected_stacks }}
       affected_projs: ${{ steps.deps.outputs.affected_projs }}
+  lint-check:
+    needs: deps
+    runs-on: ubuntu-latest
+    container: 
+      image: kusionstack/kusion:latest
+      env: 
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+        AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
+        AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: install-pytest-html
+        run: kclvm -mpip install pytest-html -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+      - id: lint-check
+        run: |
+          kclvm -mpytest -v -n 5 hack/lint_check.py --junitxml ./hack/report/lint-check.xml --html=./hack/report/lint.html
+      - id: upload-lint-check-report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint-check-report
+          path: |
+            hack/report/lint-check.xml
+            hack/report/lint.html
   structure-check:
     needs: deps
     runs-on: ubuntu-latest
@@ -134,20 +158,3 @@ jobs:
           path: |
             hack/report/TEST.xml
             hack/report/test.html
-  apply:
-    if: github.ref == 'refs/heads/main'
-    needs: [diff, deps, test]
-    runs-on: ubuntu-latest 
-    steps:
-      - uses: actions/checkout@v2
-      - id: kusion-apply
-        uses: KusionStack/kusion-actions@main
-        env:
-          ALICLOUD_ACCESS_KEY: ${{ secrets.ALICLOUD_ACCESS_KEY }}
-          ALICLOUD_SECRET_KEY: ${{ secrets.ALICLOUD_SECRET_KEY }}
-        with:
-          subcommand: 'apply'
-          yes: 'true'
-          detail: 'true'
-          dryRun: 'true'
-          diffs: ${{needs.diff.outputs.CHANGED_FILE}}
