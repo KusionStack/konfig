@@ -1,3 +1,9 @@
+id: batch/v1:Job:job-example:job-example-dev
+type: Kubernetes
+dependsOn:
+- v1:Namespace:job-example
+- v1:ServiceAccount:job-example:job-example-sa
+- v1:ConfigMap:job-example:job-log-config
 attributes:
   apiVersion: batch/v1
   kind: Job
@@ -11,19 +17,20 @@ attributes:
     completions: 5
     manualSelector: true
     parallelism: 1
+    ttlSecondsAfterFinished: 100
     selector:
       matchLabels:
+        app.kubernetes.io/name: job-example
         app.kubernetes.io/env: dev
         app.kubernetes.io/instance: job-example-dev
-        app.kubernetes.io/name: job-example
         cluster.x-k8s.io/cluster-name: minikube
         foo: bar
     template:
       metadata:
         labels:
+          app.kubernetes.io/name: job-example
           app.kubernetes.io/env: dev
           app.kubernetes.io/instance: job-example-dev
-          app.kubernetes.io/name: job-example
           cluster.x-k8s.io/cluster-name: minikube
           foo: bar
       spec:
@@ -47,22 +54,20 @@ attributes:
             items:
             - key: log_level
               path: log_level
-    ttlSecondsAfterFinished: 100
-dependsOn:
-- v1:Namespace:job-example
-- v1:ServiceAccount:job-example:job-example-sa
-- v1:ConfigMap:job-example:job-log-config
-id: batch/v1:Job:job-example:job-example-dev
-type: Kubernetes
 ---
+id: v1:Namespace:job-example
+type: Kubernetes
 attributes:
   apiVersion: v1
   kind: Namespace
   metadata:
     name: job-example
-id: v1:Namespace:job-example
-type: Kubernetes
 ---
+id: v1:ConfigMap:job-example:job-log-config
+type: Kubernetes
+dependsOn:
+- v1:Namespace:job-example
+- v1:ServiceAccount:job-example:job-example-sa
 attributes:
   apiVersion: v1
   data:
@@ -71,19 +76,14 @@ attributes:
   metadata:
     name: job-log-config
     namespace: job-example
+---
+id: v1:ServiceAccount:job-example:job-example-sa
+type: Kubernetes
 dependsOn:
 - v1:Namespace:job-example
-- v1:ServiceAccount:job-example:job-example-sa
-id: v1:ConfigMap:job-example:job-log-config
-type: Kubernetes
----
 attributes:
   apiVersion: v1
   kind: ServiceAccount
   metadata:
     name: job-example-sa
     namespace: job-example
-dependsOn:
-- v1:Namespace:job-example
-id: v1:ServiceAccount:job-example:job-example-sa
-type: Kubernetes

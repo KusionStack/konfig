@@ -1,3 +1,8 @@
+id: apps/v1:StatefulSet:sampleapp:sampleappprod
+type: Kubernetes
+dependsOn:
+- v1:Namespace:sampleapp
+- v1:Service:sampleapp:sampleappprod
 attributes:
   apiVersion: apps/v1
   kind: StatefulSet
@@ -6,19 +11,19 @@ attributes:
     namespace: sampleapp
   spec:
     replicas: 1
+    serviceName: sampleappprod
     selector:
       matchLabels:
+        app.kubernetes.io/name: sampleapp
         app.kubernetes.io/env: prod
         app.kubernetes.io/instance: sampleapp-prod
-        app.kubernetes.io/name: sampleapp
         cluster.x-k8s.io/cluster-name: demo-cluster-name
-    serviceName: sampleappprod
     template:
       metadata:
         labels:
+          app.kubernetes.io/name: sampleapp
           app.kubernetes.io/env: prod
           app.kubernetes.io/instance: sampleapp-prod
-          app.kubernetes.io/name: sampleapp
           cluster.x-k8s.io/cluster-name: demo-cluster-name
       spec:
         containers:
@@ -33,12 +38,11 @@ attributes:
               cpu: 100m
               memory: 100Mi
               ephemeral-storage: 1Gi
+---
+id: v1:Service:sampleapp:sampleappprod
+type: Kubernetes
 dependsOn:
 - v1:Namespace:sampleapp
-- v1:Service:sampleapp:sampleappprod
-id: apps/v1:StatefulSet:sampleapp:sampleappprod
-type: Kubernetes
----
 attributes:
   apiVersion: v1
   kind: Service
@@ -48,19 +52,15 @@ attributes:
   spec:
     clusterIP: None
     selector:
+      app.kubernetes.io/name: sampleapp
       app.kubernetes.io/env: prod
       app.kubernetes.io/instance: sampleapp-prod
-      app.kubernetes.io/name: sampleapp
       cluster.x-k8s.io/cluster-name: demo-cluster-name
-dependsOn:
-- v1:Namespace:sampleapp
-id: v1:Service:sampleapp:sampleappprod
-type: Kubernetes
 ---
+id: v1:Namespace:sampleapp
+type: Kubernetes
 attributes:
   apiVersion: v1
   kind: Namespace
   metadata:
     name: sampleapp
-id: v1:Namespace:sampleapp
-type: Kubernetes

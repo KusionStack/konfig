@@ -1,3 +1,8 @@
+id: apps/v1:Deployment:kcl-vault-csi:kcl-vault-csidev
+type: Kubernetes
+dependsOn:
+- v1:Namespace:kcl-vault-csi
+- v1:ServiceAccount:kcl-vault-csi:kcl-vault-csi-sa
 attributes:
   apiVersion: apps/v1
   kind: Deployment
@@ -29,30 +34,25 @@ attributes:
             readOnly: true
             volumeAttributes:
               secretProviderClass: kcl-vault-csi-database
-dependsOn:
-- v1:Namespace:kcl-vault-csi
-- v1:ServiceAccount:kcl-vault-csi:kcl-vault-csi-sa
-id: apps/v1:Deployment:kcl-vault-csi:kcl-vault-csidev
-type: Kubernetes
 ---
+id: v1:Namespace:kcl-vault-csi
+type: Kubernetes
 attributes:
   apiVersion: v1
   kind: Namespace
   metadata:
     name: kcl-vault-csi
-id: v1:Namespace:kcl-vault-csi
-type: Kubernetes
 ---
+id: v1:ServiceAccount:kcl-vault-csi:kcl-vault-csi-sa
+type: Kubernetes
+dependsOn:
+- v1:Namespace:kcl-vault-csi
 attributes:
   apiVersion: v1
   kind: ServiceAccount
   metadata:
     name: kcl-vault-csi-sa
     namespace: kcl-vault-csi
-dependsOn:
-- v1:Namespace:kcl-vault-csi
-id: v1:ServiceAccount:kcl-vault-csi:kcl-vault-csi-sa
-type: Kubernetes
 ---
 apiVersion: secrets-store.csi.x-k8s.io/v1
 kind: SecretProviderClass
@@ -60,11 +60,11 @@ metadata:
   name: kcl-vault-csi-database
   namespace: kcl-vault-csi
 spec:
+  provider: vault
   parameters:
+    vaultAddress: http://vault.default:8200
+    roleName: kcl-vault-csi-role
     objects: |
       - objectName: "db-password"
         secretPath: "secret/data/db-pass"
         secretKey: "password"
-    roleName: kcl-vault-csi-role
-    vaultAddress: http://vault.default:8200
-  provider: vault
