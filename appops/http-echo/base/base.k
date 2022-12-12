@@ -12,7 +12,7 @@ appConfiguration: frontend.Server {
         args = ["-text=apple"]
     }
     image = "hashicorp/http-echo"
-    schedulingStrategy.resource = res_tpl.medium
+    schedulingStrategy.resource = res_tpl.tiny
     services = [
         service.Service {
             name = "apple-service"
