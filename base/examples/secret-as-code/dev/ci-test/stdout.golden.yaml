@@ -1,0 +1,46 @@
+id: apps/v1:Deployment:secret-as-code:secret-as-codedev
+type: Kubernetes
+dependsOn:
+- v1:Namespace:secret-as-code
+attributes:
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      secret-store: vault
+      foo: ref+vault://secret/foo#/foo
+      bar: ref+vault://secret/bar#/bar
+    name: secret-as-codedev
+    namespace: secret-as-code
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: secret-as-code
+        app.kubernetes.io/env: dev
+        app.kubernetes.io/instance: secret-as-code-dev
+        cluster.x-k8s.io/cluster-name: default
+        app.kubernetes.io/component: secret-as-codedev
+    template:
+      metadata:
+        labels:
+          app.kubernetes.io/name: secret-as-code
+          app.kubernetes.io/env: dev
+          app.kubernetes.io/instance: secret-as-code-dev
+          cluster.x-k8s.io/cluster-name: default
+          app.kubernetes.io/component: secret-as-codedev
+      spec:
+        containers:
+        - image: nginx:1.7.8
+          name: main
+          ports:
+          - containerPort: 80
+            protocol: TCP
+---
+id: v1:Namespace:secret-as-code
+type: Kubernetes
+attributes:
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: secret-as-code

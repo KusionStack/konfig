@@ -1,0 +1,4 @@
+# The stack basic info
+name: dev
+labels:
+  kusionstack.io/secure: true
