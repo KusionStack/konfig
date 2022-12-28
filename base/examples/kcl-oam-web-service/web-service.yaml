@@ -1,0 +1,23 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: webservice-app
+spec:
+  components:
+    - name: front-end
+      properties:
+        image: "oamdev/testapp:v1"
+        cmd:
+          - node
+          - server.js
+        ports:
+          - port: 8080
+            expose: true
+        exposeType: NodePort
+        cpu: "0.5"
+        memory: 512Mi
+      traits:
+        - properties:
+            replicas: 1
+          type: scaler
+      type: webservice
