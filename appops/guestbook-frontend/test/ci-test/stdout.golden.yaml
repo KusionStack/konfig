@@ -31,7 +31,7 @@ attributes:
         - env:
           - name: GET_HOSTS_FROM
             value: dns
-          image: gcr.io/google-samples/gb-frontend:v5
+          image: gcr.io/google-samples/gb-frontend:v4
           name: php-redis
           ports:
           - containerPort: 80
