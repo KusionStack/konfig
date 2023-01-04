@@ -22,7 +22,9 @@ The overall structure of the configuration library is as follows:
 ├── Makefile            # use Makefile to encapsulate common commands
 ├── README.md           # configuration library instructions
 ├── appops              # application operation and maintenance directory
-│   ├── guestbook-frontend
+│   ├── clickhouse-operator
+│   ├── code-city
+│   ├── guestbook
 │   ├── http-echo
 │   └── nginx-example
 ├── base                # Kusion Model repository
