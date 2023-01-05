@@ -4,7 +4,6 @@ import base.pkg.kusion_models.kube.frontend
 import base.pkg.kusion_models.kube.frontend.configmap
 import base.pkg.kusion_models.kube.frontend.container
 import base.pkg.kusion_models.kube.frontend.container.env as e
-import base.pkg.kusion_models.kube.frontend.container.port as cp
 import base.pkg.kusion_models.kube.frontend.service
 import base.pkg.kusion_models.kube.frontend.serviceaccount as sa
 import base.pkg.kusion_models.kube.frontend.sidecar as s
@@ -129,12 +128,6 @@ appConfiguration: frontend.Server {
         s.Sidecar {
             name = "metrics-exporter"
             image = "altinity/metrics-exporter:0.19.2"
-            ports = [
-                cp.ContainerPort {
-                    name = "metrics"
-                    containerPort = 8888
-                }
-            ]
             resource = ""
         }
     ]
