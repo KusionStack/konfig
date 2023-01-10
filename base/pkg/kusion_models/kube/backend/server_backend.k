@@ -65,7 +65,7 @@ schema ServerBackend[inputConfig: server.Server]:
         initContainers = utils.VolumePatch(config.volumes, [utils.ContainerFrontend2Kube(_s) for _s in config.initContainers])
 
     _applicationLabel: {str: str} = {
-        "app": workloadName
+        "app.kubernetes.io/component": workloadName
     }
     # Construct workload attributes.
     workloadAttributes: {str:} = {

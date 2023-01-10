@@ -19,7 +19,7 @@ attributes:
         app.kubernetes.io/env: dev
         app.kubernetes.io/instance: guestbook-dev
         cluster.x-k8s.io/cluster-name: demo-cluster-name
-        app: redis-leader
+        app.kubernetes.io/component: redis-leader
     template:
       metadata:
         labels:
@@ -27,7 +27,7 @@ attributes:
           app.kubernetes.io/env: dev
           app.kubernetes.io/instance: guestbook-dev
           cluster.x-k8s.io/cluster-name: demo-cluster-name
-          app: redis-leader
+          app.kubernetes.io/component: redis-leader
       spec:
         containers:
         - image: docker.io/redis:6.0.5
@@ -66,7 +66,7 @@ attributes:
         app.kubernetes.io/env: dev
         app.kubernetes.io/instance: guestbook-dev
         cluster.x-k8s.io/cluster-name: demo-cluster-name
-        app: redis-follower
+        app.kubernetes.io/component: redis-follower
     template:
       metadata:
         labels:
@@ -74,7 +74,7 @@ attributes:
           app.kubernetes.io/env: dev
           app.kubernetes.io/instance: guestbook-dev
           cluster.x-k8s.io/cluster-name: demo-cluster-name
-          app: redis-follower
+          app.kubernetes.io/component: redis-follower
       spec:
         containers:
         - image: gcr.io/google_samples/gb-redis-follower:v2
@@ -113,7 +113,7 @@ attributes:
         app.kubernetes.io/env: dev
         app.kubernetes.io/instance: guestbook-dev
         cluster.x-k8s.io/cluster-name: demo-cluster-name
-        app: frontend
+        app.kubernetes.io/component: frontend
     template:
       metadata:
         labels:
@@ -121,7 +121,7 @@ attributes:
           app.kubernetes.io/env: dev
           app.kubernetes.io/instance: guestbook-dev
           cluster.x-k8s.io/cluster-name: demo-cluster-name
-          app: frontend
+          app.kubernetes.io/component: frontend
       spec:
         containers:
         - env:
@@ -168,7 +168,7 @@ attributes:
       app.kubernetes.io/env: dev
       app.kubernetes.io/instance: guestbook-dev
       cluster.x-k8s.io/cluster-name: demo-cluster-name
-      app: redis-leader
+      app.kubernetes.io/component: redis-leader
 ---
 id: v1:Service:guestbook:redis-follower
 type: Kubernetes
@@ -188,7 +188,7 @@ attributes:
       app.kubernetes.io/env: dev
       app.kubernetes.io/instance: guestbook-dev
       cluster.x-k8s.io/cluster-name: demo-cluster-name
-      app: redis-follower
+      app.kubernetes.io/component: redis-follower
 ---
 id: v1:Service:guestbook:frontend
 type: Kubernetes
@@ -208,4 +208,4 @@ attributes:
       app.kubernetes.io/env: dev
       app.kubernetes.io/instance: guestbook-dev
       cluster.x-k8s.io/cluster-name: demo-cluster-name
-      app: frontend
+      app.kubernetes.io/component: frontend
