@@ -38,7 +38,7 @@ schema ServerBackend[inputConfig: server.Server]:
     # Store the input config parameter, ensure it can be seen in protocol and mixin.
     config: server.Server = inputConfig
     # Workload name.
-    workloadName: str = "{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME).lower()
+    workloadName: str = config.name or "{}{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME).lower()
     # App variable contains labels, selector and environments.
     app: utils.ApplicationBuilder = utils.ApplicationBuilder {}
     # Main containers and sidecar contrainers.
@@ -64,6 +64,9 @@ schema ServerBackend[inputConfig: server.Server]:
     if config.initContainers:
         initContainers = utils.VolumePatch(config.volumes, [utils.ContainerFrontend2Kube(_s) for _s in config.initContainers])
 
+    _applicationLabel: {str: str} = {
+        "app.kubernetes.io/component": workloadName
+    }
     # Construct workload attributes.
     workloadAttributes: {str:} = {
         metadata = utils.MetadataBuilder(config) | {
@@ -72,14 +75,14 @@ schema ServerBackend[inputConfig: server.Server]:
         spec = {
             replicas = config.replicas
             if config.useBuiltInSelector: 
-                selector.matchLabels: app.selector | config.selector
+                selector.matchLabels: app.selector | config.selector | _applicationLabel
             else:
                 selector.matchLabels: config.selector
             template = {
                 metadata = {
                     if config.useBuiltInLabels:
-                        labels = app.labels
-                    **config.podMetadata                
+                        labels = app.labels | _applicationLabel
+                    **config.podMetadata
                 }
                 spec = {
                     containers = [mainContainer] + (sidecarContainers or [])

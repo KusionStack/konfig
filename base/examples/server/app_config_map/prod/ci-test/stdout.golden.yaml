@@ -18,6 +18,7 @@ attributes:
         app.kubernetes.io/env: prod
         app.kubernetes.io/instance: sampleapp-prod
         cluster.x-k8s.io/cluster-name: demo-cluster-name
+        app.kubernetes.io/component: sampleappprod
     template:
       metadata:
         labels:
@@ -25,6 +26,7 @@ attributes:
           app.kubernetes.io/env: prod
           app.kubernetes.io/instance: sampleapp-prod
           cluster.x-k8s.io/cluster-name: demo-cluster-name
+          app.kubernetes.io/component: sampleappprod
       spec:
         containers:
         - image: gcr.io/google-samples/gb-frontend:v4

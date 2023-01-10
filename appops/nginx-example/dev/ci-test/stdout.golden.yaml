@@ -17,6 +17,7 @@ attributes:
         app.kubernetes.io/env: dev
         app.kubernetes.io/instance: nginx-example-dev
         cluster.x-k8s.io/cluster-name: default
+        app.kubernetes.io/component: nginx-exampledev
     template:
       metadata:
         labels:
@@ -24,6 +25,7 @@ attributes:
           app.kubernetes.io/env: dev
           app.kubernetes.io/instance: nginx-example-dev
           cluster.x-k8s.io/cluster-name: default
+          app.kubernetes.io/component: nginx-exampledev
       spec:
         containers:
         - image: nginx:1.7.8
@@ -69,4 +71,5 @@ attributes:
       app.kubernetes.io/env: dev
       app.kubernetes.io/instance: nginx-example-dev
       cluster.x-k8s.io/cluster-name: default
+      app.kubernetes.io/component: nginx-exampledev
     type: NodePort

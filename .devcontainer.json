@@ -36,8 +36,8 @@
 	"customizations": {
 		"codespaces": {
 			"openFiles": [
-				"appops/guestbook-frontend/dev/main.k",
-				"appops/guestbook-frontend/base/base.k"
+				"appops/guestbook/dev/main.k",
+				"appops/guestbook/base/base.k"
 			]
 		}
 	},

@@ -6,6 +6,23 @@ import base.pkg.kusion_kubernetes.api.core.v1 as corev1
 import base.pkg.kusion_prometheus.monitoring.v1 as monitoringv1
 import base.pkg.kusion_prometheus.monitoring.v1alpha1 as monitoringv1alpha1
 
+# predefined functions
+# lambda: check if two k8s resources are identical
+checkIdentical = lambda a, b {
+    _a_namespace = a.metadata.namespace or "default"
+    _b_namespace = b.metadata.namespace or "default"
+
+    identical = a.apiVersion == b.apiVersion \
+    and a.kind == b.kind \
+    and a.metadata.name == b.metadata.name \
+    and _a_namespace == _b_namespace
+}
+
+# lambda: remove duplicated resource
+remove_duplicated_iter = lambda data: [], func {
+    [data[i] for i in range(len(data)) if sum([1 for jdata in data[i+1:] if func(data[i], jdata)]) == 0]
+}
+
 # prededined constants
 __output_standalone__ = {__settings__: {output_type = "STANDALONE"}}
 __output_ignore__ = {__settings__: {output_type = "IGNORE"}}
@@ -58,12 +75,14 @@ __array_of_resource_map___: [{str:[]}] = [
     for _inst in __renderBackendInstances__ if _inst?.kubernetes
 ] | [__rbac_map__] | [__prometheus_map__] | [__k8s__]
 
-# remove duplicates
-__resource_map___: {str: []} = {
-    _kind: [r for key, r in _res] \
+__resource_map_original___: {str: []} = {
+    _kind += [r for key, r in _res] \
         for _index, _resource_map in __array_of_resource_map___  \
             for _kind, _res in _resource_map if _kind not in ["__settings__"]
 }
+
+# remove duplicates
+__resource_map___: {str: []} = {kind = remove_duplicated_iter(res_list, checkIdentical) for kind, res_list in __resource_map_original___}
 
 # structure output
 if option("__konfig_output_format__")?.lower() == "raw":

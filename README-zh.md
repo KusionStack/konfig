@@ -20,7 +20,9 @@ Konfig，也叫做 Kusion Model，是 KusionStack 中预置的、使用 KCL 描�
 ├── Makefile            # 通过 Makefile 封装常用命令
 ├── README.md           # 配置大库说明
 ├── appops              # 应用运维目录，用来放置所有应用的 KCL 运维配置
-│   ├── guestbook-frontend
+│   ├── clickhouse-operator
+│   ├── code-city
+│   ├── guestbook
 │   ├── http-echo
 │   └── nginx-example
 ├── base                # Kusion Model 模型库

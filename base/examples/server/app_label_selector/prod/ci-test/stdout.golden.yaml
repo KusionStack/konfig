@@ -17,6 +17,7 @@ attributes:
         app.kubernetes.io/instance: sampleapp-prod
         cluster.x-k8s.io/cluster-name: demo-cluster-name
         app.kubernetes.io/version: v1.0.0
+        app.kubernetes.io/component: sampleappprod
     template:
       metadata:
         annotations:
@@ -26,6 +27,7 @@ attributes:
           app.kubernetes.io/env: prod
           app.kubernetes.io/instance: sampleapp-prod
           cluster.x-k8s.io/cluster-name: demo-cluster-name
+          app.kubernetes.io/component: sampleappprod
           app.kubernetes.io/version: v1.0.0
       spec:
         containers:

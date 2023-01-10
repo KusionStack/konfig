@@ -14,6 +14,11 @@ schema Server:
 
     Attributes
     ----------
+    name: str, default is Undefined, optional.
+        The name of the workload and service. 
+        If not defined, a generated name ("{__META_APP_NAME}-{__META_ENV_TYPE_NAME}") will be used.
+        The value of __META_APP_NAME will be extracted from the value of the "name" defined in project.yaml,
+        and the value of __META_ENV_TYPE_NAME will be extracted from the value of the "name" defined in stack.yaml.
     workloadType: "Deployment" | "StatefulSet", default is "Deployment", required.
         Application workload type, default to 'Deployment'
     replicas: int, default is 1, required.
@@ -87,6 +92,9 @@ schema Server:
     }
     """
     __settings__: {str:str} = {"output_type" = "IGNORE"}
+
+    # workload name
+    name?: str
 
     # Application workload type, default to 'Deployment'
     workloadType: "Deployment" | "StatefulSet" = "Deployment"
