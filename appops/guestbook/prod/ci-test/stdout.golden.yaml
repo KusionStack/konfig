@@ -9,10 +9,6 @@ attributes:
   apiVersion: apps/v1
   kind: Deployment
   metadata:
-    labels:
-      app: redis
-      role: leader
-      tier: backend
     name: redis-leader
     namespace: guestbook
   spec:
@@ -23,7 +19,7 @@ attributes:
         app.kubernetes.io/env: prod
         app.kubernetes.io/instance: guestbook-prod
         cluster.x-k8s.io/cluster-name: demo-cluster-name
-        app: redis
+        app: redis-leader
     template:
       metadata:
         labels:
@@ -31,13 +27,11 @@ attributes:
           app.kubernetes.io/env: prod
           app.kubernetes.io/instance: guestbook-prod
           cluster.x-k8s.io/cluster-name: demo-cluster-name
-          role: leader
-          tier: backend
-          app: redis
+          app: redis-leader
       spec:
         containers:
         - image: docker.io/redis:6.0.5
-          name: leader
+          name: main
           ports:
           - containerPort: 6379
             protocol: TCP
@@ -62,10 +56,6 @@ attributes:
   apiVersion: apps/v1
   kind: Deployment
   metadata:
-    labels:
-      app: redis
-      role: follower
-      tier: backend
     name: redis-follower
     namespace: guestbook
   spec:
@@ -76,7 +66,7 @@ attributes:
         app.kubernetes.io/env: prod
         app.kubernetes.io/instance: guestbook-prod
         cluster.x-k8s.io/cluster-name: demo-cluster-name
-        app: redis
+        app: redis-follower
     template:
       metadata:
         labels:
@@ -84,13 +74,11 @@ attributes:
           app.kubernetes.io/env: prod
           app.kubernetes.io/instance: guestbook-prod
           cluster.x-k8s.io/cluster-name: demo-cluster-name
-          app: redis
-          tier: backend
-          role: follower
+          app: redis-follower
       spec:
         containers:
         - image: gcr.io/google_samples/gb-redis-follower:v2
-          name: follower
+          name: main
           ports:
           - containerPort: 6379
             protocol: TCP
@@ -125,7 +113,7 @@ attributes:
         app.kubernetes.io/env: prod
         app.kubernetes.io/instance: guestbook-prod
         cluster.x-k8s.io/cluster-name: demo-cluster-name
-        tier: frontend
+        app: frontend
     template:
       metadata:
         labels:
@@ -133,7 +121,7 @@ attributes:
           app.kubernetes.io/env: prod
           app.kubernetes.io/instance: guestbook-prod
           cluster.x-k8s.io/cluster-name: demo-cluster-name
-          tier: frontend
+          app: frontend
       spec:
         containers:
         - env:
@@ -180,7 +168,7 @@ attributes:
       app.kubernetes.io/env: prod
       app.kubernetes.io/instance: guestbook-prod
       cluster.x-k8s.io/cluster-name: demo-cluster-name
-      app: redis
+      app: redis-leader
 ---
 id: v1:Service:guestbook:redis-follower
 type: Kubernetes
@@ -200,7 +188,7 @@ attributes:
       app.kubernetes.io/env: prod
       app.kubernetes.io/instance: guestbook-prod
       cluster.x-k8s.io/cluster-name: demo-cluster-name
-      app: redis
+      app: redis-follower
 ---
 id: v1:Service:guestbook:frontend
 type: Kubernetes
@@ -220,4 +208,4 @@ attributes:
       app.kubernetes.io/env: prod
       app.kubernetes.io/instance: guestbook-prod
       cluster.x-k8s.io/cluster-name: demo-cluster-name
-      tier: frontend
+      app: frontend

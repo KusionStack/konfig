@@ -64,6 +64,9 @@ schema ServerBackend[inputConfig: server.Server]:
     if config.initContainers:
         initContainers = utils.VolumePatch(config.volumes, [utils.ContainerFrontend2Kube(_s) for _s in config.initContainers])
 
+    _applicationLabel: {str: str} = {
+        "app": workloadName
+    }
     # Construct workload attributes.
     workloadAttributes: {str:} = {
         metadata = utils.MetadataBuilder(config) | {
@@ -72,14 +75,14 @@ schema ServerBackend[inputConfig: server.Server]:
         spec = {
             replicas = config.replicas
             if config.useBuiltInSelector: 
-                selector.matchLabels: app.selector | config.selector
+                selector.matchLabels: app.selector | config.selector | _applicationLabel
             else:
                 selector.matchLabels: config.selector
             template = {
                 metadata = {
                     if config.useBuiltInLabels:
-                        labels = app.labels
-                    **config.podMetadata                
+                        labels = app.labels | _applicationLabel
+                    **config.podMetadata
                 }
                 spec = {
                     containers = [mainContainer] + (sidecarContainers or [])
