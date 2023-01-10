@@ -94,9 +94,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: install-pytest-html
-        run: kclvm -mpip install pytest-html pytest-xdist ruamel.yaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+        run: |
+          kclvm -mpip install pytest-html pytest-xdist ruamel.yaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+          # todo: the following script is to workaround "missing kclvm_cli" error, after the problem solved, this can be removed
+          apt -y install wget
+          wget -c https://github.com/KusionStack/KCLVM/releases/download/v0.4.4-beta.1/kclvm-v0.4.4-beta.1-linux-amd64.tar.gz -qO - | tar xz -C ./
       - id: lint-check
         run: |
+          export PATH=$PATH:$(pwd)/kclvm/bin
           kclvm -mpytest -v -n 5 hack/lint_check.py --junitxml ./hack/report/lint-check.xml --html=./hack/report/lint.html
       - id: upload-lint-check-report
         if: always()
