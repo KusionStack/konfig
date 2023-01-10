@@ -45,6 +45,8 @@ def test_konfigs(test_dir):
         kusion_cmd.append(f"{CI_TEST_DIR}/{SETTINGS_FILE}")
         kusion_cmd.append("-Y")
         kusion_cmd.append("kcl.yaml")
+        kusion_cmd.append("-o")
+        kusion_cmd.append("stdout")
     else:
         kusion_cmd.append(f"{MAIN_FILE}")
     process = subprocess.run(
