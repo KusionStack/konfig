@@ -109,6 +109,8 @@ schema ServerBackend[inputConfig: server.Server]:
         }
     }
 
+    _workloadInstance?: appsv1.Deployment | appsv1.StatefulSet
+
     # Generate workload instance.
     if config.workloadType == "Deployment":
         _workloadInstance = appsv1.Deployment {**workloadAttributes}
