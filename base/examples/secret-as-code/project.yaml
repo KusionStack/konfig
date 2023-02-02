@@ -1,0 +1,8 @@
+# The project basic info
+name: secret-as-code
+secret_stores:
+  vault:
+    address: http://127.0.0.1:8200
+    auth_method: approle
+    role_id: 4f823c70-f705-4f8c-200b-3a4f35ffaea3
+    secret_id: 9313f7a8-1178-0c6b-d6c4-5d71b6eee1d2
