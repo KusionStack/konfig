@@ -6,6 +6,8 @@ import base.pkg.kusion_models.kube.metadata
 import base.pkg.kusion_models.kube.utils
 import base.pkg.kusion_models.kube.resource
 import base.pkg.kusion_prometheus.mixins as pmixins
+import base.pkg.kusion_clouds.alicloud
+import base.pkg.kusion_clouds.alicloud_backend
 
 # Frontend volume to kubernetes volume mapping.
 VOLUME_SOURCE_TYPE_MAPPING = {
@@ -45,6 +47,7 @@ schema ServerBackend[inputConfig: server.Server]:
     mainContainer: {str:}
     sidecarContainers?: [{str:}]
     initContainers?: [{str:}]
+    provider?: any
 
     if config.mainContainer:
         assert config.image, "config.image must be specified and can't be empty or None or Undefined"
@@ -63,6 +66,14 @@ schema ServerBackend[inputConfig: server.Server]:
 
     if config.initContainers:
         initContainers = utils.VolumePatch(config.volumes, [utils.ContainerFrontend2Kube(_s) for _s in config.initContainers])
+
+    if config.storage:
+        if config.storage.objectStorageType == "aliyun_oss":
+            aliyunStorage = alicloud.AlicloudOSSBucket {
+                bucket = config.storage.objectStorageAttr.bucket
+                acl    = config.storage.objectStorageAttr.acl
+            }
+            provider = alicloud_backend.OSSRender(aliyunStorage).provider
 
     _applicationLabel: {str: str} = {
         "app.kubernetes.io/component": workloadName

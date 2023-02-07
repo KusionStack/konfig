@@ -8,6 +8,7 @@ import base.pkg.kusion_models.kube.frontend.container
 import base.pkg.kusion_models.kube.frontend.volume
 import base.pkg.kusion_models.kube.frontend.sidecar as s
 import base.pkg.kusion_models.kube.frontend.strategy
+import base.pkg.kusion_models.kube.frontend.storage
 
 schema Server:
     """Server is abstaction of Deployment and StatefulSet.
@@ -132,3 +133,6 @@ schema Server:
     services?: [service.Service]
     ingresses?: [ingress.Ingress]
     serviceAccount?: sa.ServiceAccount
+
+    # app cloud resource
+    storage?: storage.ObjectStorage 
