@@ -81,6 +81,12 @@ __resource_map_original___: {str: []} = {
             for _kind, _res in _resource_map if _kind not in ["__settings__"]
 }
 
+#provider resource
+providerResource = [
+    _inst?.provider | __output_ignore__ \
+    for _inst in __renderServerBackendInstances__ if _inst?.provider
+] 
+
 # remove duplicates
 __resource_map___: {str: []} = {kind = remove_duplicated_iter(res_list, checkIdentical) for kind, res_list in __resource_map_original___}
 
