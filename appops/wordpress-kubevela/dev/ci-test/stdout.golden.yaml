@@ -1,0 +1,173 @@
+- id: aliyun:alicloud:alicloud_oss_bucket:kusion-oss
+  type: Terraform
+  attributes:
+    acl: public-read
+    bucket: kusion-oss
+  extensions:
+    provider: registry.terraform.io/aliyun/alicloud/1.153.0
+    providerMeta:
+        region: cn-beijing
+    resourceType: alicloud_oss_bucket
+- id: core.oam.dev/v1beta1:Application:dev:wordpress-example
+  type: Kubernetes
+  attributes:
+    apiVersion: core.oam.dev/v1beta1
+    kind: Application
+    metadata:
+        name: wordpress-example
+        namespace: dev
+    spec:
+        components:
+            - name: wordpress-example-namespace
+              properties:
+                objects:
+                    - apiVersion: v1
+                      kind: Namespace
+                      metadata:
+                        name: wordpress-example
+              type: k8s-objects
+            - name: wordpress-example-secret
+              properties:
+                objects:
+                    - apiVersion: v1
+                      data:
+                        password: MTIzNDU2
+                      kind: Secret
+                      metadata:
+                        name: mysql-pass
+                        namespace: wordpress-example
+                      type: Opaque
+              type: k8s-objects
+            - name: wordpress-example-service
+              properties:
+                objects:
+                    - apiVersion: v1
+                      kind: Service
+                      metadata:
+                        name: wordpress-mysql
+                        namespace: wordpress-example
+                      spec:
+                        clusterIP: None
+                        ports:
+                            - port: 3306
+                        selector:
+                            app: wordpress-mysql
+                            tier: database
+                    - apiVersion: v1
+                      kind: Service
+                      metadata:
+                        name: wordpress
+                        namespace: wordpress-example
+                      spec:
+                        ports:
+                            - port: 80
+                        selector:
+                            app: wordpress-mysql
+                            tier: frontend
+                        type: LoadBalancer
+              type: k8s-objects
+            - name: wordpress-example-deployment
+              properties:
+                objects:
+                    - apiVersion: apps/v1
+                      kind: Deployment
+                      metadata:
+                        name: wordpress-mysql
+                        namespace: wordpress-example
+                      spec:
+                        replicas: 1
+                        selector:
+                            matchLabels:
+                                app: wordpress-mysql
+                                app.kubernetes.io/component: wordpress-mysql
+                                app.kubernetes.io/env: dev
+                                app.kubernetes.io/instance: wordpress-example-dev
+                                app.kubernetes.io/name: wordpress-example
+                                cluster.x-k8s.io/cluster-name: default
+                                tier: database
+                        template:
+                            metadata:
+                                labels:
+                                    app: wordpress-mysql
+                                    app.kubernetes.io/component: wordpress-mysql
+                                    app.kubernetes.io/env: dev
+                                    app.kubernetes.io/instance: wordpress-example-dev
+                                    app.kubernetes.io/name: wordpress-example
+                                    cluster.x-k8s.io/cluster-name: default
+                                    tier: database
+                            spec:
+                                containers:
+                                    - env:
+                                        - name: MYSQL_ROOT_PASSWORD
+                                          valueFrom:
+                                            secretKeyRef:
+                                                key: password
+                                                name: mysql-pass
+                                      image: mysql:5.6
+                                      name: mysql
+                                      ports:
+                                        - containerPort: 3306
+                                          name: mysql
+                                          protocol: TCP
+                                      volumeMounts:
+                                        - mountPath: /var/lib/mysql
+                                          name: mysql-persistent-storage
+                                volumes:
+                                    - emptyDir: {}
+                                      name: mysql-persistent-storage
+                    - apiVersion: apps/v1
+                      kind: Deployment
+                      metadata:
+                        name: wordpress-deployment
+                        namespace: wordpress-example
+                      spec:
+                        replicas: 1
+                        selector:
+                            matchLabels:
+                                app: wordpress-mysql
+                                app.kubernetes.io/component: wordpress-deployment
+                                app.kubernetes.io/env: dev
+                                app.kubernetes.io/instance: wordpress-example-dev
+                                app.kubernetes.io/name: wordpress-example
+                                cluster.x-k8s.io/cluster-name: default
+                                tier: frontend
+                        template:
+                            metadata:
+                                labels:
+                                    app: wordpress-mysql
+                                    app.kubernetes.io/component: wordpress-deployment
+                                    app.kubernetes.io/env: dev
+                                    app.kubernetes.io/instance: wordpress-example-dev
+                                    app.kubernetes.io/name: wordpress-example
+                                    cluster.x-k8s.io/cluster-name: default
+                                    tier: frontend
+                            spec:
+                                containers:
+                                    - env:
+                                        - name: WORDPRESS_DB_HOST
+                                          value: wordpress-mysql
+                                        - name: WORDPRESS_DB_PASSWORD
+                                          valueFrom:
+                                            secretKeyRef:
+                                                key: password
+                                                name: mysql-pass
+                                      image: wordpress:4.8-apache
+                                      name: wordpress
+                                      ports:
+                                        - containerPort: 80
+                                          name: wordpress
+                                          protocol: TCP
+                                      volumeMounts:
+                                        - mountPath: /var/www/html
+                                          name: wordpress-persistent-storage
+                                volumes:
+                                    - emptyDir: {}
+                                      name: wordpress-persistent-storage
+              type: k8s-objects
+        policies:
+            - name: default
+              properties:
+                clusters:
+                    - default
+                namespace: dev
+              type: apply-once
