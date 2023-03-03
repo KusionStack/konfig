@@ -6,21 +6,43 @@ _vpc_attrs = alicloud.AlicloudVPC.instances()
 
 vpc_provider = [ commons.ResourceBuilder {
     type = "alicloud_vpc"
-    name = _vpc_attr.name
+    name = _vpc_attr.vpc_name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta
     providerAttr = _vpc_attr
 } for _vpc_attr in _vpc_attrs ]
 
+schema VPCRender[inputData: alicloud.AlicloudVPC]:
+    assert inputData, "inputData must be specified and can't be empty or None or Undefined"
+    data: alicloud.AlicloudVPC = inputData
+    provider: commons.ResourceBuilder = {
+        type = "alicloud_vpc"
+        name = data.vpc_name
+        provider = alicloud_config.alicloudProvider
+        providerMeta = alicloud_config.alicloudProviderMeta
+        providerAttr = data
+    }
+    
 _vswitch_attrs = alicloud.AlicloudVswitch.instances()
 
 vswitch_provider = [commons.ResourceBuilder {
     type = "alicloud_vswitch"
-    name = _vswitch_attr.name
+    name = _vswitch_attr.vswitch_name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta
     providerAttr = _vswitch_attr
 } for _vswitch_attr in _vswitch_attrs]
+
+schema VswitchRender[inputData: alicloud.AlicloudVswitch]: 
+    assert inputData, "inputData must be specified and can't be empty or None or Undefined"
+    data: alicloud.AlicloudVswitch = inputData
+    provider: commons.ResourceBuilder = {
+        type = "alicloud_vswitch"
+        name = data.vswitch_name
+        provider = alicloud_config.alicloudProvider
+        providerMeta = alicloud_config.alicloudProviderMeta
+        providerAttr = data
+    }
 
 _security_group_attrs = alicloud.AlicloudSecurityGroup.instances()
 
