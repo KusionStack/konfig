@@ -9,4 +9,6 @@ alicloudProvider = commons.Provider {
 
 alicloudProviderMeta = {
     region           = "cn-beijing"
+    access_key       = option("alicloud-ak") or Undefined
+    secret_key       = option("alicloud-sk") or Undefined
 }
