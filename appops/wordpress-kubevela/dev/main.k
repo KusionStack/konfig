@@ -10,4 +10,12 @@ mysql = frontend.Server {
 wordpress = frontend.Server {
     image = "wordpress:4.8-apache"
     renderType = "KubeVelaApplication"
+    
+    storage = storage.ObjectStorage {
+        objectStorageType = "aliyun_oss"
+        objectStorageAttr = storage.StorageAttr {
+            bucket = "kusion-oss"
+            acl    = "public-read"
+        }
+    }
 }

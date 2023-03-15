@@ -150,12 +150,4 @@ wordpress = frontend.Server {
             ]
         }
     ]
-    
-    storage = storage.ObjectStorage {
-        objectStorageType = "aliyun_oss"
-        objectStorageAttr = storage.StorageAttr {
-            bucket = "kusion-oss"
-            acl    = "public-read"
-        }
-    }
 }
