@@ -6,6 +6,7 @@ import base.pkg.kusion_kubernetes.api.core.v1 as corev1
 import base.pkg.kusion_prometheus.monitoring.v1 as monitoringv1
 import base.pkg.kusion_prometheus.monitoring.v1alpha1 as monitoringv1alpha1
 
+import manifests
 # predefined functions
 # lambda: check if two k8s resources are identical
 checkIdentical = lambda a, b {
@@ -22,11 +23,6 @@ checkIdentical = lambda a, b {
 remove_duplicated_iter = lambda data: [], func {
     [data[i] for i in range(len(data)) if sum([1 for jdata in data[i+1:] if func(data[i], jdata)]) == 0]
 }
-
-# prededined constants
-__output_standalone__ = {__settings__: {output_type = "STANDALONE"}}
-__output_ignore__ = {__settings__: {output_type = "IGNORE"}}
-__output_inline__ = {__settings__: {output_type = "INLINE"}}
 
 __renderServerFrontendInstances__ = [inst for inst in frontend.Server.instances() if typeof(inst) == "Server"]
 __renderServerBackendInstances__ = [backend.ServerBackend(inst) for inst in __renderServerFrontendInstances__]
@@ -71,8 +67,7 @@ __k8s__: {str:[]} = {
 
 # merge resource map
 __array_of_resource_map___: [{str:[]}] = [
-    _inst?.kubernetes | __output_standalone__ \
-    for _inst in __renderBackendInstances__ if _inst?.kubernetes
+    _inst?.kubernetes for _inst in __renderBackendInstances__ if _inst?.kubernetes
 ] | [__rbac_map__] | [__prometheus_map__] | [__k8s__]
 
 __resource_map_original___: {str: []} = {
@@ -83,8 +78,7 @@ __resource_map_original___: {str: []} = {
 
 #provider resource
 providerResource = [
-    _inst?.provider | __output_ignore__ \
-    for _inst in __renderServerBackendInstances__ if _inst?.provider
+    _inst?.provider for _inst in __renderServerBackendInstances__ if _inst?.provider
 ] 
 
 # remove duplicates
@@ -92,16 +86,19 @@ __resource_map___: {str: []} = {kind = remove_duplicated_iter(res_list, checkIde
 
 # structure output
 if option("__konfig_output_format__")?.lower() == "raw":
-    konfig_kubeKubernetes = { 
-        _kind: [_resource | __output_standalone__ for _resource in _res] \
+# Convert resource map into a resource list
+    __resource__list__ = sum([res_list for _, res_list in { 
+        _kind: [_resource for _resource in _res] \
             for _kind, _res in __resource_map___
-    } | __output_ignore__
+    }], [])
+    manifests.yaml_stream(__resource__list__)
 else:
     # kubernetes id: apiVersion:Kind:Namespace:Name
     getId = lambda _resource {
         _resource.apiVersion + ":" + _resource.kind + ":" + (_resource.metadata.namespace + ":" if _resource.metadata.namespace else "") + _resource.metadata.name 
     }
-    x = {
+    # Convert resource map into a resource list
+    __resource__list__ = sum([res_list for _, res_list in {
         _kind: [
             {
                 "id" = getId(_resource)
@@ -112,7 +109,8 @@ else:
                             for k in resource.kubernetesOrders[:i] if k in __resource_map___ \
                                 for dependOn in __resource_map___[k]
                 ]
-                "attributes" = _resource | __output_inline__
-            } | __output_standalone__ for _resource in _res
+                "attributes" = _resource
+            } for _resource in _res
         ] for _kind, _res in __resource_map___ 
-    } | __output_ignore__
+    }], [])
+    manifests.yaml_stream(__resource__list__)
