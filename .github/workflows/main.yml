@@ -127,7 +127,7 @@ jobs:
           python-version: '3.9'
       # Install ubuntu latest deps.
       - run: kusion version
-      - run:
+      - run: |
           # todo: remove this after kclvm v0.4.6
           apt -y install wget
           wget -c https://github.com/KusionStack/KCLVM/releases/download/v0.4.5/kclvm-v0.4.5-linux-amd64.tar.gz -qO - | tar xz -C ./
