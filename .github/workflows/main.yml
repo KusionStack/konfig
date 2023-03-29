@@ -100,9 +100,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: install-pytest-html
-        run: kclvm -mpip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+        run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
       - id: structure-check
-        run: kclvm -mpytest -v hack/verify-project-structure.py --junitxml ./hack/report/TEST-structure.xml --html=./hack/report/structure.html
+        run: python3 -m pytest -v hack/verify-project-structure.py --junitxml ./hack/report/TEST-structure.xml --html=./hack/report/structure.html
       - id: upload-structure-check-report
         if: always()
         uses: actions/upload-artifact@v2
@@ -122,14 +122,16 @@ jobs:
         AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
       # Install ubuntu latest deps.
       - run: apt install libncurses5 -y
       - run: kusion version
-      - run: ls /root/go/bin
       - id: install-pytest-html
-        run: kclvm -mpip install pytest-html pytest-xdist ruamel.yaml kclvm -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+        run: python3 -m pip install pytest-html pytest-xdist ruamel.yaml kclvm -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
       - id: test
-        run: kclvm -mpytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST.xml --html=./hack/report/test.html
+        run: python3 -m pytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST.xml --html=./hack/report/test.html
       - id: upload-test-report
         if: always()
         uses: actions/upload-artifact@v2
