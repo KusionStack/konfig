@@ -18,6 +18,14 @@ checkIdentical = lambda a, b {
     and a.metadata.name == b.metadata.name \
     and _a_namespace == _b_namespace
 }
+# Output the resource
+manifestsResourceMap = lambda resource_map: {str: []} {
+    # Convert resource map into a resource list
+    _resource_list = [res_list for _, res_list in resource_map]
+    # Use `sum` function to flatten the resource list
+    _resource_list = sum(_resource_list, [])
+    manifests.yaml_stream(_resource_list)
+}
 
 # lambda: remove duplicated resource
 remove_duplicated_iter = lambda data: [], func {
@@ -86,19 +94,16 @@ __resource_map___: {str: []} = {kind = remove_duplicated_iter(res_list, checkIde
 
 # structure output
 if option("__konfig_output_format__")?.lower() == "raw":
-# Convert resource map into a resource list
-    __resource__list__ = sum([res_list for _, res_list in { 
+    manifestsResourceMap({ 
         _kind: [_resource for _resource in _res] \
             for _kind, _res in __resource_map___
-    }], [])
-    manifests.yaml_stream(__resource__list__)
+    })
 else:
     # kubernetes id: apiVersion:Kind:Namespace:Name
     getId = lambda _resource {
         _resource.apiVersion + ":" + _resource.kind + ":" + (_resource.metadata.namespace + ":" if _resource.metadata.namespace else "") + _resource.metadata.name 
     }
-    # Convert resource map into a resource list
-    __resource__list__ = sum([res_list for _, res_list in {
+    manifestsResourceMap({
         _kind: [
             {
                 "id" = getId(_resource)
@@ -112,5 +117,4 @@ else:
                 "attributes" = _resource
             } for _resource in _res
         ] for _kind, _res in __resource_map___ 
-    }], [])
-    manifests.yaml_stream(__resource__list__)
+    })
