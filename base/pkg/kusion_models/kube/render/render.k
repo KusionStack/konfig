@@ -121,8 +121,8 @@ else:
                         properties = {
                             "objects" = [_resource for _resource in _res if _resource != {}]
                         }
-                    } \ 
-                    for i, v in resource.kubernetesOrders \ 
+                    } \
+                    for i, v in resource.kubernetesOrders \
                         for _kind, _res in __resource_map___ if _kind == v and _res != []
                 ] 
                 policies = [

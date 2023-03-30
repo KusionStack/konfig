@@ -27,14 +27,4 @@ wordpress = frontend.Server {
             internetAccess = True
         }
     }
-
-    # add environment variable in main container
-    mainContainer: {
-        env += [
-            {
-                name = "ENV_ADD_EXAMPLE"
-                value = "wordpress-example"
-            }
-        ]
-    }
 }
