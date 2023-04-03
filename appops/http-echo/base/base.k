@@ -30,7 +30,7 @@ appConfiguration: frontend.Server {
                             path = "/apple"
                             pathType = "Prefix"
                             backend.service = {
-                                name = "app-service"
+                                name = "apple-service"
                                 port = {number = 5678}
                             }
                         }
