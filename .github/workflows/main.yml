@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     name: parse deps and get affected stacks/projecrs by diff files
     container: 
-      image: kusionstack/kusionctl:latest
+      image: kusionstack/kusion:latest
       env: 
         changePaths: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
