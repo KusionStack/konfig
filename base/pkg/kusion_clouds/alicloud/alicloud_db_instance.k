@@ -30,7 +30,7 @@ schema AlicloudDBInstance:
     
     db_instance_ip_array_name?: str
     
-    db_instance_storage_type?: str
+    db_instance_storage_type?: str = "cloud_essd"
     
     db_time_zone?: str
     
@@ -52,7 +52,7 @@ schema AlicloudDBInstance:
     
     instance_name?: str
     
-    instance_storage: int
+    instance_storage: int = 20
     
     instance_type: str
     
@@ -128,16 +128,12 @@ schema AlicloudDBInstance:
     
     parameters?: [alicloud_db_instance_parameters]
     
-    
-    
 schema alicloud_db_instance_parameters:
     name: str
-    
     value: str
     
 schema serverlessConfig: 
-    max_capacity: float 
-    min_capacity: float 
-    auto_pause: bool
-    switch_force: bool
-    
+    max_capacity: float = 8.0
+    min_capacity: float = 0.5
+    auto_pause: bool = False
+    switch_force: bool = False

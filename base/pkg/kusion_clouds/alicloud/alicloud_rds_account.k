@@ -27,6 +27,3 @@ schema AlicloudRDSAccount:
     status?: str
     
     type?: str
-    
-    
-    

@@ -11,5 +11,3 @@ schema AlicloudDBConnection:
     ip_address?: str
     
     port?: str
-    
-    

@@ -1,14 +1,14 @@
 import base.pkg.kusion_models.kube.frontend
+import base.pkg.kusion_models.kube.frontend.storage
 
 # The application configuration in stack will overwrite 
 # the configuration with the same attribute in base.
+# And main.k is for the configurations in concern of application developers. 
 
 # defination of wordpress application frontend model
-wordpress = frontend.Server {
+wordpress: frontend.Server {
     # specify application image
     image = "wordpress:4.8-apache"
-    # render the k8s resources in the form of KubeVela Application
-    renderType = "KubeVelaApplication"
 
     # use cloud database for the storage of wordpress
     database = storage.DataBase {
@@ -22,9 +22,18 @@ wordpress = frontend.Server {
             cloudChargeType = "Serverless"
             # create database account
             databaseAccountName = "root"
-            databaseAccountPassword = "Kusion123456"
+            databaseAccountPassword = option("db_password")
             # create internet access for the cloud database
             internetAccess = True
         }
+    }
+
+    mainContainer: {
+        env += [
+            {
+                name = "ENV_ADD_EXAMPLE"
+                value = "wordpress-example"
+            }
+        ]
     }
 }

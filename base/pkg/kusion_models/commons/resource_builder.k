@@ -1,4 +1,3 @@
-
 schema ResourceBuilder:
     __settings__: {str:str} = {
         "output_type": "IGNORE"

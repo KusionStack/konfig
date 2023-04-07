@@ -1,26 +1,26 @@
-- id: aliyun:alicloud:alicloud_vpc:wordpress-deployment-vpc
+- id: aliyun:alicloud:alicloud_vpc:wordpress-kubevela-dev
   type: Terraform
   attributes:
-    cidr_block: 172.16.0.0/16
-    vpc_name: wordpress-deployment-vpc
+    cidr_block: 172.16.0.0/12
+    vpc_name: wordpress-kubevela-dev
   extensions:
     provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_vpc
-- id: aliyun:alicloud:alicloud_vswitch:wordpress-deployment-vswitch
+- id: aliyun:alicloud:alicloud_vswitch:wordpress-kubevela-dev
   type: Terraform
   attributes:
     cidr_block: 172.16.0.0/24
-    vpc_id: $kusion_path.aliyun:alicloud:alicloud_vpc:wordpress-deployment-vpc.id
-    vswitch_name: wordpress-deployment-vswitch
+    vpc_id: $kusion_path.aliyun:alicloud:alicloud_vpc:wordpress-kubevela-dev.id
+    vswitch_name: wordpress-kubevela-dev
     zone_id: cn-beijing-h
   extensions:
     provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_vswitch
-- id: aliyun:alicloud:alicloud_db_instance:wordpress-deployment-db
+- id: aliyun:alicloud:alicloud_db_instance:wordpress-kubevela-dev
   type: Terraform
   attributes:
     category: serverless_basic
@@ -28,7 +28,7 @@
     engine: MySQL
     engine_version: "5.7"
     instance_charge_type: Serverless
-    instance_name: wordpress-deployment-db
+    instance_name: wordpress-kubevela-dev
     instance_storage: 20
     instance_type: mysql.n2.serverless.1c
     security_ips:
@@ -38,17 +38,17 @@
           max_capacity: 8
           min_capacity: 0.5
           switch_force: false
-    vswitch_id: $kusion_path.aliyun:alicloud:alicloud_vswitch:wordpress-deployment-vswitch.id
+    vswitch_id: $kusion_path.aliyun:alicloud:alicloud_vswitch:wordpress-kubevela-dev.id
   extensions:
     provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_db_instance
-- id: aliyun:alicloud:alicloud_db_connection:wordpress-deployment-connection
+- id: aliyun:alicloud:alicloud_db_connection:wordpress-kubevela-dev
   type: Terraform
   attributes:
-    connection_prefix: wordpress-deployment-connection
-    instance_id: $kusion_path.aliyun:alicloud:alicloud_db_instance:wordpress-deployment-db.id
+    connection_prefix: wordpress-kubevela-dev
+    instance_id: $kusion_path.aliyun:alicloud:alicloud_db_instance:wordpress-kubevela-dev.id
   extensions:
     provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
@@ -60,33 +60,33 @@
     account_name: root
     account_password: Kusion123456
     account_type: Super
-    db_instance_id: $kusion_path.aliyun:alicloud:alicloud_db_instance:wordpress-deployment-db.id
+    db_instance_id: $kusion_path.aliyun:alicloud:alicloud_db_instance:wordpress-kubevela-dev.id
   dependsOn:
-    - aliyun:alicloud:alicloud_db_connection:wordpress-deployment-connection
+    - aliyun:alicloud:alicloud_db_connection:wordpress-kubevela-dev
   extensions:
     provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_rds_account
-- id: core.oam.dev/v1beta1:Application:dev:wordpress-example
+- id: core.oam.dev/v1beta1:Application:dev:wordpress-kubevela
   type: Kubernetes
   attributes:
     apiVersion: core.oam.dev/v1beta1
     kind: Application
     metadata:
-        name: wordpress-example
+        name: wordpress-kubevela
         namespace: dev
     spec:
         components:
-            - name: wordpress-example-namespace
+            - name: wordpress-kubevela-namespace
               properties:
                 objects:
                     - apiVersion: v1
                       kind: Namespace
                       metadata:
-                        name: wordpress-example
+                        name: wordpress-kubevela
               type: k8s-objects
-            - name: wordpress-example-secret
+            - name: wordpress-kubevela-secret
               properties:
                 objects:
                     - apiVersion: v1
@@ -95,59 +95,56 @@
                       kind: Secret
                       metadata:
                         name: mysql-pass
-                        namespace: wordpress-example
+                        namespace: wordpress-kubevela
                       type: Opaque
               type: k8s-objects
-            - name: wordpress-example-service
+            - name: wordpress-kubevela-service
               properties:
                 objects:
                     - apiVersion: v1
                       kind: Service
                       metadata:
                         name: wordpress
-                        namespace: wordpress-example
+                        namespace: wordpress-kubevela
                       spec:
                         ports:
                             - port: 80
                         selector:
-                            app: wordpress-mysql
-                            tier: frontend
+                            app.kubernetes.io/component: wordpress-deployment
+                            app.kubernetes.io/env: dev
+                            app.kubernetes.io/instance: wordpress-kubevela-dev
+                            app.kubernetes.io/name: wordpress-kubevela
+                            cluster.x-k8s.io/cluster-name: default
                         type: ClusterIP
               type: k8s-objects
-            - name: wordpress-example-deployment
+            - name: wordpress-kubevela-deployment
               properties:
                 objects:
                     - apiVersion: apps/v1
                       kind: Deployment
                       metadata:
                         name: wordpress-deployment
-                        namespace: wordpress-example
+                        namespace: wordpress-kubevela
                       spec:
                         replicas: 1
                         selector:
                             matchLabels:
-                                app: wordpress-mysql
                                 app.kubernetes.io/component: wordpress-deployment
                                 app.kubernetes.io/env: dev
-                                app.kubernetes.io/instance: wordpress-example-dev
-                                app.kubernetes.io/name: wordpress-example
+                                app.kubernetes.io/instance: wordpress-kubevela-dev
+                                app.kubernetes.io/name: wordpress-kubevela
                                 cluster.x-k8s.io/cluster-name: default
-                                tier: frontend
                         template:
                             metadata:
                                 labels:
-                                    app: wordpress-mysql
                                     app.kubernetes.io/component: wordpress-deployment
                                     app.kubernetes.io/env: dev
-                                    app.kubernetes.io/instance: wordpress-example-dev
-                                    app.kubernetes.io/name: wordpress-example
+                                    app.kubernetes.io/instance: wordpress-kubevela-dev
+                                    app.kubernetes.io/name: wordpress-kubevela
                                     cluster.x-k8s.io/cluster-name: default
-                                    tier: frontend
                             spec:
                                 containers:
                                     - env:
-                                        - name: WORDPRESS_DB_HOST
-                                          value: $kusion_path.aliyun:alicloud:alicloud_db_connection:wordpress-deployment-connection.connection_string
                                         - name: WORDPRESS_DB_PASSWORD
                                           valueFrom:
                                             secretKeyRef:
@@ -155,6 +152,8 @@
                                                 name: mysql-pass
                                         - name: ENV_ADD_EXAMPLE
                                           value: wordpress-example
+                                        - name: WORDPRESS_DB_HOST
+                                          value: $kusion_path.aliyun:alicloud:alicloud_db_connection:wordpress-kubevela-dev.connection_string
                                       image: wordpress:4.8-apache
                                       name: wordpress
                                       ports:

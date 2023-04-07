@@ -5,7 +5,7 @@ import base.pkg.kusion_clouds.alicloud
 _vpc_attrs = alicloud.AlicloudVPC.instances()
 
 vpc_provider = [ commons.ResourceBuilder {
-    type = "alicloud_vpc"
+    type = alicloud_config.alicloudVPCMeta.type
     name = _vpc_attr.vpc_name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta
@@ -14,19 +14,18 @@ vpc_provider = [ commons.ResourceBuilder {
 
 schema VPCRender[inputData: alicloud.AlicloudVPC]:
     assert inputData, "inputData must be specified and can't be empty or None or Undefined"
-    data: alicloud.AlicloudVPC = inputData
     provider: commons.ResourceBuilder = {
-        type = "alicloud_vpc"
-        name = data.vpc_name
+        type = alicloud_config.alicloudVPCMeta.type
+        name = inputData.vpc_name
         provider = alicloud_config.alicloudProvider
         providerMeta = alicloud_config.alicloudProviderMeta
-        providerAttr = data
+        providerAttr = inputData
     }
     
 _vswitch_attrs = alicloud.AlicloudVswitch.instances()
 
 vswitch_provider = [commons.ResourceBuilder {
-    type = "alicloud_vswitch"
+    type = alicloud_config.alicloudVswitchMeta.type
     name = _vswitch_attr.vswitch_name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta
@@ -35,19 +34,18 @@ vswitch_provider = [commons.ResourceBuilder {
 
 schema VswitchRender[inputData: alicloud.AlicloudVswitch]: 
     assert inputData, "inputData must be specified and can't be empty or None or Undefined"
-    data: alicloud.AlicloudVswitch = inputData
     provider: commons.ResourceBuilder = {
-        type = "alicloud_vswitch"
-        name = data.vswitch_name
+        type = alicloud_config.alicloudVswitchMeta.type
+        name = inputData.vswitch_name
         provider = alicloud_config.alicloudProvider
         providerMeta = alicloud_config.alicloudProviderMeta
-        providerAttr = data
+        providerAttr = inputData
     }
 
 _security_group_attrs = alicloud.AlicloudSecurityGroup.instances()
 
 security_provider = [commons.ResourceBuilder {
-    type ="alicloud_security_group"
+    type = alicloud_config.alicloudSecurityGroupMeta.type
     name = _security_group_attr.name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta
@@ -57,7 +55,7 @@ security_provider = [commons.ResourceBuilder {
 _instance_attrs = alicloud.AlicloudInstance.instances()
 
 instance_provider = [commons.ResourceBuilder {
-    type ="alicloud_instance"
+    type = alicloud_config.alicloudInstanceMeta.type
     name = _instance_attr.instance_name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta

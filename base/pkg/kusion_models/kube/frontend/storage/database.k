@@ -2,7 +2,7 @@ schema DataBase:
     """ DataBase is the schema of cloud database.
     Attributes
     ----------
-    dataBaseType: str, cloud database type name, default is Undefined.
+    dataBaseType: Literal Type, cloud database type name, default is "aliyun_rds".
     dataBaseAttr: DBAttr, cloud database attribute, default is Undefined.
     
     Examples
@@ -18,7 +18,7 @@ schema DataBase:
     }
     
     """
-    dataBaseType: str
+    dataBaseType: "aliyun_rds"
     dataBaseAttr: DBAttr
 
 schema DBAttr: 

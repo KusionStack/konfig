@@ -1,5 +1,5 @@
 schema AlicloudVPC:	
-    cidr_block?: str
+    cidr_block?: str = "172.16.0.0/12"
     """
     The CIDR block for the VPC. The cidr_block is Optional and default value is 172.16.0.0/12 after v1.119.0+.
     """
