@@ -1,1 +1,5 @@
 kcl_options:
+  - key: app
+    value: prometheus-example-app
+  - key: env
+    value: prod

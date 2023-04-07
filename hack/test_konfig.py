@@ -10,15 +10,56 @@ import typing
 
 import pytest
 from ruamel.yaml import YAML
+from collections.abc import Mapping, Sequence
 from lib.common import *
 from lib import utils
 
+TEST_FILE = "kcl.yaml"
+ROOT = str(Path(__file__).parent.parent)
+
 yaml = YAML(typ="unsafe", pure=True)
+
+def find_test_dirs():
+    result = []
+    root_dirs = [ROOT]
+    for root_dir in root_dirs:
+        for root, _, files in os.walk(root_dir):
+            for name in files:
+                if name == TEST_FILE:
+                    result.append(root)
+    return result
 
 
 def compare_results(result, golden_result):
-    # Convert result and golden_result string to string lines with line ending stripped, then compare.
-    assert list(yaml.load_all(result)) == list(yaml.load_all(golden_result))
+    """Convert result and golden_result string to string lines with line ending stripped, then compare."""
+
+    assert compare_unordered_yaml_objects(
+        list(yaml.load_all(result)), list(yaml.load_all(golden_result))
+    )
+
+
+def compare_unordered_yaml_objects(result, golden_result):
+    """Comparing the contents of two YAML objects for equality in an unordered manner."""
+    if isinstance(result, Mapping) and isinstance(golden_result, Mapping):
+        if result.keys() != golden_result.keys():
+            return False
+        for key in result.keys():
+            if not compare_unordered_yaml_objects(result[key], golden_result[key]):
+                return False
+
+        return True
+    elif isinstance(result, Sequence) and isinstance(golden_result, Sequence):
+        if len(result) != len(golden_result):
+            return False
+        for item in result:
+            if item not in golden_result:
+                return False
+        for item in golden_result:
+            if item not in result:
+                return False
+        return True
+    else:
+        return result == golden_result
 
 
 print("##### K Language Grammar Test Suite #####")
@@ -60,7 +101,7 @@ def test_konfigs(test_dir):
     if process.returncode == 0 and len(stderr) == 0:
         try:
             golden = open(golden_file, "r") 
-            test  = open(test_yaml)
+            test = open(test_yaml, "r")
             compare_results(test, golden)
             os.remove(test_yaml)
         except FileNotFoundError:

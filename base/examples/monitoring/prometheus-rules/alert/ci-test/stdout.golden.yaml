@@ -1,17 +1,17 @@
-id: monitoring.coreos.com/v1:PrometheusRule:default:alert
-type: Kubernetes
-attributes:
-  apiVersion: monitoring.coreos.com/v1
-  kind: PrometheusRule
-  metadata:
-    labels:
-      prometheus: main
-      role: alert-rules
-    name: alert
-    namespace: default
-  spec:
-    groups:
-    - name: alert.rules
-      rules:
-      - alert: WebhookAlert
-        expr: vector(1)
+- id: monitoring.coreos.com/v1:PrometheusRule:default:alert
+  type: Kubernetes
+  attributes:
+    apiVersion: monitoring.coreos.com/v1
+    kind: PrometheusRule
+    metadata:
+        labels:
+            prometheus: main
+            role: alert-rules
+        name: alert
+        namespace: default
+    spec:
+        groups:
+            - name: alert.rules
+              rules:
+                - alert: WebhookAlert
+                  expr: vector(1)

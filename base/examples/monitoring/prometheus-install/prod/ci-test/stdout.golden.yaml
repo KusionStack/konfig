@@ -1,181 +1,174 @@
-id: rbac.authorization.k8s.io/v1:ClusterRoleBinding:default:prometheus
-type: Kubernetes
-dependsOn:
-- rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
-attributes:
-  apiVersion: rbac.authorization.k8s.io/v1
-  kind: ClusterRoleBinding
-  subjects:
-  - kind: ServiceAccount
-    name: prometheus
-    namespace: default
-  metadata:
-    name: prometheus
-    namespace: default
-  roleRef:
-    apiGroup: rbac.authorization.k8s.io
-    kind: ClusterRole
-    name: prometheus
----
-id: rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
-type: Kubernetes
-attributes:
-  apiVersion: rbac.authorization.k8s.io/v1
-  kind: ClusterRole
-  rules:
-  - apiGroups:
-    - ''
-    resources:
-    - nodes
-    - nodes/metrics
-    - services
-    - endpoints
-    - pods
-    verbs:
-    - get
-    - list
-    - watch
-  - apiGroups:
-    - ''
-    resources:
-    - configmaps
-    verbs:
-    - get
-  - apiGroups:
-    - networking.k8s.io
-    resources:
-    - ingresses
-    verbs:
-    - get
-    - list
-    - watch
-  - nonResourceURLs:
-    - /metrics
-    verbs:
-    - get
-  metadata:
-    name: prometheus
-    namespace: default
----
-id: monitoring.coreos.com/v1alpha1:AlertmanagerConfig:default:main
-type: Kubernetes
-attributes:
-  apiVersion: monitoring.coreos.com/v1alpha1
-  kind: AlertmanagerConfig
-  metadata:
-    labels:
-      alertmanagerConfig: main
-    name: main
-    namespace: default
-  spec:
-    receivers:
-    - name: webhook
-      webhookConfigs:
-      - url: http://example.com/
-    route:
-      groupBy:
-      - job
-      groupInterval: 5m
-      groupWait: 30s
-      receiver: webhook
-      repeatInterval: 12h
----
-id: monitoring.coreos.com/v1:Prometheus:default:main
-type: Kubernetes
-attributes:
-  apiVersion: monitoring.coreos.com/v1
-  kind: Prometheus
-  metadata:
-    name: main
-    namespace: default
-  spec:
-    serviceMonitorSelector:
-      matchLabels:
-        prometheus: main
-    replicas: 2
-    scrapeInterval: 30s
-    serviceAccountName: prometheus
-    evaluationInterval: 30s
-    alerting:
-      alertmanagers:
-      - name: alertmanager
+- id: rbac.authorization.k8s.io/v1:ClusterRoleBinding:default:prometheus
+  type: Kubernetes
+  attributes:
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+        name: prometheus
         namespace: default
-        port: web
-    ruleSelector:
-      matchLabels:
-        role: alert-rules
-        prometheus: main
----
-id: monitoring.coreos.com/v1:Alertmanager:default:main
-type: Kubernetes
-attributes:
-  apiVersion: monitoring.coreos.com/v1
-  kind: Alertmanager
-  metadata:
-    name: main
-    namespace: default
-  spec:
-    replicas: 3
-    retention: 120h
-    alertmanagerConfiguration:
-      name: main
----
-id: v1:Service:default:alertmanager
-type: Kubernetes
-dependsOn:
-- rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
-- rbac.authorization.k8s.io/v1:ClusterRoleBinding:default:prometheus
-- v1:ServiceAccount:default:prometheus
-attributes:
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: alertmanager
-    namespace: default
-  spec:
-    ports:
-    - name: web
-      port: 9093
-      targetPort: web
-    - name: reloader-web
-      port: 8080
-      targetPort: reloader-web
-    selector:
-      alertmanager: main
-    sessionAffinity: ClientIP
----
-id: v1:Service:default:prometheus
-type: Kubernetes
-dependsOn:
-- rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
-- rbac.authorization.k8s.io/v1:ClusterRoleBinding:default:prometheus
-- v1:ServiceAccount:default:prometheus
-attributes:
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: prometheus
-    namespace: default
-  spec:
-    ports:
-    - name: web
-      port: 9090
-      targetPort: web
-    - name: reloader-web
-      port: 8080
-      targetPort: reloader-web
-    selector:
-      prometheus: main
-    sessionAffinity: ClientIP
----
-id: v1:ServiceAccount:default:prometheus
-type: Kubernetes
-dependsOn:
-- rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
-- rbac.authorization.k8s.io/v1:ClusterRoleBinding:default:prometheus
-attributes:
-  apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    name: prometheus
-    namespace: default
+    roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: prometheus
+    subjects:
+        - kind: ServiceAccount
+          name: prometheus
+          namespace: default
+  dependsOn:
+    - rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
+- id: rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
+  type: Kubernetes
+  attributes:
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+        name: prometheus
+        namespace: default
+    rules:
+        - apiGroups:
+            - ""
+          resources:
+            - nodes
+            - nodes/metrics
+            - services
+            - endpoints
+            - pods
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ""
+          resources:
+            - configmaps
+          verbs:
+            - get
+        - apiGroups:
+            - networking.k8s.io
+          resources:
+            - ingresses
+          verbs:
+            - get
+            - list
+            - watch
+        - nonResourceURLs:
+            - /metrics
+          verbs:
+            - get
+- id: monitoring.coreos.com/v1alpha1:AlertmanagerConfig:default:main
+  type: Kubernetes
+  attributes:
+    apiVersion: monitoring.coreos.com/v1alpha1
+    kind: AlertmanagerConfig
+    metadata:
+        labels:
+            alertmanagerConfig: main
+        name: main
+        namespace: default
+    spec:
+        receivers:
+            - name: webhook
+              webhookConfigs:
+                - url: http://example.com/
+        route:
+            groupBy:
+                - job
+            groupInterval: 5m
+            groupWait: 30s
+            receiver: webhook
+            repeatInterval: 12h
+- id: monitoring.coreos.com/v1:Prometheus:default:main
+  type: Kubernetes
+  attributes:
+    apiVersion: monitoring.coreos.com/v1
+    kind: Prometheus
+    metadata:
+        name: main
+        namespace: default
+    spec:
+        alerting:
+            alertmanagers:
+                - name: alertmanager
+                  namespace: default
+                  port: web
+        evaluationInterval: 30s
+        replicas: 2
+        ruleSelector:
+            matchLabels:
+                prometheus: main
+                role: alert-rules
+        scrapeInterval: 30s
+        serviceAccountName: prometheus
+        serviceMonitorSelector:
+            matchLabels:
+                prometheus: main
+- id: monitoring.coreos.com/v1:Alertmanager:default:main
+  type: Kubernetes
+  attributes:
+    apiVersion: monitoring.coreos.com/v1
+    kind: Alertmanager
+    metadata:
+        name: main
+        namespace: default
+    spec:
+        alertmanagerConfiguration:
+            name: main
+        replicas: 3
+        retention: 120h
+- id: v1:Service:default:alertmanager
+  type: Kubernetes
+  attributes:
+    apiVersion: v1
+    kind: Service
+    metadata:
+        name: alertmanager
+        namespace: default
+    spec:
+        ports:
+            - name: web
+              port: 9093
+              targetPort: web
+            - name: reloader-web
+              port: 8080
+              targetPort: reloader-web
+        selector:
+            alertmanager: main
+        sessionAffinity: ClientIP
+  dependsOn:
+    - rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
+    - rbac.authorization.k8s.io/v1:ClusterRoleBinding:default:prometheus
+    - v1:ServiceAccount:default:prometheus
+- id: v1:Service:default:prometheus
+  type: Kubernetes
+  attributes:
+    apiVersion: v1
+    kind: Service
+    metadata:
+        name: prometheus
+        namespace: default
+    spec:
+        ports:
+            - name: web
+              port: 9090
+              targetPort: web
+            - name: reloader-web
+              port: 8080
+              targetPort: reloader-web
+        selector:
+            prometheus: main
+        sessionAffinity: ClientIP
+  dependsOn:
+    - rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
+    - rbac.authorization.k8s.io/v1:ClusterRoleBinding:default:prometheus
+    - v1:ServiceAccount:default:prometheus
+- id: v1:ServiceAccount:default:prometheus
+  type: Kubernetes
+  attributes:
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+        name: prometheus
+        namespace: default
+  dependsOn:
+    - rbac.authorization.k8s.io/v1:ClusterRole:default:prometheus
+    - rbac.authorization.k8s.io/v1:ClusterRoleBinding:default:prometheus

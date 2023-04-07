@@ -1,1 +1,5 @@
 kcl_options:
+  - key: app
+    value: prometheus-install
+  - key: env
+    value: prod
