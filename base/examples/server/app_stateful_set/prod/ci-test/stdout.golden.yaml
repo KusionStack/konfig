@@ -1,69 +1,67 @@
-id: apps/v1:StatefulSet:sampleapp:sampleappprod
-type: Kubernetes
-dependsOn:
-- v1:Namespace:sampleapp
-- v1:Service:sampleapp:sampleappprod
-attributes:
-  apiVersion: apps/v1
-  kind: StatefulSet
-  metadata:
-    name: sampleappprod
-    namespace: sampleapp
-  spec:
-    replicas: 1
-    serviceName: sampleappprod
-    selector:
-      matchLabels:
-        app.kubernetes.io/name: sampleapp
-        app.kubernetes.io/env: prod
-        app.kubernetes.io/instance: sampleapp-prod
-        cluster.x-k8s.io/cluster-name: demo-cluster-name
-        app.kubernetes.io/component: sampleappprod
-    template:
-      metadata:
-        labels:
-          app.kubernetes.io/name: sampleapp
-          app.kubernetes.io/env: prod
-          app.kubernetes.io/instance: sampleapp-prod
-          cluster.x-k8s.io/cluster-name: demo-cluster-name
-          app.kubernetes.io/component: sampleappprod
-      spec:
-        containers:
-        - image: gcr.io/google-samples/gb-frontend:v4
-          name: main
-          resources:
-            limits:
-              cpu: 100m
-              memory: 100Mi
-              ephemeral-storage: 1Gi
-            requests:
-              cpu: 100m
-              memory: 100Mi
-              ephemeral-storage: 1Gi
----
-id: v1:Service:sampleapp:sampleappprod
-type: Kubernetes
-dependsOn:
-- v1:Namespace:sampleapp
-attributes:
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: sampleappprod
-    namespace: sampleapp
-  spec:
-    clusterIP: None
-    selector:
-      app.kubernetes.io/name: sampleapp
-      app.kubernetes.io/env: prod
-      app.kubernetes.io/instance: sampleapp-prod
-      cluster.x-k8s.io/cluster-name: demo-cluster-name
-      app.kubernetes.io/component: sampleappprod
----
-id: v1:Namespace:sampleapp
-type: Kubernetes
-attributes:
-  apiVersion: v1
-  kind: Namespace
-  metadata:
-    name: sampleapp
+- id: apps/v1:StatefulSet:sampleapp:sampleappprod
+  type: Kubernetes
+  attributes:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+        name: sampleappprod
+        namespace: sampleapp
+    spec:
+        replicas: 1
+        selector:
+            matchLabels:
+                app.kubernetes.io/component: sampleappprod
+                app.kubernetes.io/env: prod
+                app.kubernetes.io/instance: sampleapp-prod
+                app.kubernetes.io/name: sampleapp
+                cluster.x-k8s.io/cluster-name: demo-cluster-name
+        serviceName: sampleappprod
+        template:
+            metadata:
+                labels:
+                    app.kubernetes.io/component: sampleappprod
+                    app.kubernetes.io/env: prod
+                    app.kubernetes.io/instance: sampleapp-prod
+                    app.kubernetes.io/name: sampleapp
+                    cluster.x-k8s.io/cluster-name: demo-cluster-name
+            spec:
+                containers:
+                    - image: gcr.io/google-samples/gb-frontend:v4
+                      name: main
+                      resources:
+                        limits:
+                            cpu: 100m
+                            ephemeral-storage: 1Gi
+                            memory: 100Mi
+                        requests:
+                            cpu: 100m
+                            ephemeral-storage: 1Gi
+                            memory: 100Mi
+  dependsOn:
+    - v1:Namespace:sampleapp
+    - v1:Service:sampleapp:sampleappprod
+- id: v1:Service:sampleapp:sampleappprod
+  type: Kubernetes
+  attributes:
+    apiVersion: v1
+    kind: Service
+    metadata:
+        name: sampleappprod
+        namespace: sampleapp
+    spec:
+        clusterIP: None
+        selector:
+            app.kubernetes.io/component: sampleappprod
+            app.kubernetes.io/env: prod
+            app.kubernetes.io/instance: sampleapp-prod
+            app.kubernetes.io/name: sampleapp
+            cluster.x-k8s.io/cluster-name: demo-cluster-name
+  dependsOn:
+    - v1:Namespace:sampleapp
+- id: v1:Namespace:sampleapp
+  type: Kubernetes
+  attributes:
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+        name: sampleapp

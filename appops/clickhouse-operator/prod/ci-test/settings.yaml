@@ -1,3 +1,5 @@
 kcl_options:
-  # - key: __konfig_output_format__
-  #   value: raw
+  - key: app
+    value: clickhouse-operator
+  - key: env
+    value: prod

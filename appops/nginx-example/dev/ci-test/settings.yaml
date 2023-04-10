@@ -1,3 +1,7 @@
 kcl_options:
   - key: cluster
     value: default
+  - key: app
+    value: nginx-example
+  - key: env
+    value: dev

@@ -1,3 +1,7 @@
 kcl_options:
   - key: cluster
     value: default
+  - key: app
+    value: kcl-vault-agent
+  - key: env
+    value: dev

@@ -1,3 +1,7 @@
 kcl_options:
   - key: cluster
     value: default
+  - key: app
+    value: secret-as-code
+  - key: env
+    value: dev
