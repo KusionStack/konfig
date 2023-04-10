@@ -5,7 +5,7 @@ import base.pkg.kusion_models.kube.frontend.secret
 import base.pkg.kusion_models.kube.frontend.volume as v
 import base.pkg.kusion_models.kube.frontend.storage
 
-mysql = frontend.Server {
+mysql: frontend.Server {
     name = "wordpress-mysql"
     selector = {
         "app" = "wordpress-mysql"
@@ -81,7 +81,7 @@ mysql = frontend.Server {
     ]
 }
 
-wordpress = frontend.Server {
+wordpress: frontend.Server {
     name = "wordpress-deployment"
     selector = {
         "app" = "wordpress-mysql"
