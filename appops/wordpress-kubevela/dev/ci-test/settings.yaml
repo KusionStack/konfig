@@ -1,0 +1,9 @@
+kcl_options:
+  - key: cluster
+    value: default
+  - key: db_password
+    value: Kusion123456
+  - key: app
+    value: wordpress-kubevela
+  - key: env
+    value: dev

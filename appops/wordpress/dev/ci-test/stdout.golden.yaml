@@ -4,7 +4,7 @@
     acl: public-read
     bucket: kusion-oss
   extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.153.0
+    provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_oss_bucket
