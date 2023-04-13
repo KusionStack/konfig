@@ -4,4 +4,5 @@ kcl_cli_configs:
     - ${KCL_MOD}/base/pkg/kusion_models/kube/metadata/metadata.k
     - ../base/base.k
     - ./main.k
+    - ./platform.k
     - ${KCL_MOD}/base/pkg/kusion_models/kube/render/render.k
