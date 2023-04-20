@@ -28,12 +28,15 @@ wordpress: frontend.Server {
         }
     }
 
-    mainContainer: {
-        env += [
-            {
-                name = "ENV_ADD_EXAMPLE"
-                value = "wordpress-example"
-            }
-        ]
-    }
+    # NOTE: this configuration is an example of adding an environment variable in the main container
+    # uncommenting and re-deploying will add the environment variable "ENV_ADD_EXAMPLE" in the 
+    # main container and the differnces will be shown by the command of "kusion apply"
+    # mainContainer: {
+    #     env += [
+    #         {
+    #             name = "ENV_ADD_EXAMPLE"
+    #             value = "wordpress-example"
+    #         }
+    #     ]
+    # }
 }

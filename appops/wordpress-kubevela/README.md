@@ -35,7 +35,7 @@ Apply complete! Resources: 6 created, 0 updated, 0 deleted.
 .
 ├── base                        // 各环境通用配置
 │   ├── base.k                  // 应用的环境通用配置
-├── prod                        // 环境目录
+├── dev                         // 环境目录
 │   └── ci-test                 // ci 测试目录，放置测试脚本和数据
 │     └── settings.yaml         // 测试数据和编译文件配置
 │     └── stdout.golden.yaml    // 期望的 YAML，可通过 make 更新
