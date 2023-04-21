@@ -132,7 +132,9 @@ jobs:
       - id: install-pytest-html
         run: python3 -m pip install pytest-html pytest-xdist ruamel.yaml kclvm -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
       - id: test
-        run: kclvm -mpytest -vv -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST.xml --html=./hack/report/test.html
+        run: |
+          export PATH=$PATH:$(pwd)/kclvm/bin
+          python3 -m pytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST.xml --html=./hack/report/test.html
       - id: upload-test-report
         if: always()
         uses: actions/upload-artifact@v2
