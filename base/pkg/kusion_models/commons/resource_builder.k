@@ -1,8 +1,4 @@
 schema ResourceBuilder:
-    __settings__: {str:str} = {
-        "output_type": "IGNORE"
-    }
-
     $type: str
     """type is the type of provider resource
     """
@@ -24,9 +20,6 @@ schema ResourceBuilder:
     providerDependsOn?: [str]
 
     _resource = RESOURCE {
-        __settings__: {
-            "output_type": "STANDALONE"
-        }
         id = provider.namespace + ":" + provider.name + ":" + type + ":" + name
         type: "Terraform"
         attributes: providerAttr

@@ -8,8 +8,11 @@ import base.pkg.kusion_kubernetes.api.core.v1 as corev1
 import base.pkg.kusion_prometheus.monitoring.v1 as monitoringv1
 import base.pkg.kusion_prometheus.monitoring.v1alpha1 as monitoringv1alpha1
 import base.pkg.kusion_kubevela.v1beta1 as kubevelav1beta1
+import base.pkg.kusion_models.commons
+import base.pkg.kusion_vault.v1 as vaultv1
 
 import manifests
+
 # predefined functions
 # lambda: check if two k8s resources are identical
 checkIdentical = lambda a, b {
@@ -69,6 +72,10 @@ __prometheus_map__: {str:[]} = {
     Prometheus += monitoringv1.Prometheus.instances()
     Alertmanager += monitoringv1.Alertmanager.instances()
 }
+# vault
+__vault_map__: {str:[]} = {
+    SecretProviderClass += vaultv1.SecretProviderClass.instances()
+}
 
 # k8s
 __k8s__: {str:[]} = {
@@ -79,7 +86,7 @@ __k8s__: {str:[]} = {
 # merge resource map
 __array_of_resource_map___: [{str:[]}] = [
     _inst?.kubernetes for _inst in __renderBackendInstances__ if _inst?.kubernetes
-] | [__rbac_map__] | [__prometheus_map__] | [__k8s__]
+] | [__rbac_map__] | [__prometheus_map__] | [__vault_map__] | [__k8s__]
 
 __resource_map_original___: {str: []} = {
     _kind += [r for key, r in _res] \
@@ -87,8 +94,9 @@ __resource_map_original___: {str: []} = {
             for _kind, _res in _resource_map if _kind not in ["__settings__"]
 }
 
-# provider resource
-providerResource = sum([_inst?.provider for _inst in __renderServerBackendInstances__ if _inst?.provider], [])
+# Terraform provider resources
+_providerResource: [commons.ResourceBuilder] = sum([_inst.provider for _inst in __renderServerBackendInstances__ if _inst?.provider], [])
+_providerResourceMapping = {"${p.result.id}" = [p.result] for p in _providerResource}
 
 # remove duplicates
 __resource_map___: {str: []} = {kind = remove_duplicated_iter(res_list, checkIdentical) for kind, res_list in __resource_map_original___}
@@ -103,7 +111,7 @@ getId = lambda _resource {
 }
 
 if option("__konfig_output_format__")?.lower() == "raw":
-    manifestsResourceMap({ 
+    manifestsResourceMap(_providerResourceMapping | { 
         _kind: [_resource for _resource in _res] \
             for _kind, _res in __resource_map___
     })
@@ -122,11 +130,11 @@ else:
                         name = metadata.__META_APP_NAME + "-" + (_kind).lower()
                         type = "k8s-objects" 
                         properties = {
-                            "objects" = [_resource for _resource in _res if _resource != {}]
+                            "objects" = [_resource for _resource in _res if _resource]
                         }
                     } \
                     for i, v in resource.kubernetesOrders \
-                        for _kind, _res in __resource_map___ if _kind == v and _res != []
+                        for _kind, _res in __resource_map___ if _kind == v and _res
                 ] 
                 policies = [
                     kubevelav1beta1.CoreOamDevV1beta1ApplicationSpecPoliciesItems0 {
@@ -151,7 +159,7 @@ else:
                 "attributes" = kubevela_app
             }]
         }
-        manifestsResourceMap(kubevela_output)
+        manifestsResourceMap(_providerResourceMapping | kubevela_output)
     else:
         server_output = {
             _kind: [
@@ -168,4 +176,4 @@ else:
                 } for _resource in _res
             ] for _kind, _res in __resource_map___ 
         }
-        manifestsResourceMap(server_output)
+        manifestsResourceMap(_providerResourceMapping | server_output)
