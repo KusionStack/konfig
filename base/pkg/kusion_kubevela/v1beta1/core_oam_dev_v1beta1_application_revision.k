@@ -24,9 +24,6 @@ schema ApplicationRevision:
         status
     """
 
-
-    __settings__?: {str:str} = {"output_type": "STANDALONE"}
-
     apiVersion: "core.oam.dev/v1beta1" = "core.oam.dev/v1beta1"
 
     kind: "ApplicationRevision" = "ApplicationRevision"

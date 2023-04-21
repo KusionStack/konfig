@@ -94,7 +94,6 @@ schema Server:
         schedulingStrategy.resource = res_tpl.tiny
     }
     """
-    __settings__: {str:str} = {"output_type" = "IGNORE"}
 
     # workload name
     name?: str
