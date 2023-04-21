@@ -128,7 +128,7 @@ jobs:
       - run: |
           # todo: remove this after kclvm v0.4.6
           apt -y install wget
-          wget -c https://github.com/KusionStack/KCLVM/releases/download/v0.4.5/kclvm-v0.4.5-linux-amd64.tar.gz -qO - | tar xz -C ./
+          wget -c https://github.com/KusionStack/KCLVM/releases/download/v0.4.6/kclvm-v0.4.6-linux-amd64.tar.gz -qO - | tar xz -C ./
       - id: install-pytest-html
         run: python3 -m pip install pytest-html pytest-xdist ruamel.yaml kclvm -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
       - id: test
