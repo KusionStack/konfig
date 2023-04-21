@@ -2,9 +2,9 @@
   type: Terraform
   attributes:
     cidr_block: 172.16.0.0/16
-    name: alicloud_vpc
+    vpc_name: alicloud_vpc
   extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.153.0
+    provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_vpc
@@ -13,10 +13,10 @@
   attributes:
     availability_zone: cn-beijing-b
     cidr_block: 172.16.0.0/21
-    name: alicloud_vswitch
     vpc_id: $kusion_path.aliyun:alicloud:alicloud_vpc:alicloud_vpc.id
+    vswitch_name: alicloud_vswitch
   extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.153.0
+    provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_vswitch
@@ -27,7 +27,7 @@
     name: alicloud_security_group
     vpc_id: $kusion_path.aliyun:alicloud:alicloud_vpc:alicloud_vpc.id
   extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.153.0
+    provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_security_group
@@ -45,7 +45,7 @@
     system_disk_category: cloud_efficiency
     vswitch_id: $kusion_path.aliyun:alicloud:alicloud_vswitch:alicloud_vswitch.id
   extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.153.0
+    provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_instance
@@ -63,7 +63,7 @@
     system_disk_category: cloud_efficiency
     vswitch_id: $kusion_path.aliyun:alicloud:alicloud_vswitch:alicloud_vswitch.id
   extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.153.0
+    provider: registry.terraform.io/aliyun/alicloud/1.201.1
     providerMeta:
         region: cn-beijing
     resourceType: alicloud_instance

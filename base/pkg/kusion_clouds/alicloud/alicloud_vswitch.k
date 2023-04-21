@@ -4,9 +4,9 @@ schema AlicloudVswitch:
     Field availability_zone has been deprecated from provider version 1.119.0. New field zone_id instead.
     """
     
-    cidr_block: str
+    cidr_block: str = "172.16.0.0/24"
     """
-    The CIDR block for the switch.
+    The CIDR block for the switch. The default value is 172.16.0.0/24.
     """
     
     description?: str

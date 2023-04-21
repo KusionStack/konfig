@@ -2,9 +2,12 @@ import base.pkg.kusion_models.kube.frontend
 import base.pkg.kusion_models.kube.frontend.rbac
 import base.pkg.kusion_models.kube.backend
 import base.pkg.kusion_models.kube.resource
+import base.pkg.kusion_models.kube.metadata
+import base.pkg.kusion_kubernetes.apimachinery.apis
 import base.pkg.kusion_kubernetes.api.core.v1 as corev1
 import base.pkg.kusion_prometheus.monitoring.v1 as monitoringv1
 import base.pkg.kusion_prometheus.monitoring.v1alpha1 as monitoringv1alpha1
+import base.pkg.kusion_kubevela.v1beta1 as kubevelav1beta1
 
 import manifests
 # predefined functions
@@ -84,37 +87,85 @@ __resource_map_original___: {str: []} = {
             for _kind, _res in _resource_map if _kind not in ["__settings__"]
 }
 
-#provider resource
-providerResource = [
-    _inst?.provider for _inst in __renderServerBackendInstances__ if _inst?.provider
-] 
+# provider resource
+providerResource = sum([_inst?.provider for _inst in __renderServerBackendInstances__ if _inst?.provider], [])
 
 # remove duplicates
 __resource_map___: {str: []} = {kind = remove_duplicated_iter(res_list, checkIdentical) for kind, res_list in __resource_map_original___}
 
-# structure output
+# decide which kind of render we should use
+# we will choose KubeVela Application once the type of 'KubeVelaApplication' appears
+__is_kubevela_application__: bool = "KubeVelaApplication" in [inst.renderType for inst in __renderServerFrontendInstances__]
+
+# kubernetes id: apiVersion:Kind:Namespace:Name
+getId = lambda _resource {
+    _resource.apiVersion + ":" + _resource.kind + ":" + (_resource.metadata.namespace + ":" if _resource.metadata.namespace else "") + _resource.metadata.name 
+}
+
 if option("__konfig_output_format__")?.lower() == "raw":
     manifestsResourceMap({ 
         _kind: [_resource for _resource in _res] \
             for _kind, _res in __resource_map___
     })
 else:
-    # kubernetes id: apiVersion:Kind:Namespace:Name
-    getId = lambda _resource {
-        _resource.apiVersion + ":" + _resource.kind + ":" + (_resource.metadata.namespace + ":" if _resource.metadata.namespace else "") + _resource.metadata.name 
-    }
-    manifestsResourceMap({
-        _kind: [
-            {
-                "id" = getId(_resource)
-                "type" = "Kubernetes"
-                "dependsOn" = [
-                    getId(dependOn) \
-                        for i, v in resource.kubernetesOrders if v == _kind \
-                            for k in resource.kubernetesOrders[:i] if k in __resource_map___ \
-                                for dependOn in __resource_map___[k]
+    if __is_kubevela_application__:
+        # generate KubeVela Application with K8s resource map
+        kubevela_app: kubevelav1beta1.Application {
+            metadata = apis.ObjectMeta {
+                name = metadata.__META_APP_NAME
+                namespace = metadata.__META_ENV_TYPE_NAME
+            }
+
+            spec = kubevelav1beta1.CoreOamDevV1beta1ApplicationSpec {
+                components = [
+                    kubevelav1beta1.CoreOamDevV1beta1ApplicationSpecComponentsItems0 {
+                        name = metadata.__META_APP_NAME + "-" + (_kind).lower()
+                        type = "k8s-objects" 
+                        properties = {
+                            "objects" = [_resource for _resource in _res if _resource != {}]
+                        }
+                    } \
+                    for i, v in resource.kubernetesOrders \
+                        for _kind, _res in __resource_map___ if _kind == v and _res != []
+                ] 
+                policies = [
+                    kubevelav1beta1.CoreOamDevV1beta1ApplicationSpecPoliciesItems0 {
+                        name = "default"
+                        type = "apply-once"
+                        properties = {
+                            clusters = [
+                                metadata.__META_CLUSTER_NAME
+                            ]
+                            namespace = metadata.__META_ENV_TYPE_NAME
+                        }
+                    }
                 ]
-                "attributes" = _resource
-            } for _resource in _res
-        ] for _kind, _res in __resource_map___ 
-    })
+            }
+        }
+
+        # structure output for kubevela application
+        kubevela_output = {
+            "${kubevela_app.kind}": [{
+                "id" = getId(kubevela_app)
+                "type" = "Kubernetes"
+                "attributes" = kubevela_app
+            }]
+        }
+        manifestsResourceMap(kubevela_output)
+    else:
+        server_output = {
+            _kind: [
+                {
+                    "id" = getId(_resource)
+                    "type" = "Kubernetes"
+                    "dependsOn" = [
+                        getId(dependOn) \
+                            for i, v in resource.kubernetesOrders if v == _kind \
+                                for k in resource.kubernetesOrders[:i] if k in __resource_map___ \
+                                    for dependOn in __resource_map___[k]
+                    ]
+                    "attributes" = _resource
+                } for _resource in _res
+            ] for _kind, _res in __resource_map___ 
+        }
+        manifestsResourceMap(server_output)

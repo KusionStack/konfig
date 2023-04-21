@@ -3,13 +3,12 @@
 > 本 README.md 包括配置代码仓库目录/文件说明及如何本地使用 Kusion 进行测试
 
 ## 快速开始
-
 ```bash
 $ cd dev
 $ export ALICLOUD_ACCESS_KEY="***************"
 $ export ALICLOUD_SECRET_KEY="***************"
 $ kusion apply --yes
- ✔︎  Generating Spec in the Stack dev...
+ ✔︎  Generating Spec in the Stack dev...                                                                                                                                                                                        
 
 Stack: dev  ID                                                            Action
  * ├─       aliyun:alicloud:alicloud_vpc:wordpress-example-dev            Create
@@ -17,26 +16,19 @@ Stack: dev  ID                                                            Action
  * ├─       aliyun:alicloud:alicloud_db_instance:wordpress-example-dev    Create
  * ├─       aliyun:alicloud:alicloud_db_connection:wordpress-example-dev  Create
  * ├─       aliyun:alicloud:alicloud_rds_account:root                     Create
- * ├─       v1:Namespace:wordpress-example                                Create
- * ├─       v1:Secret:wordpress-example:mysql-pass                        Create
- * ├─       v1:Service:wordpress-example:wordpress                        Create
- * └─       apps/v1:Deployment:wordpress-example:wordpress-deployment     Create
+ * └─       core.oam.dev/v1beta1:Application:dev:wordpress-example        Create
 
 Start applying diffs ...
-  SUCCESS  Create v1:Namespace:wordpress-example success
-  SUCCESS  Create v1:Secret:wordpress-example:mysql-pass success
-  SUCCESS  Create v1:Service:wordpress-example:wordpress success
   SUCCESS  Create aliyun:alicloud:alicloud_vpc:wordpress-example-dev success
   SUCCESS  Create aliyun:alicloud:alicloud_vswitch:wordpress-example-dev success
   SUCCESS  Create aliyun:alicloud:alicloud_db_instance:wordpress-example-dev success
   SUCCESS  Create aliyun:alicloud:alicloud_db_connection:wordpress-example-dev success
-  SUCCESS  Create apps/v1:Deployment:wordpress-example:wordpress-deployment success
+  SUCCESS  Create core.oam.dev/v1beta1:Application:dev:wordpress-example success
   SUCCESS  Create aliyun:alicloud:alicloud_rds_account:root success
-  Create aliyun:alicloud:alicloud_rds_account:root success [9/9] ████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████ 100% | 4m55s
-Apply complete! Resources: 9 created, 0 updated, 0 deleted.
+Create aliyun:alicloud:alicloud_rds_account:root success [6/6] ███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████ 100% | 4m30s
+Apply complete! Resources: 6 created, 0 updated, 0 deleted.
 
 ```
-
 ## 目录和文件说明
 
 ```bash

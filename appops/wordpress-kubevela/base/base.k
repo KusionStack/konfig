@@ -11,12 +11,13 @@ wordpress: frontend.Server {
     volumes = [
         {
             name = "wordpress-persistent-storage"
-            volumeSource = v.EmptyDir{}
+            volumeSource = v.EmptyDir {}
             mounts = [
                 v.Mount {
                     container = "wordpress"
                     path = "/var/www/html"
                 }
+
             ]
         }
     ]

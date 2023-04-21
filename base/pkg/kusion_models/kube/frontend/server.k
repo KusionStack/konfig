@@ -22,6 +22,8 @@ schema Server:
         and the value of __META_ENV_TYPE_NAME will be extracted from the value of the "name" defined in stack.yaml.
     workloadType: "Deployment" | "StatefulSet", default is "Deployment", required.
         Application workload type, default to 'Deployment'
+    renderType: "Server" | "KubeVelaApplication", default is "Server", optional. 
+        Application render type, default to 'Server'
     replicas: int, default is 1, required.
         Number of desired pods. This is a pointer to distinguish between explicit zero and not specified. Defaults to 1.
     image: str, default is Undefined, required.
@@ -100,6 +102,9 @@ schema Server:
     # Application workload type, default to 'Deployment'
     workloadType: "Deployment" | "StatefulSet" = "Deployment"
 
+    # Application render type, default to 'Server'
+    renderType?: "Server" | "KubeVelaApplication" = "Server"
+
     # Application replicas
     replicas: int = option("replicas") or 1
 
@@ -136,3 +141,4 @@ schema Server:
 
     # app cloud resource
     storage?: storage.ObjectStorage 
+    database?: storage.DataBase
