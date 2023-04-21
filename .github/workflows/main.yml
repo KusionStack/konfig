@@ -128,7 +128,7 @@ jobs:
       - id: test
         run: |
           # todo: remove this after kclvm v0.4.6
-          sudo rm -rf /root/go/bin
+          rm -rf /root/go/bin
           apt -y install wget
           wget -c https://github.com/KusionStack/KCLVM/releases/download/v0.4.6/kclvm-v0.4.6-linux-amd64.tar.gz -qO - | tar xz -C ./
           export PATH=$PATH:$(pwd)/kclvm/bin
