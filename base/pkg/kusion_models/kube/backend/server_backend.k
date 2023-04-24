@@ -94,6 +94,7 @@ schema ServerBackend[inputConfig: server.Server]:
             provider = [*provider, alicloud_backend.VswitchRender(aliyunVswitch).provider]
 
             if config.database.dataBaseAttr.cloudChargeType == "Serverless": 
+                assert config.database.dataBaseAttr.databaseEngine == "MySQL", "databaseEngine must be set to MySQL when creating a serverless instance"
                 aliyunDBInstance = alicloud.AlicloudDBInstance {
                     engine = config.database.dataBaseAttr.databaseEngine
                     engine_version = config.database.dataBaseAttr.databaseEngineVersion
