@@ -25,17 +25,17 @@ schema DBAttr:
     """ DBAttr is the Attributes of cloud database.
     Attributes
     ----------
-    databaseEngine: str, cloud database engine type, default is Undefined. 
+    databaseEngine: "MySQL" | "SQLServer" | "PostgreSQL" | "MariaDB", cloud database engine type, default is "MySQL". 
     databaseEngineVersion: str, cloud database engine version, default is Undefined. 
-    cloudChargeType: str, cloud database charge type, default is Undefined. 
+    cloudChargeType: "Prepaid" | "Postpaid" | "Serverless", cloud database charge type, default is "Postpaid". 
     databaseAccountName: str, initialized account name of cloud database, default is Undefined. 
     databaseAccountPassWord: str, intitialized account password of cloud database, default is Undefined. 
     internetAccess: bool, decide whether the cloud database needs internet access. 
     
     """
-    databaseEngine: str
+    databaseEngine: "MySQL" | "SQLServer" | "PostgreSQL" | "MariaDB" = "MySQL"
     databaseEngineVersion: str
-    cloudChargeType: str
+    cloudChargeType: "Prepaid" | "Postpaid" | "Serverless" = "Postpaid"
     databaseAccountName: str
     databaseAccountPassword: str
     internetAccess: bool
