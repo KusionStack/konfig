@@ -127,12 +127,7 @@ jobs:
           python-version: '3.9'
       - id: test
         run: |
-          # todo: remove this after kclvm v0.4.6
-          rm -rf /root/go/bin
-          apt -y install wget
-          wget -c https://github.com/KusionStack/KCLVM/releases/download/v0.4.6/kclvm-v0.4.6-linux-amd64.tar.gz -qO - | tar xz -C ./
-          export PATH=$PATH:$(pwd)/kclvm/bin
-          python3 -m pip install pytest-html pytest-xdist ruamel.yaml kclvm -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+          python3 -m pip install pytest-html pytest-xdist ruamel.yaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
           python3 -m pytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST.xml --html=./hack/report/test.html
       - id: upload-test-report
         if: always()
