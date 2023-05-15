@@ -12,8 +12,6 @@ schema JobBackend[inputConfig: frontend.Job]:
         mixins.NamespaceMixin,
         mixins.ConfigMapMixin,
         mixins.ServiceAccountMixin
-
-        # mixins.OutputTypeMixin
     ]
 
     config: frontend.Job = inputConfig

@@ -10,8 +10,6 @@ schema NodeImage:
 
     Attributes
     ----------
-    __settings__ : {str:str}, default is {"output_type": "STANDALONE"}, optional
-         existence of this attribute indicates that the model will be treated standalone by KCLVM.
     apiVersion : str, default is "apps.kruise.io/v1alpha1", required
          APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     kind : str, default is "NodeImage", required
@@ -23,9 +21,6 @@ schema NodeImage:
     status : AppsKruiseIoV1alpha1NodeImageStatus, default is Undefined, optional
         status
     """
-
-
-    __settings__?: {str:str} = {"output_type": "STANDALONE"}
 
     apiVersion: "apps.kruise.io/v1alpha1" = "apps.kruise.io/v1alpha1"
 

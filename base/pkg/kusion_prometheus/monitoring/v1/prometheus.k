@@ -22,9 +22,6 @@ schema Prometheus:
         status
     """
 
-
-    __settings__?: {str:str} = {"output_type": "IGNORE"}
-
     apiVersion: "monitoring.coreos.com/v1" = "monitoring.coreos.com/v1"
 
     kind: "Prometheus" = "Prometheus"

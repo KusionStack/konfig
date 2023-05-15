@@ -79,7 +79,6 @@ schema Job:
         image = "perl"
     }
     """
-    __settings__: {str:str} = {"output_type" = "IGNORE"}
 
     # subset of batchv1.JobSpec
     activeDeadlineSeconds?: int

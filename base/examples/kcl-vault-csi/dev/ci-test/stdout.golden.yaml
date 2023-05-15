@@ -51,6 +51,3 @@
         namespace: kcl-vault-csi
   dependsOn:
     - v1:Namespace:kcl-vault-csi
-- id: ""
-  type: ""
-  attributes: {}

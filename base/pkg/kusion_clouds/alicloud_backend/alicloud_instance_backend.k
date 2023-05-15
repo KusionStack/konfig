@@ -1,16 +1,15 @@
 import base.pkg.kusion_models.commons
 import .alicloud_config
 import base.pkg.kusion_clouds.alicloud
+import manifests
 
-_vpc_attrs = alicloud.AlicloudVPC.instances()
-
-vpc_provider = [ commons.ResourceBuilder {
+vpc_provider_resources = [ commons.ResourceBuilder {
     type = alicloud_config.alicloudVPCMeta.type
     name = _vpc_attr.vpc_name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta
     providerAttr = _vpc_attr
-} for _vpc_attr in _vpc_attrs ]
+}.result for _vpc_attr in alicloud.AlicloudVPC.instances()]
 
 schema VPCRender[inputData: alicloud.AlicloudVPC]:
     assert inputData, "inputData must be specified and can't be empty or None or Undefined"
@@ -21,16 +20,14 @@ schema VPCRender[inputData: alicloud.AlicloudVPC]:
         providerMeta = alicloud_config.alicloudProviderMeta
         providerAttr = inputData
     }
-    
-_vswitch_attrs = alicloud.AlicloudVswitch.instances()
 
-vswitch_provider = [commons.ResourceBuilder {
+vswitch_provider_resources = [commons.ResourceBuilder {
     type = alicloud_config.alicloudVswitchMeta.type
     name = _vswitch_attr.vswitch_name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta
     providerAttr = _vswitch_attr
-} for _vswitch_attr in _vswitch_attrs]
+}.result for _vswitch_attr in alicloud.AlicloudVswitch.instances()]
 
 schema VswitchRender[inputData: alicloud.AlicloudVswitch]: 
     assert inputData, "inputData must be specified and can't be empty or None or Undefined"
@@ -42,22 +39,21 @@ schema VswitchRender[inputData: alicloud.AlicloudVswitch]:
         providerAttr = inputData
     }
 
-_security_group_attrs = alicloud.AlicloudSecurityGroup.instances()
-
-security_provider = [commons.ResourceBuilder {
+security_provider_resources = [commons.ResourceBuilder {
     type = alicloud_config.alicloudSecurityGroupMeta.type
     name = _security_group_attr.name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta
     providerAttr = _security_group_attr
-} for _security_group_attr in _security_group_attrs ]
+}.result for _security_group_attr in alicloud.AlicloudSecurityGroup.instances()]
 
-_instance_attrs = alicloud.AlicloudInstance.instances()
-
-instance_provider = [commons.ResourceBuilder {
+instance_provider_resources = [commons.ResourceBuilder {
     type = alicloud_config.alicloudInstanceMeta.type
     name = _instance_attr.instance_name
     provider = alicloud_config.alicloudProvider
     providerMeta = alicloud_config.alicloudProviderMeta
     providerAttr = _instance_attr
-} for _instance_attr in _instance_attrs]
+}.result for _instance_attr in alicloud.AlicloudInstance.instances()]
+
+# Terraform provider resources
+manifests.yaml_stream(vpc_provider_resources + vswitch_provider_resources + security_provider_resources + instance_provider_resources)

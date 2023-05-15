@@ -10,3 +10,23 @@ appConfiguration: frontend.Server {
     }
     image = "jweissig/app:0.0.1"
 }
+
+# SecretProviderClass
+vaultDatabase: vaultv1.SecretProviderClass {
+    metadata = apis.ObjectMeta {
+        name = "kcl-vault-csi-database"
+        namespace = metadata.__META_APP_NAME
+    }
+    spec = vaultv1.SecretProviderClassSpec {
+        provider = "vault"
+        parameters = {
+            "vaultAddress": "http://vault.default:8200"
+            "roleName": "kcl-vault-csi-role"
+            "objects": """\
+- objectName: "db-password"
+  secretPath: "secret/data/db-pass"
+  secretKey: "password"
+"""
+        }
+    }
+}
