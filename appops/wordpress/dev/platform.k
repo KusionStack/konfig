@@ -1,5 +1,6 @@
 import base.pkg.kusion_models.kube.frontend
 import base.pkg.kusion_clouds.alicloud_backend.alicloud_config
+import base.pkg.kusion_models.kube.metadata
 
 # The application configuration in stack will overwrite 
 # the configuration with the same attribute in base.
