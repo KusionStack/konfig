@@ -86,57 +86,7 @@ jobs:
     outputs:
       affected_stacks: ${{ steps.deps.outputs.affected_stacks }}
       affected_projs: ${{ steps.deps.outputs.affected_projs }}
-  structure-check:
-    needs: deps
-    runs-on: ubuntu-latest
-    container:
-      image: kusionstack/kusion:latest
-      env:
-        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
-        AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
-        AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
-    steps:
-      - uses: actions/checkout@v2
-      - id: install-pytest-html
-        run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-      - id: structure-check
-        run: python3 -m pytest -v hack/verify-project-structure.py --junitxml ./hack/report/TEST-structure.xml --html=./hack/report/structure.html
-      - id: upload-structure-check-report
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: structure-check-report
-          path: |
-            hack/report/TEST-structure.xml
-            hack/report/structure.html
-  test:
-    needs: deps
-    runs-on: ubuntu-latest
-    container:
-      image: kusionstack/kusion:latest
-      env:
-        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
-        AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
-        AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      - id: test
-        run: |
-          python3 -m pip install pytest-html pytest-xdist ruamel.yaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-          python3 -m pytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/TEST.xml --html=./hack/report/test.html
-      - id: upload-test-report
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-report
-          path: |
-            hack/report/TEST.xml
-            hack/report/test.html
-
-  lint-check:
+  lint:
     needs: deps
     runs-on: ubuntu-latest
     container:
@@ -159,12 +109,61 @@ jobs:
       - id: lint-check
         run: |
           export PATH=$PATH:$(pwd)/kclvm/bin
-          python3 -m pytest -v -n 5 hack/lint_check.py --junitxml ./hack/report/lint-check.xml --html=./hack/report/lint.html
-      - id: upload-lint-check-report
+          python3 -m pytest -v -n 5 hack/lint_check.py --junitxml ./hack/report/lint.xml --html=./hack/report/lint.html
+      - id: upload-lint-report
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: lint-check-report
+          name: lint-report
           path: |
-            hack/report/lint-check.xml
+            hack/report/lint.xml
             hack/report/lint.html
+  structure-check:
+    needs: deps
+    runs-on: ubuntu-latest
+    container:
+      image: kusionstack/kusion:latest
+      env:
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+        AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
+        AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: install-pytest-html
+        run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+      - id: structure-check
+        run: python3 -m pytest -v hack/verify-project-structure.py --junitxml ./hack/report/structure-check.xml --html=./hack/report/structure-check.html
+      - id: upload-structure-check-report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: structure-check-report
+          path: |
+            hack/report/structure-check.xml
+            hack/report/structure-check.html
+  test:
+    needs: deps
+    runs-on: ubuntu-latest
+    container:
+      image: kusionstack/kusion:latest
+      env:
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+        AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
+        AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - id: test
+        run: |
+          python3 -m pip install pytest-html pytest-xdist ruamel.yaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+          python3 -m pytest -v -n 5 hack/test_konfig.py --junitxml ./hack/report/test.xml --html=./hack/report/test.html
+      - id: upload-test-report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: |
+            hack/report/test.xml
+            hack/report/test.html
