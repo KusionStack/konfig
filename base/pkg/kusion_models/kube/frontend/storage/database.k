@@ -18,7 +18,7 @@ schema DataBase:
     }
     
     """
-    dataBaseType: "aliyun_rds"
+    dataBaseType: "aliyun_rds" | "aws_rds"
     dataBaseAttr: DBAttr
 
 schema DBAttr: 
@@ -35,8 +35,9 @@ schema DBAttr:
     """
     databaseEngine: "MySQL" | "SQLServer" | "PostgreSQL" | "MariaDB" = "MySQL"
     databaseEngineVersion: str
-    cloudChargeType: "Prepaid" | "Postpaid" | "Serverless" = "Postpaid"
+    instanceType: str
     databaseAccountName: str
     databaseAccountPassword: str
     internetAccess: bool
-    
+    allocatedStorage?: int = 10
+    extraMap?: {str:str}

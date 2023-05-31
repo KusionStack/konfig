@@ -1,0 +1,143 @@
+- id: hashicorp:aws:aws_security_group:wordpress-example-dev
+  type: Terraform
+  attributes:
+    egress:
+        - cidr_blocks:
+            - 0.0.0.0/0
+          description: ""
+          from_port: 0
+          ipv6_cidr_blocks: null
+          prefix_list_ids: null
+          protocol: "-1"
+          security_groups: null
+          self: false
+          to_port: 0
+    ingress:
+        - cidr_blocks:
+            - 0.0.0.0/0
+          description: ""
+          from_port: 3306
+          ipv6_cidr_blocks: null
+          prefix_list_ids: null
+          protocol: tcp
+          security_groups: null
+          self: false
+          to_port: 3306
+    name: wordpress-example-dev
+  extensions:
+    provider: registry.terraform.io/hashicorp/aws/5.0.1
+    providerMeta:
+        region: us-east-1
+    resourceType: aws_security_group
+- id: hashicorp:aws:aws_db_instance:wordpress-example-dev
+  type: Terraform
+  attributes:
+    allocated_storage: 10
+    db_subnet_group_name: default
+    engine: MySQL
+    engine_version: "5.7"
+    identifier: wordpress-example-dev
+    instance_class: db.t3.micro
+    password: Kusion123456
+    publicly_accessible: true
+    skip_final_snapshot: true
+    username: root
+    vpc_security_group_ids:
+        - $kusion_path.hashicorp:aws:aws_security_group:wordpress-example-dev.id
+  extensions:
+    provider: registry.terraform.io/hashicorp/aws/5.0.1
+    providerMeta:
+        region: us-east-1
+    resourceType: aws_db_instance
+- id: apps/v1:Deployment:wordpress-example:wordpress-deployment
+  type: Kubernetes
+  attributes:
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+        name: wordpress-deployment
+        namespace: wordpress-example
+    spec:
+        replicas: 1
+        selector:
+            matchLabels:
+                app.kubernetes.io/component: wordpress-deployment
+                app.kubernetes.io/env: dev
+                app.kubernetes.io/instance: wordpress-example-dev
+                app.kubernetes.io/name: wordpress-example
+                cluster.x-k8s.io/cluster-name: default
+        template:
+            metadata:
+                labels:
+                    app.kubernetes.io/component: wordpress-deployment
+                    app.kubernetes.io/env: dev
+                    app.kubernetes.io/instance: wordpress-example-dev
+                    app.kubernetes.io/name: wordpress-example
+                    cluster.x-k8s.io/cluster-name: default
+            spec:
+                containers:
+                    - env:
+                        - name: WORDPRESS_DB_PASSWORD
+                          valueFrom:
+                            secretKeyRef:
+                                key: password
+                                name: mysql-pass
+                        - name: WORDPRESS_DB_HOST
+                          value: $kusion_path.hashicorp:aws:aws_db_instance:wordpress-example-dev.address
+                      image: wordpress:4.8-apache
+                      name: wordpress
+                      ports:
+                        - containerPort: 80
+                          name: wordpress
+                          protocol: TCP
+                      volumeMounts:
+                        - mountPath: /var/www/html
+                          name: wordpress-persistent-storage
+                volumes:
+                    - emptyDir: {}
+                      name: wordpress-persistent-storage
+  dependsOn:
+    - v1:Namespace:wordpress-example
+    - v1:Secret:wordpress-example:mysql-pass
+    - v1:Service:wordpress-example:wordpress
+- id: v1:Namespace:wordpress-example
+  type: Kubernetes
+  attributes:
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+        name: wordpress-example
+- id: v1:Secret:wordpress-example:mysql-pass
+  type: Kubernetes
+  attributes:
+    apiVersion: v1
+    data:
+        password: S3VzaW9uMTIzNDU2
+    kind: Secret
+    metadata:
+        name: mysql-pass
+        namespace: wordpress-example
+    type: Opaque
+  dependsOn:
+    - v1:Namespace:wordpress-example
+- id: v1:Service:wordpress-example:wordpress
+  type: Kubernetes
+  attributes:
+    apiVersion: v1
+    kind: Service
+    metadata:
+        name: wordpress
+        namespace: wordpress-example
+    spec:
+        ports:
+            - port: 80
+        selector:
+            app.kubernetes.io/component: wordpress-deployment
+            app.kubernetes.io/env: dev
+            app.kubernetes.io/instance: wordpress-example-dev
+            app.kubernetes.io/name: wordpress-example
+            cluster.x-k8s.io/cluster-name: default
+        type: ClusterIP
+  dependsOn:
+    - v1:Namespace:wordpress-example
+    - v1:Secret:wordpress-example:mysql-pass

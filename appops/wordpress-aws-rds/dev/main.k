@@ -12,8 +12,8 @@ wordpress: frontend.Server {
 
     # use cloud database for the storage of wordpress
     database = storage.DataBase {
-        # choose aliyun_rds as the cloud database
-        dataBaseType = "aliyun_rds"
+        # choose aws_rds as the cloud database
+        dataBaseType = "aws_rds"
         dataBaseAttr = storage.DBAttr {
             # choose the engine type and version of the database
             databaseEngine = "MySQL"
@@ -23,18 +23,19 @@ wordpress: frontend.Server {
             databaseAccountPassword = option("db_password")
             # create internet access for the cloud database
             internetAccess = True
+            # instanceType = "db.t3.micro"
         }
     }
 
     # NOTE: this configuration is an example of adding an environment variable in the main container
     # uncommenting and re-deploying will add the environment variable "ENV_ADD_EXAMPLE" in the 
     # main container and the differnces will be shown by the command of "kusion apply"
-    mainContainer: {
-        env += [
-            {
-                name = "ENV_ADD_EXAMPLE"
-                value = "wordpress-example"
-            }
-        ]
-    }
+    # mainContainer: {
+    #     env += [
+    #         {
+    #             name = "ENV_ADD_EXAMPLE"
+    #             value = "wordpress-example"
+    #         }
+    #     ]
+    # }
 }
