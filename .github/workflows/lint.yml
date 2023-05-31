@@ -1,9 +1,8 @@
 on: [push, pull_request]
 
-jobs: 
+jobs:
   diff:
     runs-on: ubuntu-latest
-    name: git diff
     steps:
       - uses: actions/checkout@v2
         with:
@@ -15,10 +14,9 @@ jobs:
   deps:
     needs: diff
     runs-on: ubuntu-latest
-    name: parse deps and get affected stacks/projecrs by diff files
-    container: 
+    container:
       image: kusionstack/kusionctl:latest
-      env: 
+      env:
         changePaths: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
       - uses: actions/checkout@v2
@@ -47,7 +45,7 @@ jobs:
             # 2.1 convert change paths to --focus option
             change_paths_array=$(echo "$changePaths" | tr '\n' ' ')
             focus_files=$(printf -- "--focus %s " $change_paths_array)
-            
+
             # 2.2 execute deps command
 
             # affected stacks
@@ -85,9 +83,9 @@ jobs:
   lint-check:
     needs: deps
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: kusionstack/kusion:latest
-      env: 
+      env:
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
         AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
         AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
