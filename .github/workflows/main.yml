@@ -135,3 +135,36 @@ jobs:
           path: |
             hack/report/TEST.xml
             hack/report/test.html
+
+  lint-check:
+    needs: deps
+    runs-on: ubuntu-latest
+    container:
+      image: kusionstack/kusion:latest
+      env:
+        CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
+        AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
+        AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - id: install-pytest-html
+        run: |
+          python3 -m pip install pytest-html pytest-xdist ruamel.yaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+          # todo: the following script is to workaround "missing kclvm_cli" error, after the problem solved in the kclvm v0.4.6, this can be removed
+          apt -y install wget
+          wget -c https://github.com/KusionStack/KCLVM/releases/download/v0.4.6.2/kclvm-v0.4.6.2-linux-amd64.tar.gz -qO - | tar xz -C ./
+      - id: lint-check
+        run: |
+          export PATH=$PATH:$(pwd)/kclvm/bin
+          python3 -m pytest -v -n 5 hack/lint_check.py --junitxml ./hack/report/lint-check.xml --html=./hack/report/lint.html
+      - id: upload-lint-check-report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint-check-report
+          path: |
+            hack/report/lint-check.xml
+            hack/report/lint.html
