@@ -6,10 +6,9 @@ on:
     branches:
       - main
 
-jobs: 
+jobs:
   diff:
     runs-on: ubuntu-latest
-    name: git diff
     steps:
       - uses: actions/checkout@v2
         with:
@@ -21,10 +20,9 @@ jobs:
   deps:
     needs: diff
     runs-on: ubuntu-latest
-    name: parse deps and get affected stacks/projecrs by diff files
-    container: 
+    container:
       image: kusionstack/kusion:latest
-      env: 
+      env:
         changePaths: ${{needs.diff.outputs.CHANGED_FILE}}
     steps:
       - uses: actions/checkout@v2
@@ -53,7 +51,7 @@ jobs:
             # 2.1 convert change paths to --focus option
             change_paths_array=$(echo "$changePaths" | tr '\n' ' ')
             focus_files=$(printf -- "--focus %s " $change_paths_array)
-            
+
             # 2.2 execute deps command
 
             # affected stacks
@@ -91,9 +89,9 @@ jobs:
   structure-check:
     needs: deps
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: kusionstack/kusion:latest
-      env: 
+      env:
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
         AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
         AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
@@ -114,9 +112,9 @@ jobs:
   test:
     needs: deps
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: kusionstack/kusion:latest
-      env: 
+      env:
         CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
         AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
         AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
@@ -137,20 +135,3 @@ jobs:
           path: |
             hack/report/TEST.xml
             hack/report/test.html
-  apply:
-    if: github.ref == 'refs/heads/main'
-    needs: [diff, deps, test]
-    runs-on: ubuntu-latest 
-    steps:
-      - uses: actions/checkout@v2
-      - id: kusion-apply
-        uses: KusionStack/kusion-actions@main
-        env:
-          ALICLOUD_ACCESS_KEY: ${{ secrets.ALICLOUD_ACCESS_KEY }}
-          ALICLOUD_SECRET_KEY: ${{ secrets.ALICLOUD_SECRET_KEY }}
-        with:
-          subcommand: 'apply'
-          yes: 'true'
-          detail: 'true'
-          dryRun: 'true'
-          diffs: ${{needs.diff.outputs.CHANGED_FILE}}
