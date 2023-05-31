@@ -104,7 +104,7 @@
                         - name: ENV_ADD_EXAMPLE
                           value: wordpress-example
                         - name: WORDPRESS_DB_HOST
-                          value: $kusion_path.aliyun:alicloud:alicloud_db_connection:undefined-undefined.connection_string
+                          value: $kusion_path.aliyun:alicloud:alicloud_db_connection:wordpress-example-dev.connection_string
                       image: wordpress:4.8-apache
                       name: wordpress
                       ports:
