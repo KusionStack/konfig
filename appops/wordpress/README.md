@@ -8,6 +8,8 @@
 $ cd dev
 $ export ALICLOUD_ACCESS_KEY="***************"
 $ export ALICLOUD_SECRET_KEY="***************"
+$ export AWS_ACCESS_KEY_ID="*****************"
+$ export AWS_SECRET_ACCESS_KEY="*************"
 $ kusion apply --yes
  ✔︎  Generating Spec in the Stack dev...
 

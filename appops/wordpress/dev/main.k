@@ -23,7 +23,6 @@ wordpress: frontend.Server {
             databaseAccountPassword = option("db_password")
             # create internet access for the cloud database
             internetAccess = True
-            # instanceType = "db.t3.micro"
         }
     }
 
