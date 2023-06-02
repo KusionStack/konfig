@@ -18,8 +18,6 @@ wordpress: frontend.Server {
             # choose the engine type and version of the database
             databaseEngine = "MySQL"
             databaseEngineVersion = "5.7"
-            # choose the charge type of the cloud database
-            cloudChargeType = "Serverless"
             # create database account
             databaseAccountName = "root"
             databaseAccountPassword = option("db_password")
