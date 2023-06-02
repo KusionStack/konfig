@@ -53,7 +53,7 @@ __renderBackendInstances__ = [
 ]
 
 # rbac map, kind to resource array
-__rbac_map__: {str:[]} = {
+__rbac_map__: resource.ResourceMapping = {
     if len(rbac.ClusterRoleBinding.instances()) > 0:
         ClusterRoleBinding += [r.kubernetes for r in rbac.ClusterRoleBinding.instances()]
     if len(rbac.ClusterRole.instances()) > 0: 
@@ -65,7 +65,7 @@ __rbac_map__: {str:[]} = {
 }
 
 # prometheus
-__prometheus_map__: {str:[]} = {
+__prometheus_map__: resource.ResourceMapping = {
     PrometheusRule += monitoringv1.PrometheusRule.instances()
     AlertmanagerConfig += monitoringv1alpha1.AlertmanagerConfig.instances()
     Probe += monitoringv1.Probe.instances()
@@ -73,18 +73,18 @@ __prometheus_map__: {str:[]} = {
     Alertmanager += monitoringv1.Alertmanager.instances()
 }
 # vault
-__vault_map__: {str:[]} = {
+__vault_map__: resource.ResourceMapping = {
     SecretProviderClass += vaultv1.SecretProviderClass.instances()
 }
 
 # k8s
-__k8s__: {str:[]} = {
+__k8s__: resource.ResourceMapping = {
     Service += corev1.Service.instances()
     ServiceAccount += corev1.ServiceAccount.instances()
 }
 
 # merge resource map
-__array_of_resource_map___: [{str:[]}] = [
+__array_of_resource_map___: [resource.ResourceMapping] = [
     _inst?.kubernetes for _inst in __renderBackendInstances__ if _inst?.kubernetes
 ] | [__rbac_map__] | [__prometheus_map__] | [__vault_map__] | [__k8s__]
 
