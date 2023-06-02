@@ -9,6 +9,9 @@ import base.pkg.kusion_prometheus.mixins as pmixins
 import base.pkg.kusion_clouds.alicloud
 import base.pkg.kusion_clouds.alicloud_backend
 import base.pkg.kusion_clouds.alicloud_backend.alicloud_config
+import base.pkg.kusion_clouds.aws
+import base.pkg.kusion_clouds.aws_backend
+import base.pkg.kusion_clouds.aws_backend.aws_config
 
 # Frontend volume to kubernetes volume mapping.
 VOLUME_SOURCE_TYPE_MAPPING = {
@@ -69,67 +72,10 @@ schema ServerBackend[inputConfig: server.Server]:
         initContainers = utils.VolumePatch(config.volumes, [utils.ContainerFrontend2Kube(_s) for _s in config.initContainers])
 
     if config.storage:
-        if config.storage.objectStorageType == "aliyun_oss":
-            aliyunStorage = alicloud.AlicloudOSSBucket {
-                bucket = config.storage.objectStorageAttr.bucket
-                acl    = config.storage.objectStorageAttr.acl
-            }
-            provider = [*provider, alicloud_backend.OSSRender(aliyunStorage).provider] 
+        provider = [*provider, *StorageBackend(config).provider]
     
-    _alicloudResourceName = "{}-{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME).lower()
-    _alicloudDependencyPrefix = "$kusion_path." + alicloud_config.alicloudProvider.namespace + ":" + alicloud_config.alicloudProvider.name + ":"
-
     if config.database: 
-        if config.database.dataBaseType == "aliyun_rds": 
-            aliyunVPC = alicloud.AlicloudVPC {
-                vpc_name = _alicloudResourceName
-            }
-            provider = [*provider, alicloud_backend.VPCRender(aliyunVPC).provider] 
-            
-            aliyunVswitch = alicloud.AlicloudVswitch {
-                vpc_id = _alicloudDependencyPrefix + alicloud_config.alicloudVPCMeta.type + ":" + aliyunVPC.vpc_name + ".id"
-                vswitch_name = _alicloudResourceName
-                zone_id = alicloud_config.alicloudProviderMeta.region + "-h"
-            }
-            provider = [*provider, alicloud_backend.VswitchRender(aliyunVswitch).provider]
-
-            if config.database.dataBaseAttr.cloudChargeType == "Serverless": 
-                assert config.database.dataBaseAttr.databaseEngine == "MySQL", "databaseEngine must be set to MySQL when creating a serverless instance"
-                aliyunDBInstance = alicloud.AlicloudDBInstance {
-                    engine = config.database.dataBaseAttr.databaseEngine
-                    engine_version = config.database.dataBaseAttr.databaseEngineVersion
-                    instance_type = "mysql.n2.serverless.1c"
-                    instance_charge_type = config.database.dataBaseAttr.cloudChargeType
-                    instance_name = _alicloudResourceName
-                    vswitch_id = _alicloudDependencyPrefix + alicloud_config.alicloudVswitchMeta.type + ":" + aliyunVswitch.vswitch_name + ".id"
-                    category = "serverless_basic"
-                    security_ips = ["0.0.0.0/0"]
-                    serverless_config = [alicloud.serverlessConfig{}]
-                }
-                provider = [*provider, alicloud_backend.DBInstanceRender(aliyunDBInstance).provider]
-
-                if config.database.dataBaseAttr.internetAccess: 
-                    aliyunDBConnection = alicloud.AlicloudDBConnection {
-                        instance_id = _alicloudDependencyPrefix + alicloud_config.alicloudDBInstanceMeta.type + ":" + aliyunDBInstance.instance_name + ".id"
-                        connection_prefix = _alicloudResourceName
-                    }
-                    provider = [*provider, alicloud_backend.DBConnectionRender(aliyunDBConnection).provider]
-
-                    aliyunRDSAccount = alicloud.AlicloudRDSAccount {
-                        db_instance_id = _alicloudDependencyPrefix + alicloud_config.alicloudDBInstanceMeta.type + ":" + aliyunDBInstance.instance_name + ".id"
-                        account_name = config.database.dataBaseAttr.databaseAccountName
-                        account_password = config.database.dataBaseAttr.databaseAccountPassword
-                        account_type = "Super"
-                    }
-                    provider = [*provider, alicloud_backend.RDSAccountRender(aliyunRDSAccount, ["aliyun:alicloud:alicloud_db_connection:"+aliyunDBConnection.connection_prefix]).provider]
-                else: 
-                    aliyunRDSAccount = alicloud.AlicloudRDSAccount {
-                        db_instance_id = _alicloudDependencyPrefix + alicloud_config.alicloudDBInstanceMeta.type + ":" + aliyunDBInstance.instance_name + ".id"
-                        account_name = config.database.dataBaseAttr.databaseAccountName
-                        account_password = config.database.dataBaseAttr.databaseAccountPassword
-                        account_type = "Super"
-                    }
-                    provider = [*provider, alicloud_backend.RDSAccountRender(aliyunRDSAccount).provider]
+        provider = [*provider, *DatabaseBackend(config).provider]
 
     _applicationLabel: {str: str} = {
         "app.kubernetes.io/component": workloadName

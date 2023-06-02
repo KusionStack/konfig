@@ -23,4 +23,21 @@ wordpress: frontend.Server {
             }
         ]
     }
+
+    # supplement database related configuration code on the platform side
+    database: storage.DataBase {
+        dataBaseAttr: storage.DBAttr {
+            # specify instance type for aws or alicloud rds
+            # for aws rds
+            # instanceType = "db.t3.micro" 
+
+            # for alicloud rds
+            instanceType = "mysql.n2.serverless.1c" 
+
+            # specify cloud charge type for alicloud rds
+            extraMap = {
+                "cloudChargeType": "Serverless"
+            }
+        }
+    }
 }

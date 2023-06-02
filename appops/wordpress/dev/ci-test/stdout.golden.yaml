@@ -1,73 +1,54 @@
-- id: aliyun:alicloud:alicloud_vpc:wordpress-example-dev
+- id: hashicorp:aws:aws_security_group:wordpress-example-dev
   type: Terraform
   attributes:
-    cidr_block: 172.16.0.0/12
-    vpc_name: wordpress-example-dev
+    egress:
+        - cidr_blocks:
+            - 0.0.0.0/0
+          description: ""
+          from_port: 0
+          ipv6_cidr_blocks: null
+          prefix_list_ids: null
+          protocol: "-1"
+          security_groups: null
+          self: false
+          to_port: 0
+    ingress:
+        - cidr_blocks:
+            - 0.0.0.0/0
+          description: ""
+          from_port: 3306
+          ipv6_cidr_blocks: null
+          prefix_list_ids: null
+          protocol: tcp
+          security_groups: null
+          self: false
+          to_port: 3306
+    name: wordpress-example-dev
   extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.201.1
+    provider: registry.terraform.io/hashicorp/aws/5.0.1
     providerMeta:
-        region: cn-beijing
-    resourceType: alicloud_vpc
-- id: aliyun:alicloud:alicloud_vswitch:wordpress-example-dev
+        region: us-east-1
+    resourceType: aws_security_group
+- id: hashicorp:aws:aws_db_instance:wordpress-example-dev
   type: Terraform
   attributes:
-    cidr_block: 172.16.0.0/24
-    vpc_id: $kusion_path.aliyun:alicloud:alicloud_vpc:wordpress-example-dev.id
-    vswitch_name: wordpress-example-dev
-    zone_id: cn-beijing-h
-  extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.201.1
-    providerMeta:
-        region: cn-beijing
-    resourceType: alicloud_vswitch
-- id: aliyun:alicloud:alicloud_db_instance:wordpress-example-dev
-  type: Terraform
-  attributes:
-    category: serverless_basic
-    db_instance_storage_type: cloud_essd
+    allocated_storage: 10
+    db_subnet_group_name: default
     engine: MySQL
     engine_version: "5.7"
-    instance_charge_type: Serverless
-    instance_name: wordpress-example-dev
-    instance_storage: 20
-    instance_type: mysql.n2.serverless.1c
-    security_ips:
-        - 0.0.0.0/0
-    serverless_config:
-        - auto_pause: false
-          max_capacity: 8
-          min_capacity: 0.5
-          switch_force: false
-    vswitch_id: $kusion_path.aliyun:alicloud:alicloud_vswitch:wordpress-example-dev.id
+    identifier: wordpress-example-dev
+    instance_class: db.t3.micro
+    password: Kusion123456
+    publicly_accessible: true
+    skip_final_snapshot: true
+    username: root
+    vpc_security_group_ids:
+        - $kusion_path.hashicorp:aws:aws_security_group:wordpress-example-dev.id
   extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.201.1
+    provider: registry.terraform.io/hashicorp/aws/5.0.1
     providerMeta:
-        region: cn-beijing
-    resourceType: alicloud_db_instance
-- id: aliyun:alicloud:alicloud_db_connection:wordpress-example-dev
-  type: Terraform
-  attributes:
-    connection_prefix: wordpress-example-dev
-    instance_id: $kusion_path.aliyun:alicloud:alicloud_db_instance:wordpress-example-dev.id
-  extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.201.1
-    providerMeta:
-        region: cn-beijing
-    resourceType: alicloud_db_connection
-- id: aliyun:alicloud:alicloud_rds_account:root
-  type: Terraform
-  attributes:
-    account_name: root
-    account_password: Kusion123456
-    account_type: Super
-    db_instance_id: $kusion_path.aliyun:alicloud:alicloud_db_instance:wordpress-example-dev.id
-  dependsOn:
-    - aliyun:alicloud:alicloud_db_connection:wordpress-example-dev
-  extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.201.1
-    providerMeta:
-        region: cn-beijing
-    resourceType: alicloud_rds_account
+        region: us-east-1
+    resourceType: aws_db_instance
 - id: apps/v1:Deployment:wordpress-example:wordpress-deployment
   type: Kubernetes
   attributes:
@@ -104,7 +85,7 @@
                         - name: ENV_ADD_EXAMPLE
                           value: wordpress-example
                         - name: WORDPRESS_DB_HOST
-                          value: $kusion_path.aliyun:alicloud:alicloud_db_connection:wordpress-example-dev.connection_string
+                          value: $kusion_path.hashicorp:aws:aws_db_instance:wordpress-example-dev.address
                       image: wordpress:4.8-apache
                       name: wordpress
                       ports:
