@@ -10,6 +10,7 @@ import base.pkg.kusion_clouds.aws_backend.aws_config
 _cloudResourceName = "{}-{}".format(metadata.__META_APP_NAME, metadata.__META_ENV_TYPE_NAME).lower()
 _alicloudDependencyPrefix = "$kusion_path." + alicloud_config.alicloudProvider.namespace + ":" + alicloud_config.alicloudProvider.name + ":"
 _awsDependencyPrefix = "$kusion_path." + aws_config.awsProvider.namespace + ":" + aws_config.awsProvider.name + ":"
+_awsInstanceTypeList = ["db.t3.micro", "db.t3.small", "db.t3.medium", "db.t3.large", "db.t3.xlarge", "db.t3.2xlarge"]
 
 schema DatabaseBackend[config: server.Server]: 
     assert config, "input config must be specified and can't be empty or None or Undefined"
@@ -17,6 +18,7 @@ schema DatabaseBackend[config: server.Server]:
 
     if config.database: 
         if config.database.dataBaseType == "aws_rds": 
+            assert config.database.dataBaseAttr.instanceType in _awsInstanceTypeList, "invalid AWS RDS instance type "
             awsSecurityGroup = aws.AWSSecurityGroup {
                 name = _cloudResourceName
                 ingress = [{
