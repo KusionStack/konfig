@@ -9,4 +9,4 @@ schema SchedulingStrategy:
         A Pod-level attribute.
         Main container resource.
     """
-    resource?: str | res.Resource
+    resource?: str | res.Resource | res.ResourceRequirements
