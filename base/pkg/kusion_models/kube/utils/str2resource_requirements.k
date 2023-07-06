@@ -2,9 +2,10 @@ import base.pkg.kusion_models.kube.frontend.resource as res
 
 import regex
 
-schema Str2ResourceRequirements[resourcePara: str | res.Resource]:
+schema Str2ResourceRequirements[resourcePara: str | res.Resource | res.ResourceRequirements]:
     resourceStr?: str = resourcePara as str if typeof(resourcePara) == "str" else None
     resourceUnit?: res.Resource = resourcePara as res.Resource if typeof(resourcePara) == "Resource" else None
+    resourceRequirementsUnit?: res.ResourceRequirements = resourcePara as res.ResourceRequirements if typeof(resourcePara) == "ResourceRequirements" else None
     schedulingResourceItems: [str] = resourceStr?.split(",") or []
 
     resource: [{str:}] = [{
@@ -36,6 +37,17 @@ schema Str2ResourceRequirements[resourcePara: str | res.Resource]:
             "ephemeral-storage" = [r?.disk?.limits for r in resource if r?.disk?.limits]?[-1] or Undefined
         }
     } if resourceStr else {
+        requests = {
+            cpu = str(resourceRequirementsUnit.requests.cpu)
+            memory = str(resourceRequirementsUnit.requests.memory)
+            "ephemeral-storage" = str(resourceRequirementsUnit.requests.disk) if resourceRequirementsUnit.requests.disk else Undefined
+        }
+        limits = {
+            cpu = str(resourceRequirementsUnit.limits.cpu)
+            memory = str(resourceRequirementsUnit.limits.memory)
+            "ephemeral-storage" = str(resourceRequirementsUnit.limits.disk) if resourceRequirementsUnit.limits.disk else Undefined
+        }
+    } if resourceRequirementsUnit else {
         requests = {
             cpu = str(resourceUnit.cpu)
             memory = str(resourceUnit.memory)
