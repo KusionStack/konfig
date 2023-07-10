@@ -28,7 +28,7 @@ schema Main:
     ports: [cp.ContainerPort], default is Undefined, optional.
         A Container-level attribute.
         List of network ports in the container.
-    imagePullPolicy: str
+    imagePullPolicy: str, default is IfNotPresent.
         A Container-level attribute
     livenessProbe: p.Probe, default is Undefined, optional.
         A Container-level attribute.
