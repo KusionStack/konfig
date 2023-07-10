@@ -1,5 +1,5 @@
 name: Failing Test
-description: Report continuously failing tests or jobs in Kusion CI
+description: Report continuously failing tests or jobs in Konfig CI
 labels: kind/failing-test
 body:
   - type: textarea
@@ -7,7 +7,7 @@ body:
     attributes:
       label: Which jobs are failing?
       placeholder: |
-        Please only use this template for submitting reports about continuously failing tests or jobs in Kusion CI.
+        Please only use this template for submitting reports about continuously failing tests or jobs in Konfig CI.
     validations:
       required: true
 
