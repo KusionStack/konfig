@@ -28,6 +28,8 @@ schema Main:
     ports: [cp.ContainerPort], default is Undefined, optional.
         A Container-level attribute.
         List of network ports in the container.
+    imagePullPolicy: str, default is IfNotPresent.
+        A Container-level attribute
     livenessProbe: p.Probe, default is Undefined, optional.
         A Container-level attribute.
         The probe to check whether container is live or not.
@@ -69,6 +71,7 @@ schema Main:
     envFrom?: [e.EnvFromSource]
     ports?: [cp.ContainerPort]
 
+    imagePullPolicy?: str
     livenessProbe?: p.Probe
     readinessProbe?: p.Probe
     startupProbe?: p.Probe
