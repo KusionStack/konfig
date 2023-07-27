@@ -1,0 +1,7 @@
+kcl_options:
+  - key: cluster
+    value: default
+  - key: app
+    value: code-city
+  - key: env
+    value: dev
