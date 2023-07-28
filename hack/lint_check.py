@@ -39,9 +39,8 @@ def test_konfigs(test_dir):
 
     if utils.has_settings_file(ci_test_dir):
         lint_cmd.append("-Y")
-        lint_cmd.append(f"{CI_TEST_DIR}/{SETTINGS_FILE}")
-        lint_cmd.append("-Y")
         lint_cmd.append("kcl.yaml")
+        lint_cmd.append(f"{CI_TEST_DIR}/{SETTINGS_FILE}")
     else:
         lint_cmd.append(f"{MAIN_FILE}")
     process = subprocess.run(
