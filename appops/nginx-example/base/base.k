@@ -14,7 +14,7 @@ appConfiguration: frontend.Server {
     image = "nginx:1.7.8"
     services = [
         service.Service {
-            name = __META_APP_NAME
+            name = option("app")
             type = "NodePort"
             ports = [
                 {

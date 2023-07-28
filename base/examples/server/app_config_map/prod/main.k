@@ -7,7 +7,7 @@ appConfiguration: frontend.Server {
     configMaps = [
         configmap.ConfigMap {
             data = {
-                "app.name" = __META_APP_NAME
+                "app.name" = option("app")
             }
         }
         configmap.ConfigMap {
