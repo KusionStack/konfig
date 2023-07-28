@@ -1,3 +1,4 @@
+resources:
 - id: hashicorp:aws:aws_security_group:wordpress-kubevela-dev
   type: Terraform
   attributes:

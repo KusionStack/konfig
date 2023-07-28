@@ -1,100 +1,101 @@
+resources:
 - id: apps/v1:Deployment:sampleapp:sampleappprod
   type: Kubernetes
   attributes:
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-        name: sampleappprod
-        namespace: sampleapp
+      name: sampleappprod
+      namespace: sampleapp
     spec:
-        replicas: 1
-        selector:
-            matchLabels:
-                app.kubernetes.io/component: sampleappprod
-                app.kubernetes.io/env: prod
-                app.kubernetes.io/instance: sampleapp-prod
-                app.kubernetes.io/name: sampleapp
-                cluster.x-k8s.io/cluster-name: demo-cluster-name
-        template:
-            metadata:
-                labels:
-                    app.kubernetes.io/component: sampleappprod
-                    app.kubernetes.io/env: prod
-                    app.kubernetes.io/instance: sampleapp-prod
-                    app.kubernetes.io/name: sampleapp
-                    cluster.x-k8s.io/cluster-name: demo-cluster-name
-            spec:
-                containers:
-                    - args:
-                        - start
-                      command:
-                        - /home/admin/server.sh
-                      env:
-                        - name: app.version
-                          value: v1.0.0
-                      envFrom:
-                        - configMapRef:
-                            name: my-configmap
-                      image: gcr.io/google-samples/gb-frontend:v4
-                      lifecycle:
-                        preStop:
-                            exec:
-                                command:
-                                    - /bin/sh
-                                    - -c
-                                    - echo 1
-                      livenessProbe:
-                        exec:
-                            command:
-                                - /bin/sh
-                                - -c
-                                - echo livenessProbe
-                        failureThreshold: 3
-                        initialDelaySeconds: 30
-                        periodSeconds: 5
-                        successThreshold: 1
-                        timeoutSeconds: 10
-                      name: main
-                      ports:
-                        - containerPort: 12201
-                          protocol: TCP
-                      readinessProbe:
-                        exec:
-                            command:
-                                - /bin/sh
-                                - -c
-                                - echo readinessProbe
-                        failureThreshold: 3
-                        initialDelaySeconds: 30
-                        periodSeconds: 5
-                        successThreshold: 2
-                        timeoutSeconds: 10
-                      resources:
-                        limits:
-                            cpu: 100m
-                            ephemeral-storage: 1Gi
-                            memory: 100Mi
-                        requests:
-                            cpu: 100m
-                            ephemeral-storage: 1Gi
-                            memory: 100Mi
-                      startupProbe:
-                        exec:
-                            command:
-                                - /bin/sh
-                                - -c
-                                - echo startupProbe
-                        failureThreshold: 3
-                        initialDelaySeconds: 30
-                        periodSeconds: 5
-                        successThreshold: 2
-                        timeoutSeconds: 10
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/component: sampleappprod
+          app.kubernetes.io/env: prod
+          app.kubernetes.io/instance: sampleapp-prod
+          app.kubernetes.io/name: sampleapp
+          cluster.x-k8s.io/cluster-name: demo-cluster-name
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/component: sampleappprod
+            app.kubernetes.io/env: prod
+            app.kubernetes.io/instance: sampleapp-prod
+            app.kubernetes.io/name: sampleapp
+            cluster.x-k8s.io/cluster-name: demo-cluster-name
+        spec:
+          containers:
+          - args:
+            - start
+            command:
+            - /home/admin/server.sh
+            env:
+            - name: app.version
+              value: v1.0.0
+            envFrom:
+            - configMapRef:
+                name: my-configmap
+            image: gcr.io/google-samples/gb-frontend:v4
+            lifecycle:
+              preStop:
+                exec:
+                  command:
+                  - /bin/sh
+                  - -c
+                  - echo 1
+            livenessProbe:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - echo livenessProbe
+              failureThreshold: 3
+              initialDelaySeconds: 30
+              periodSeconds: 5
+              successThreshold: 1
+              timeoutSeconds: 10
+            name: main
+            ports:
+            - containerPort: 12201
+              protocol: TCP
+            readinessProbe:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - echo readinessProbe
+              failureThreshold: 3
+              initialDelaySeconds: 30
+              periodSeconds: 5
+              successThreshold: 2
+              timeoutSeconds: 10
+            resources:
+              limits:
+                cpu: 100m
+                ephemeral-storage: 1Gi
+                memory: 100Mi
+              requests:
+                cpu: 100m
+                ephemeral-storage: 1Gi
+                memory: 100Mi
+            startupProbe:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - echo startupProbe
+              failureThreshold: 3
+              initialDelaySeconds: 30
+              periodSeconds: 5
+              successThreshold: 2
+              timeoutSeconds: 10
   dependsOn:
-    - v1:Namespace:sampleapp
+  - v1:Namespace:sampleapp
 - id: v1:Namespace:sampleapp
   type: Kubernetes
   attributes:
     apiVersion: v1
     kind: Namespace
     metadata:
-        name: sampleapp
+      name: sampleapp

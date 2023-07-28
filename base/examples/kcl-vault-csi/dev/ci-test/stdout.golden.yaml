@@ -1,53 +1,54 @@
+resources:
 - id: apps/v1:Deployment:kcl-vault-csi:kcl-vault-csidev
   type: Kubernetes
   attributes:
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-        name: kcl-vault-csidev
-        namespace: kcl-vault-csi
+      name: kcl-vault-csidev
+      namespace: kcl-vault-csi
     spec:
-        replicas: 1
-        selector:
-            matchLabels:
-                app: kcl-vault-csi
-        template:
-            metadata:
-                labels:
-                    app: kcl-vault-csi
-            spec:
-                containers:
-                    - image: jweissig/app:0.0.1
-                      name: kcl-vault-csi
-                      volumeMounts:
-                        - mountPath: /mnt/secrets-store
-                          name: secrets-store-inline
-                          readOnly: true
-                serviceAccountName: kcl-vault-csi-sa
-                volumes:
-                    - csi:
-                        driver: secrets-store.csi.k8s.io
-                        readOnly: true
-                        volumeAttributes:
-                            secretProviderClass: kcl-vault-csi-database
-                      name: secrets-store-inline
+      replicas: 1
+      selector:
+        matchLabels:
+          app: kcl-vault-csi
+      template:
+        metadata:
+          labels:
+            app: kcl-vault-csi
+        spec:
+          containers:
+          - image: jweissig/app:0.0.1
+            name: kcl-vault-csi
+            volumeMounts:
+            - mountPath: /mnt/secrets-store
+              name: secrets-store-inline
+              readOnly: true
+          serviceAccountName: kcl-vault-csi-sa
+          volumes:
+          - csi:
+              driver: secrets-store.csi.k8s.io
+              readOnly: true
+              volumeAttributes:
+                secretProviderClass: kcl-vault-csi-database
+            name: secrets-store-inline
   dependsOn:
-    - v1:Namespace:kcl-vault-csi
-    - v1:ServiceAccount:kcl-vault-csi:kcl-vault-csi-sa
+  - v1:Namespace:kcl-vault-csi
+  - v1:ServiceAccount:kcl-vault-csi:kcl-vault-csi-sa
 - id: v1:Namespace:kcl-vault-csi
   type: Kubernetes
   attributes:
     apiVersion: v1
     kind: Namespace
     metadata:
-        name: kcl-vault-csi
+      name: kcl-vault-csi
 - id: v1:ServiceAccount:kcl-vault-csi:kcl-vault-csi-sa
   type: Kubernetes
   attributes:
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-        name: kcl-vault-csi-sa
-        namespace: kcl-vault-csi
+      name: kcl-vault-csi-sa
+      namespace: kcl-vault-csi
   dependsOn:
-    - v1:Namespace:kcl-vault-csi
+  - v1:Namespace:kcl-vault-csi
