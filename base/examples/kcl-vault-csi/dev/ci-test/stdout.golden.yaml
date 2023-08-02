@@ -52,3 +52,19 @@ resources:
       namespace: kcl-vault-csi
   dependsOn:
   - v1:Namespace:kcl-vault-csi
+- id: secrets-store.csi.x-k8s.io/v1:SecretProviderClass:kcl-vault-csi-database
+  type: Kubernetes
+  attributes:
+    apiVersion: secrets-store.csi.x-k8s.io/v1
+    kind: SecretProviderClass
+    metadata:
+      name: kcl-vault-csi-database
+    spec:
+      parameters:
+        objects: |
+          - objectName: "db-password"
+            secretPath: "secret/data/db-pass"
+            secretKey: "password"
+        roleName: kcl-vault-csi-role
+        vaultAddress: http://vault.default:8200
+      provider: vault

@@ -1,6 +1,7 @@
 import base.pkg.kusion_models.kube.frontend
 import base.pkg.kusion_models.kube.frontend.container
 import base.pkg.kusion_kubernetes.apimachinery.apis
+import base.pkg.kusion_vault.v1 as vaultv1
 
 # application configuration
 appConfiguration: frontend.Server {
