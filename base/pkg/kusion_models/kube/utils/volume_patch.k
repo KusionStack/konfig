@@ -11,7 +11,7 @@ VolumePatch = lambda volumes: [volume.Volume], containers: [{str:}] -> [{str:}] 
                     subPath: mount.subPath
                     readOnly: mount.readOnly or Undefined
                 } for mount in volume.mounts if mount.container == _container.name or mount.container == "*"
-            ] for volume in volumes] if volumes else [], [])
+            ] for volume in volumes] if volumes else [], []) or Undefined
         } for _container in containers
     ] if containers else Undefined
 }
