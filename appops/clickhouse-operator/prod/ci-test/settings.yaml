@@ -1,5 +1,0 @@
-kcl_options:
-  - key: app
-    value: clickhouse-operator
-  - key: env
-    value: prod
