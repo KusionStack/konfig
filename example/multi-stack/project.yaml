@@ -1,0 +1,4 @@
+# The project basic info
+name: multi-stack
+generator:
+  type: AppConfiguration

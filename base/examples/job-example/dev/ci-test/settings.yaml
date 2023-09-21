@@ -1,7 +1,0 @@
-kcl_options:
-  - key: cluster
-    value: minikube
-  - key: app
-    value: job-example
-  - key: env
-    value: dev

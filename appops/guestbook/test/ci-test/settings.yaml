@@ -1,7 +1,0 @@
-kcl_options:
-  - key: cluster
-    value: demo-cluster-name
-  - key: app
-    value: guestbook
-  - key: env
-    value: test
