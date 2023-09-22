@@ -104,53 +104,47 @@ __resource_map___: {str: []} = {kind = remove_duplicated_iter(res_list, checkIde
 # decide which kind of render we should use
 # we will choose KubeVela Application once the type of 'KubeVelaApplication' appears
 __is_kubevela_application__: bool = "KubeVelaApplication" in [inst.renderType for inst in __renderServerFrontendInstances__]
+# generate KubeVela Application with K8s resource map
+kubevela_app = kubevelav1beta1.Application {
+    metadata = apis.ObjectMeta {
+        name = metadata.__META_APP_NAME
+        namespace = metadata.__META_ENV_TYPE_NAME
+    }
+
+    spec = kubevelav1beta1.CoreOamDevV1beta1ApplicationSpec {
+        components = [
+            kubevelav1beta1.CoreOamDevV1beta1ApplicationSpecComponentsItems0 {
+                name = metadata.__META_APP_NAME + "-" + (_kind).lower()
+                type = "k8s-objects" 
+                properties = {
+                    "objects" = [_resource for _resource in _res if _resource]
+                }
+            } \
+            for i, v in resource.kubernetesOrders \
+                for _kind, _res in __resource_map___ if _kind == v and _res
+        ] 
+        policies = [
+            kubevelav1beta1.CoreOamDevV1beta1ApplicationSpecPoliciesItems0 {
+                name = "default"
+                type = "apply-once"
+                properties = {
+                    clusters = [
+                        metadata.__META_CLUSTER_NAME
+                    ]
+                    namespace = metadata.__META_ENV_TYPE_NAME
+                }
+            }
+        ]
+    }
+} if __is_kubevela_application__ else Undefined
 
 # kubernetes id: apiVersion:Kind:Namespace:Name
 getId = lambda _resource {
     _resource.apiVersion + ":" + _resource.kind + ":" + (_resource.metadata.namespace + ":" if _resource.metadata.namespace else "") + _resource.metadata.name 
 }
 
-if option("__konfig_output_format__")?.lower() == "raw":
-    manifestsResourceMap(_providerResourceMapping | { 
-        _kind: [_resource for _resource in _res] \
-            for _kind, _res in __resource_map___
-    })
-else:
+if option("__konfig_output_format__")?.lower() == "kusion-spec":
     if __is_kubevela_application__:
-        # generate KubeVela Application with K8s resource map
-        kubevela_app: kubevelav1beta1.Application {
-            metadata = apis.ObjectMeta {
-                name = metadata.__META_APP_NAME
-                namespace = metadata.__META_ENV_TYPE_NAME
-            }
-
-            spec = kubevelav1beta1.CoreOamDevV1beta1ApplicationSpec {
-                components = [
-                    kubevelav1beta1.CoreOamDevV1beta1ApplicationSpecComponentsItems0 {
-                        name = metadata.__META_APP_NAME + "-" + (_kind).lower()
-                        type = "k8s-objects" 
-                        properties = {
-                            "objects" = [_resource for _resource in _res if _resource]
-                        }
-                    } \
-                    for i, v in resource.kubernetesOrders \
-                        for _kind, _res in __resource_map___ if _kind == v and _res
-                ] 
-                policies = [
-                    kubevelav1beta1.CoreOamDevV1beta1ApplicationSpecPoliciesItems0 {
-                        name = "default"
-                        type = "apply-once"
-                        properties = {
-                            clusters = [
-                                metadata.__META_CLUSTER_NAME
-                            ]
-                            namespace = metadata.__META_ENV_TYPE_NAME
-                        }
-                    }
-                ]
-            }
-        }
-
         # structure output for kubevela application
         kubevela_output = {
             "${kubevela_app.kind}": [{
@@ -177,3 +171,11 @@ else:
             ] for _kind, _res in __resource_map___ 
         }
         manifestsResourceMap(_providerResourceMapping | server_output)
+else:
+    _output = {
+        "${kubevela_app.kind}": [kubevela_app]
+    } if __is_kubevela_application__ else { 
+        _kind: [_resource for _resource in _res] \
+            for _kind, _res in __resource_map___
+    }
+    manifestsResourceMap(_providerResourceMapping | _output)

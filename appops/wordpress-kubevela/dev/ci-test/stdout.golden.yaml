@@ -1,157 +1,156 @@
-- id: hashicorp:aws:aws_security_group:wordpress-kubevela-dev
-  type: Terraform
-  attributes:
-    egress:
-    - cidr_blocks:
-      - 0.0.0.0/0
-      description: ""
-      from_port: 0
-      ipv6_cidr_blocks: null
-      prefix_list_ids: null
-      protocol: "-1"
-      security_groups: null
-      self: false
-      to_port: 0
-    ingress:
-    - cidr_blocks:
-      - 0.0.0.0/0
-      description: ""
-      from_port: 3306
-      ipv6_cidr_blocks: null
-      prefix_list_ids: null
-      protocol: tcp
-      security_groups: null
-      self: false
-      to_port: 3306
-    name: wordpress-kubevela-dev
-  extensions:
-    provider: registry.terraform.io/hashicorp/aws/5.0.1
-    providerMeta:
-      region: us-east-1
-    resourceType: aws_security_group
-- id: hashicorp:aws:aws_db_instance:wordpress-kubevela-dev
-  type: Terraform
-  attributes:
-    allocated_storage: 10
-    db_subnet_group_name: default
-    engine: MySQL
-    engine_version: "5.7"
-    identifier: wordpress-kubevela-dev
-    instance_class: db.t3.micro
-    password: Kusion123456
-    publicly_accessible: true
-    skip_final_snapshot: true
-    username: root
-    vpc_security_group_ids:
-    - $kusion_path.hashicorp:aws:aws_security_group:wordpress-kubevela-dev.id
-  extensions:
-    provider: registry.terraform.io/hashicorp/aws/5.0.1
-    providerMeta:
-      region: us-east-1
-    resourceType: aws_db_instance
-- id: core.oam.dev/v1beta1:Application:dev:wordpress-kubevela
-  type: Kubernetes
-  attributes:
-    apiVersion: core.oam.dev/v1beta1
-    kind: Application
-    metadata:
-      name: wordpress-kubevela
-      namespace: dev
-    spec:
-      components:
-      - name: wordpress-kubevela-namespace
-        properties:
-          objects:
-          - apiVersion: v1
-            kind: Namespace
+id: hashicorp:aws:aws_security_group:wordpress-kubevela-dev
+type: Terraform
+attributes:
+  egress:
+  - description: ''
+    from_port: 0
+    to_port: 0
+    protocol: '-1'
+    cidr_blocks:
+    - 0.0.0.0/0
+    ipv6_cidr_blocks: null
+    prefix_list_ids: null
+    security_groups: null
+    self: false
+  ingress:
+  - description: ''
+    from_port: 3306
+    to_port: 3306
+    protocol: tcp
+    cidr_blocks:
+    - 0.0.0.0/0
+    ipv6_cidr_blocks: null
+    prefix_list_ids: null
+    security_groups: null
+    self: false
+  name: wordpress-kubevela-dev
+extensions:
+  provider: registry.terraform.io/hashicorp/aws/5.0.1
+  resourceType: aws_security_group
+  providerMeta:
+    region: us-east-1
+---
+id: hashicorp:aws:aws_db_instance:wordpress-kubevela-dev
+type: Terraform
+attributes:
+  allocated_storage: 10
+  db_subnet_group_name: default
+  engine: MySQL
+  engine_version: '5.7'
+  identifier: wordpress-kubevela-dev
+  instance_class: db.t3.micro
+  password: Kusion123456
+  publicly_accessible: true
+  skip_final_snapshot: true
+  username: root
+  vpc_security_group_ids:
+  - $kusion_path.hashicorp:aws:aws_security_group:wordpress-kubevela-dev.id
+extensions:
+  provider: registry.terraform.io/hashicorp/aws/5.0.1
+  resourceType: aws_db_instance
+  providerMeta:
+    region: us-east-1
+---
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: wordpress-kubevela
+  namespace: dev
+spec:
+  components:
+  - name: wordpress-kubevela-namespace
+    properties:
+      objects:
+      - apiVersion: v1
+        kind: Namespace
+        metadata:
+          name: wordpress-kubevela
+    type: k8s-objects
+  - name: wordpress-kubevela-secret
+    properties:
+      objects:
+      - apiVersion: v1
+        data:
+          password: S3VzaW9uMTIzNDU2
+        kind: Secret
+        type: Opaque
+        metadata:
+          name: mysql-pass
+          namespace: wordpress-kubevela
+    type: k8s-objects
+  - name: wordpress-kubevela-service
+    properties:
+      objects:
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: wordpress
+          namespace: wordpress-kubevela
+        spec:
+          ports:
+          - port: 80
+          selector:
+            app.kubernetes.io/name: wordpress-kubevela
+            app.kubernetes.io/env: dev
+            app.kubernetes.io/instance: wordpress-kubevela-dev
+            cluster.x-k8s.io/cluster-name: default
+            app.kubernetes.io/component: wordpress-deployment
+          type: ClusterIP
+    type: k8s-objects
+  - name: wordpress-kubevela-deployment
+    properties:
+      objects:
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: wordpress-deployment
+          namespace: wordpress-kubevela
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: wordpress-kubevela
+              app.kubernetes.io/env: dev
+              app.kubernetes.io/instance: wordpress-kubevela-dev
+              cluster.x-k8s.io/cluster-name: default
+              app.kubernetes.io/component: wordpress-deployment
+          template:
             metadata:
-              name: wordpress-kubevela
-        type: k8s-objects
-      - name: wordpress-kubevela-secret
-        properties:
-          objects:
-          - apiVersion: v1
-            data:
-              password: S3VzaW9uMTIzNDU2
-            kind: Secret
-            metadata:
-              name: mysql-pass
-              namespace: wordpress-kubevela
-            type: Opaque
-        type: k8s-objects
-      - name: wordpress-kubevela-service
-        properties:
-          objects:
-          - apiVersion: v1
-            kind: Service
-            metadata:
-              name: wordpress
-              namespace: wordpress-kubevela
-            spec:
-              ports:
-              - port: 80
-              selector:
-                app.kubernetes.io/component: wordpress-deployment
+              labels:
+                app.kubernetes.io/name: wordpress-kubevela
                 app.kubernetes.io/env: dev
                 app.kubernetes.io/instance: wordpress-kubevela-dev
-                app.kubernetes.io/name: wordpress-kubevela
                 cluster.x-k8s.io/cluster-name: default
-              type: ClusterIP
-        type: k8s-objects
-      - name: wordpress-kubevela-deployment
-        properties:
-          objects:
-          - apiVersion: apps/v1
-            kind: Deployment
-            metadata:
-              name: wordpress-deployment
-              namespace: wordpress-kubevela
+                app.kubernetes.io/component: wordpress-deployment
             spec:
-              replicas: 1
-              selector:
-                matchLabels:
-                  app.kubernetes.io/component: wordpress-deployment
-                  app.kubernetes.io/env: dev
-                  app.kubernetes.io/instance: wordpress-kubevela-dev
-                  app.kubernetes.io/name: wordpress-kubevela
-                  cluster.x-k8s.io/cluster-name: default
-              template:
-                metadata:
-                  labels:
-                    app.kubernetes.io/component: wordpress-deployment
-                    app.kubernetes.io/env: dev
-                    app.kubernetes.io/instance: wordpress-kubevela-dev
-                    app.kubernetes.io/name: wordpress-kubevela
-                    cluster.x-k8s.io/cluster-name: default
-                spec:
-                  containers:
-                  - env:
-                    - name: WORDPRESS_DB_PASSWORD
-                      valueFrom:
-                        secretKeyRef:
-                          key: password
-                          name: mysql-pass
-                    - name: ENV_ADD_EXAMPLE
-                      value: wordpress-example
-                    - name: WORDPRESS_DB_HOST
-                      value: $kusion_path.hashicorp:aws:aws_db_instance:wordpress-kubevela-dev.address
-                    image: wordpress:4.8-apache
-                    name: wordpress
-                    ports:
-                    - containerPort: 80
-                      name: wordpress
-                      protocol: TCP
-                    volumeMounts:
-                    - mountPath: /var/www/html
-                      name: wordpress-persistent-storage
-                  volumes:
-                  - emptyDir: {}
-                    name: wordpress-persistent-storage
-        type: k8s-objects
-      policies:
-      - name: default
-        properties:
-          clusters:
-          - default
-          namespace: dev
-        type: apply-once
+              containers:
+              - env:
+                - name: WORDPRESS_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: password
+                      name: mysql-pass
+                - name: ENV_ADD_EXAMPLE
+                  value: wordpress-example
+                - name: WORDPRESS_DB_HOST
+                  value: $kusion_path.hashicorp:aws:aws_db_instance:wordpress-kubevela-dev.address
+                image: wordpress:4.8-apache
+                name: wordpress
+                ports:
+                - containerPort: 80
+                  name: wordpress
+                  protocol: TCP
+                volumeMounts:
+                - mountPath: /var/www/html
+                  name: wordpress-persistent-storage
+              volumes:
+              - name: wordpress-persistent-storage
+                emptyDir: {}
+    type: k8s-objects
+  policies:
+  - name: default
+    properties:
+      clusters:
+      - default
+      namespace: dev
+    type: apply-once

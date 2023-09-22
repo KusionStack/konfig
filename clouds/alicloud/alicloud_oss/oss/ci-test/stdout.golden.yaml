@@ -1,10 +1,10 @@
-- id: aliyun:alicloud:alicloud_oss_bucket:kusion-oss
-  type: Terraform
-  attributes:
-    acl: private
-    bucket: kusion-oss
-  extensions:
-    provider: registry.terraform.io/aliyun/alicloud/1.201.1
-    providerMeta:
-        region: cn-beijing
-    resourceType: alicloud_oss_bucket
+id: aliyun:alicloud:alicloud_oss_bucket:kusion-oss
+type: Terraform
+attributes:
+  acl: private
+  bucket: kusion-oss
+extensions:
+  provider: registry.terraform.io/aliyun/alicloud/1.201.1
+  resourceType: alicloud_oss_bucket
+  providerMeta:
+    region: cn-beijing

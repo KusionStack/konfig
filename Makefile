@@ -1,14 +1,14 @@
 PWD=$(shell pwd)
 PROJECT_NAME=Konfig
-KUSION_IMAGE=kusionstack/kusion:latest
+KCL_IMAGE=kcllang/kcl
 
-parallel-compile=kclvm hack/compile-rocket.py
+parallel-compile=python3 hack/compile-rocket.py
 
 help:  ## 这里是帮助文档 :)
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 docker-sh:  ## 在 kusion docker 容器中执行 shell
-	docker run --rm -v $(PWD):/${PROJECT_NAME} -w /${PROJECT_NAME} -it -u root ${KUSION_IMAGE}
+	docker run --rm -v $(PWD):/${PROJECT_NAME} -w /${PROJECT_NAME} -it -u root ${KCL_IMAGE}
 
 check-all:  ## 校验所有 Project
 	@${parallel-compile} all

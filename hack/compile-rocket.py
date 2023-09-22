@@ -34,10 +34,11 @@ except Exception as e:
     TERMINAL_WIDTH = 64
 
 COMPILE_COMMAND = [
-    "kusion",
-    "compile",
+    "kcl",
     "-Y",
-    "ci-test/settings.yaml,kcl.yaml",
+    "kcl.yaml",
+    "-Y",
+    "ci-test/settings.yaml",
     "-o",
     "ci-test/stdout.golden.yaml",
 ]

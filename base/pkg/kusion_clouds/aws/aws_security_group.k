@@ -26,13 +26,13 @@ schema ingress:
 
     cidr_blocks?: [str]
 
-    ipv6_cidr_blocks: [str] = []
+    ipv6_cidr_blocks?: [str] = []
 
-    prefix_list_ids: [str] = []
+    prefix_list_ids?: [str] = []
 
-    security_groups: [str] = []
+    security_groups?: [str] = []
 
-    self: bool = false
+    self: bool = False
 
 schema egress: 
     description?: str

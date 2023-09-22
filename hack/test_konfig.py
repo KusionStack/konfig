@@ -6,7 +6,6 @@ see quick start of pytest: https://docs.pytest.org/en/latest/example/simple.html
 import os
 import subprocess
 from pathlib import Path
-import typing
 
 import pytest
 from ruamel.yaml import YAML
@@ -79,19 +78,18 @@ def test_konfigs(test_dir):
     assert ci_test_dir.is_dir(), f"missing ci-test dir for test case: {kcl_file_name}"
     golden_file = ci_test_dir / STDOUT_GOLDEN_FILE
     assert golden_file.is_file(), f"missing golden file for main.k in dir {golden_file}"
-    kusion_cmd = ["kusion"]
-    kusion_cmd.append("compile")
+    cmds = ["kcl"]
     if utils.has_settings_file(ci_test_dir):
-        kusion_cmd.append("-Y")
-        kusion_cmd.append(f"{CI_TEST_DIR}/{SETTINGS_FILE}")
-        kusion_cmd.append("-Y")
-        kusion_cmd.append("kcl.yaml")
-        kusion_cmd.append("-o")
-        kusion_cmd.append("test.yaml")
+        cmds.append("-Y")
+        cmds.append("kcl.yaml")
+        cmds.append("-Y")
+        cmds.append(f"{CI_TEST_DIR}/{SETTINGS_FILE}")
+        cmds.append("-o")
+        cmds.append("test.yaml")
     else:
-        kusion_cmd.append(f"{MAIN_FILE}")
+        cmds.append(f"{MAIN_FILE}")
     process = subprocess.run(
-        kusion_cmd, capture_output=True, cwd=test_dir, env=dict(os.environ)
+        cmds, capture_output=True, cwd=test_dir, env=dict(os.environ)
     )
     stderr = process.stderr
     assert (
