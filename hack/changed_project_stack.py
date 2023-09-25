@@ -54,11 +54,15 @@ def exist_file(path: str, file_name: str) -> bool:
                 return True
     return False
 
-changed_paths_str = os.getenv("CHANGED_PATHS")
+changed_paths_str = os.getenv('CHANGED_PATHS')
 changed_paths = split_changed_paths_str(changed_paths_str)
 changed_projects = get_changed_project_stack_paths(changed_paths, PROJECT_FILE)
 changed_stacks = get_changed_project_stack_paths(changed_paths, STACK_FILE)
 changed_projects_str = " ".join(changed_projects)
 changed_stacks_str = " ".join(changed_stacks)
-print(f"::set-output name=changed_projects::{changed_projects_str}")
-print(f"::set-output name=changed_stacks::{changed_stacks_str}")
+# "set-output" is getting deprecated, update it
+# ref: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+#      https://github.com/orgs/community/discussions/28146
+with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+    print(f'changed_projects={changed_projects_str}', file=fh)
+    print(f'changed_stacks={changed_stacks_str}', file=fh)
