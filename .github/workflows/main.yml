@@ -79,6 +79,34 @@ jobs:
              hack/report/test-correctness.xml
              hack/report/test-correctness.html        
 
+   preview:
+     needs: get-changed-project-stack
+     runs-on: ubuntu-latest
+     container:
+       image: kusionstack/kusion:latest
+       env:
+         CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+     steps:
+       - id: git-clone
+         uses: actions/checkout@v2
+         with:
+           fetch-depth: 0
+       - id: install-python
+         uses: actions/setup-python@v4
+         with:
+           python-version: 3.9
+       - id: setup-k3d
+         uses: nolar/setup-k3d-k3s@v1.0.8
+       - id: preview hack/preview_changed_stacks.py
+         run: python3
+       - id: upload-report
+         if: always()
+         uses: actions/upload-artifact@v2
+         with:
+           name: preview-report
+           path: hack/report/preview-result.zip
+
+
   # deprecated checkpoints. need upgrade
   # lint:
   #   needs: deps
