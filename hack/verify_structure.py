@@ -32,8 +32,8 @@ def read_to_yaml(file_path):
         return yaml.load(file, Loader=yaml.FullLoader)
 
 
-project_dirs = util.get_changed_projects() or [STUB_CASE]
-stack_dirs = util.get_changed_stacks() or [STUB_CASE]
+project_dirs = util.get_changed_projects()
+stack_dirs = util.get_changed_stacks()
 
 
 @pytest.mark.parametrize("project_dir", project_dirs)
