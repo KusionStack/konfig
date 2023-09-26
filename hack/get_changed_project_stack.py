@@ -13,12 +13,12 @@ def split_changed_paths_str(changed_paths_str: str) -> List[str]:
 
 def get_changed_project_paths(changed_paths: List[str]) -> List[str]:
     project_paths = []
-    check_files = [KCL_MOD_FILE, KCL_MOD_LOCK_FILE, PROJECT_FILE, STACK_FILE]
+    check_files = [KCL_FILE_SUFFIX, KCL_MOD_FILE, KCL_MOD_LOCK_FILE, PROJECT_FILE, STACK_FILE]
     for changed_path in changed_paths:
         if not changed_path:
             continue
         # ignore if not .k file or kcl.mod/kcl.mod.lock/stack.yaml/project.yaml
-        if not changed_path.endswith(KCL_FILE_SUFFIX) and not exist_suffix(check_files, changed_path):
+        if not exist_suffix(check_files, changed_path):
             continue
         # if the project has already detected, skip it
         if exist_prefix(project_paths, changed_path):
@@ -33,12 +33,12 @@ def get_changed_project_paths(changed_paths: List[str]) -> List[str]:
 
 def get_changed_stack_paths(changed_paths: List[str], project_paths: List[str]) -> List[str]:
     stack_paths = []
-    check_files = [KCL_MOD_FILE, KCL_MOD_LOCK_FILE, PROJECT_FILE, STACK_FILE]
+    check_files = [KCL_FILE_SUFFIX, KCL_MOD_FILE, KCL_MOD_LOCK_FILE, PROJECT_FILE, STACK_FILE]
     for changed_path in changed_paths:
         if not changed_path:
             continue
         # ignore if not .k file or kcl.mod/kcl.mod.lock/stack.yaml/project.yaml
-        if not changed_path.endswith(KCL_FILE_SUFFIX) and not exist_suffix(check_files, changed_path):
+        if not exist_suffix(check_files, changed_path):
             continue
         # if the stack has already detected, skip it
         if exist_prefix(stack_paths, changed_path):
