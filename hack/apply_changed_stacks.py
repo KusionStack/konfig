@@ -10,10 +10,10 @@ from lib import util
 report_dir = os.path.dirname(os.path.abspath(__file__)) + "/report"
 os.makedirs(report_dir, exist_ok=True)
 result_files = []
-result_pack_path = report_dir + "/preview-result.zip"
+result_pack_path = report_dir + "/apply-result.zip"
 
 
-def preview_stacks(stack_dirs: List[str]):
+def apply_stacks(stack_dirs: List[str]):
     stacks = []
     for stack_dir in stack_dirs:
         if not stack_dir:
@@ -23,30 +23,30 @@ def preview_stacks(stack_dirs: List[str]):
             continue
         stacks.append(stack_dir)
     if len(stacks) == 0:
-        print(f"ignored or no changed stacks, skip preview")
+        print(f"ignored or no changed stacks, skip apply")
         return
 
     for stack in stacks:
-        preview(stack)
+        apply(stack)
 
 
-def preview(stack_dir: str):
-    print(f"Preview stack {stack_dir}...")
-    cmd = [KUSION_CMD, PREVIEW_CMD, NO_STYLE_FLAG]
+def apply(stack_dir: str):
+    print(f"Apply stack {stack_dir}...")
+    cmd = [KUSION_CMD, APPLY_CMD, YES_FLAG, NO_STYLE_FLAG]
     process = subprocess.run(
         cmd, capture_output=True, cwd=Path(stack_dir), env=dict(os.environ)
     )
     if process.returncode == 0:
         write_to_result_file(process.stdout, stack_dir)
     else:
-        raise Exception(f"preview stack {stack_dir} failed",
+        raise Exception(f"apply stack {stack_dir} failed",
                         f"stdout = {process.stdout.decode().strip()}",
                         f"stderr = {process.stderr.decode().strip()}",
                         f"returncode = {process.returncode}")
 
 
 def write_to_result_file(content: bytes, stack: str):
-    result_file_path = report_dir + "/preview-result-" + stack.replace("/", "_")
+    result_file_path = report_dir + "/apply-result-" + stack.replace("/", "_")
     with open(result_file_path, 'w') as file:
         file.write(content.decode())
     result_files.append(result_file_path)
@@ -60,5 +60,5 @@ def pack_result_files():
 
 
 stack_dirs = util.get_changed_stacks()
-preview_stacks(stack_dirs)
+apply_stacks(stack_dirs)
 pack_result_files()

@@ -17,8 +17,7 @@ KUSION_CMD = "kusion"
 COMPILE_CMD = "compile"
 PREVIEW_CMD = "preview"
 APPLY_CMD = "apply"
-OUTPUT_FLAG = "--output"
-OUTPUT_JSON = "json"
 NO_STYLE_FLAG = "--no-style"
+YES_FLAG = "--yes"
 
 IGNORE_PROJECTS = ["example/wordpress"]
