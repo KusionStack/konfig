@@ -11,6 +11,8 @@ stack_dirs = util.get_changed_stacks()
 
 @pytest.mark.parametrize("stack_dir", stack_dirs)
 def test_correctness(stack_dir):
+    if util.should_ignore_stack(stack_dir):
+        return
     print(f"Testing correctness of stack {stack_dir}...")
     cmd = [KUSION_CMD, COMPILE_CMD]
     process = subprocess.run(

@@ -61,7 +61,7 @@ def exist_file(path: str, file_name: str) -> bool:
     return False
 
 
-changed_paths_str = os.getenv(CHANGED_PATHS) or STUB_CASE
+changed_paths_str = os.getenv(CHANGED_PATHS)
 changed_paths = split_changed_paths_str(changed_paths_str)
 changed_projects = get_changed_project_stack_paths(changed_paths, PROJECT_FILE)
 changed_stacks = get_changed_project_stack_paths(changed_paths, STACK_FILE)

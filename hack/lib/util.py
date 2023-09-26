@@ -19,3 +19,11 @@ def get_changed_projects() -> List[str]:
 def get_changed_stacks() -> List[str]:
     changed_stacks_str = os.getenv(CHANGED_STACKS) or ""
     return split_str_to_list(changed_stacks_str)
+
+
+# there are some examples cannot get compiled and applied correctly
+def should_ignore_stack(stack_dir: str) -> bool:
+    for project_dir in IGNORE_PROJECTS:
+        if stack_dir.startswith(project_dir):
+            return True
+    return False

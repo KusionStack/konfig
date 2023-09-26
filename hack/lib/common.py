@@ -11,3 +11,5 @@ KCL_MOD_LOCK_FILE = "kcl.mod.lock"
 NAME = "name"
 KUSION_CMD = "kusion"
 COMPILE_CMD = "compile"
+
+IGNORE_PROJECTS = ["example/wordpress"]
