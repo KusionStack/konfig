@@ -38,13 +38,11 @@ stack_dirs = util.get_changed_stacks()
 
 @pytest.mark.parametrize("project_dir", project_dirs)
 def test_project_structure(project_dir: str):
-    if project_dir == STUB_CASE:
-        return
+    print(f"Verifying structure of project {project_dir}...")
     check_project_meta(Path(project_dir))
 
 
 @pytest.mark.parametrize("stack_dir", stack_dirs)
 def test_stack_structure(stack_dir: str):
-    if stack_dir == STUB_CASE:
-        return
+    print(f"Verifying structure of stack {stack_dir}...")
     check_stack_meta(Path(stack_dir))
