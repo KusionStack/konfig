@@ -10,10 +10,12 @@ jobs:
   get-changed-project-stack:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - id: git-clone
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v4
+      - id: install-python
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
       - id: git-diff
@@ -21,10 +23,61 @@ jobs:
       - id: changed-project-stack
         run: |
           export CHANGED_PATHS="${{ steps.git-diff.outputs.diff }}"
-          python hack/changed_project_stack.py
+          python hack/get_changed_project_stack.py
     outputs:
-      CHANGED_PROJECTS: ${{ steps.changed-project-stack.outputs.changed_projects }}
-      CHANGED_STACKS: ${{ steps.changed-project-stack.outputs.changed_stacks }}
+      changed_projects: ${{ steps.changed-project-stack.outputs.changed_projects }}
+      changed_stacks: ${{ steps.changed-project-stack.outputs.changed_stacks }}
+
+  check-structure:
+   needs: get-changed-project-stack
+   runs-on: ubuntu-latest
+   container:
+     image: kusionstack/kusion:latest
+     env:
+       CHANGED_PROJECTS: ${{ needs.get-changed-project-stack.outputs.changed_projects }}
+       CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+   steps:
+     - id: git-clone
+       uses: actions/checkout@v2
+       with:
+         fetch-depth: 0
+     - id: install-pytest-html
+       run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+     - id: check-structure
+       run: python3 -m pytest -v hack/check_structure.py --junitxml ./hack/report/check-structure.xml --html ./hack/report/check-structure.html
+     - id: upload-report
+       if: always()
+       uses: actions/upload-artifact@v2
+       with:
+         name: check-structure-report
+         path: |
+           hack/report/check-structure.xml
+           hack/report/check-structure.html
+
+   test-correctness:
+     needs: get-changed-project-stack
+     runs-on: ubuntu-latest
+     container:
+       image: kusionstack/kusion:latest
+       env:
+         CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+     steps:
+       - id: git-clone
+         uses: actions/checkout@v2
+         with:
+           fetch-depth: 0
+       - id: install-pytest-html
+         run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+       - id: test-correctness
+         run: python3 -m pytest -v hack/test_correctness.py --junitxml ./hack/report/test-correctness.xml --html ./hack/report/test-correctness.html
+       - id: upload-report
+         if: always()
+         uses: actions/upload-artifact@v2
+         with:
+           name: test-correctness-report
+           path: |
+             hack/report/test-correctness.xml
+             hack/report/test-correctness.html        
 
   # deprecated checkpoints. need upgrade
   # lint:
@@ -59,52 +112,3 @@ jobs:
   #         path: |
   #           hack/report/lint.xml
   #           hack/report/lint.html
-  # structure-check:
-  #   needs: deps
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: kusionstack/kusion:latest
-  #     env:
-  #       CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
-  #       AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
-  #       AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - id: install-pytest-html
-  #       run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-  #     - id: structure-check
-  #       run: python3 -m pytest -v hack/verify-project-structure.py --junitxml ./hack/report/structure-check.xml --html=./hack/report/structure-check.html
-  #     - id: upload-structure-check-report
-  #       if: always()
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: structure-check-report
-  #         path: |
-  #           hack/report/structure-check.xml
-  #           hack/report/structure-check.html
-  # test:
-  #   needs: deps
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: kusionstack/kusion:latest
-  #     env:
-  #       CHANGED_FILE: ${{needs.diff.outputs.CHANGED_FILE}}
-  #       AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
-  #       AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-python@v4
-  #       with:
-  #         python-version: '3.9'
-  #     - id: test
-  #       run: |
-  #         python3 -m pip install pytest-html pytest-xdist ruamel.yaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-  #         python3 -m pytest -v hack/test_konfig.py --junitxml ./hack/report/test.xml --html=./hack/report/test.html
-  #     - id: upload-test-report
-  #       if: always()
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: test-report
-  #         path: |
-  #           hack/report/test.xml
-  #           hack/report/test.html

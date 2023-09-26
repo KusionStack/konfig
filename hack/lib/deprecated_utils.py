@@ -29,7 +29,7 @@ def get_konfig_root() -> Path:
     """获取大库根目录"""
     p = Path(os.getcwd())
     while str(p.resolve()) != "/":
-        if (p / KCLMOD_FILE).is_file() and (p / HACK_DIR).is_dir():
+        if (p / "kcl.mod").is_file() and (p / HACK_DIR).is_dir():
             return p
         p = p.resolve().parent
     return Path(os.getcwd())
