@@ -54,84 +54,84 @@ jobs:
            hack/report/check-structure.xml
            hack/report/check-structure.html
 
-   test-correctness:
-     needs: get-changed-project-stack
-     runs-on: ubuntu-latest
-     container:
-       image: kusionstack/kusion:latest
-       env:
-         CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
-     steps:
-       - id: git-clone
-         uses: actions/checkout@v2
-         with:
-           fetch-depth: 0
-       - id: install-pytest-html
-         run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-       - id: test-correctness
-         run: python3 -m pytest -v hack/test_correctness.py --junitxml ./hack/report/test-correctness.xml --html ./hack/report/test-correctness.html
-       - id: upload-report
-         if: always()
-         uses: actions/upload-artifact@v2
-         with:
-           name: test-correctness-report
-           path: |
-             hack/report/test-correctness.xml
-             hack/report/test-correctness.html        
+  test-correctness:
+   needs: get-changed-project-stack
+   runs-on: ubuntu-latest
+   container:
+     image: kusionstack/kusion:latest
+     env:
+       CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+   steps:
+     - id: git-clone
+       uses: actions/checkout@v2
+       with:
+         fetch-depth: 0
+     - id: install-pytest-html
+       run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+     - id: test-correctness
+       run: python3 -m pytest -v hack/test_correctness.py --junitxml ./hack/report/test-correctness.xml --html ./hack/report/test-correctness.html
+     - id: upload-report
+       if: always()
+       uses: actions/upload-artifact@v2
+       with:
+         name: test-correctness-report
+         path: |
+           hack/report/test-correctness.xml
+           hack/report/test-correctness.html        
 
-   preview:
-     needs: get-changed-project-stack
-     runs-on: ubuntu-latest
-     container:
-       image: kusionstack/kusion:latest
-       env:
-         CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
-     steps:
-       - id: git-clone
-         uses: actions/checkout@v2
-         with:
-           fetch-depth: 0
-       - id: install-python
-         uses: actions/setup-python@v4
-         with:
-           python-version: 3.9
-       - id: setup-k3d
-         uses: nolar/setup-k3d-k3s@v1.0.8
-       - id: preview
-         run: python3 hack/preview_changed_stacks.py
-       - id: upload-report
-         if: always()
-         uses: actions/upload-artifact@v2
-         with:
-           name: preview-report
-           path: hack/report/preview-result.zip
+  preview:
+   needs: get-changed-project-stack
+   runs-on: ubuntu-latest
+   container:
+     image: kusionstack/kusion:latest
+     env:
+       CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+   steps:
+     - id: git-clone
+       uses: actions/checkout@v2
+       with:
+         fetch-depth: 0
+     - id: install-python
+       uses: actions/setup-python@v4
+       with:
+         python-version: 3.9
+     - id: setup-k3d
+       uses: nolar/setup-k3d-k3s@v1.0.8
+     - id: preview
+       run: python3 hack/preview_changed_stacks.py
+     - id: upload-report
+       if: always()
+       uses: actions/upload-artifact@v2
+       with:
+         name: preview-report
+         path: hack/report/preview-result.zip
 
-   apply:
-     needs: get-changed-project-stack
-     runs-on: ubuntu-latest
-     container:
-       image: kusionstack/kusion:latest
-       env:
-         CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
-     steps:
-       - id: git-clone
-         uses: actions/checkout@v2
-         with:
-           fetch-depth: 0
-       - id: install-python
-         uses: actions/setup-python@v4
-         with:
-           python-version: 3.9
-       - id: setup-k3d
-         uses: nolar/setup-k3d-k3s@v1.0.8
-       - id: apply
-         run: python3 hack/apply_changed_stacks.py
-       - id: upload-report
-         if: always()
-         uses: actions/upload-artifact@v2
-         with:
-           name: apply-report
-           path: hack/report/apply-result.zip
+  apply:
+   needs: get-changed-project-stack
+   runs-on: ubuntu-latest
+   container:
+     image: kusionstack/kusion:latest
+     env:
+       CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+   steps:
+     - id: git-clone
+       uses: actions/checkout@v2
+       with:
+         fetch-depth: 0
+     - id: install-python
+       uses: actions/setup-python@v4
+       with:
+         python-version: 3.9
+     - id: setup-k3d
+       uses: nolar/setup-k3d-k3s@v1.0.8
+     - id: apply
+       run: python3 hack/apply_changed_stacks.py
+     - id: upload-report
+       if: always()
+       uses: actions/upload-artifact@v2
+       with:
+         name: apply-report
+         path: hack/report/apply-result.zip
 
   # deprecated checkpoints. need upgrade
   # lint:
