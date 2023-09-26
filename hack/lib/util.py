@@ -21,9 +21,17 @@ def get_changed_stacks() -> List[str]:
     return split_str_to_list(changed_stacks_str)
 
 
+def detect_all_stacks(project_path: str) -> List[str]:
+    stack_paths = []
+    for root, dirs, files in os.walk(project_path):
+        if STACK_FILE in files:
+            stack_paths.append(root)
+    return stack_paths
+
+
 # there are some examples cannot get compiled and applied correctly
-def should_ignore_stack(stack_dir: str) -> bool:
-    for project_dir in IGNORE_PROJECTS:
-        if stack_dir.startswith(project_dir):
+def should_ignore_stack(stack_path: str) -> bool:
+    for project_path in IGNORE_PROJECTS:
+        if stack_path.startswith(project_path):
             return True
     return False
