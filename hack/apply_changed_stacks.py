@@ -13,7 +13,8 @@ result_files = []
 result_pack_path = report_dir + "/apply-result.zip"
 
 
-def apply_stacks(stack_dirs: List[str]):
+# If succeeded, return True; if skipped, return False; if failed, exception
+def apply_stacks(stack_dirs: List[str]) -> bool:
     stacks = []
     for stack_dir in stack_dirs:
         if not stack_dir:
@@ -24,10 +25,11 @@ def apply_stacks(stack_dirs: List[str]):
         stacks.append(stack_dir)
     if len(stacks) == 0:
         print(f"ignored or no changed stacks, skip apply")
-        return
+        return False
 
     for stack in stacks:
         apply(stack)
+    return True
 
 
 def apply(stack_dir: str):
@@ -60,5 +62,8 @@ def pack_result_files():
 
 
 stack_dirs = util.get_changed_stacks()
-apply_stacks(stack_dirs)
-pack_result_files()
+success = apply_stacks(stack_dirs)
+if success:
+    pack_result_files()
+with open(os.environ[GITHUB_OUTPUT], 'a') as fh:
+    print(f'apply_success={str(success).lower()}', file=fh)

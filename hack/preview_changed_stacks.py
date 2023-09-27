@@ -13,7 +13,8 @@ result_files = []
 result_pack_path = report_dir + "/preview-result.zip"
 
 
-def preview_stacks(stack_dirs: List[str]):
+# If succeeded, return True; if skipped, return False; if failed, exception
+def preview_stacks(stack_dirs: List[str]) -> bool:
     stacks = []
     for stack_dir in stack_dirs:
         if not stack_dir:
@@ -24,10 +25,11 @@ def preview_stacks(stack_dirs: List[str]):
         stacks.append(stack_dir)
     if len(stacks) == 0:
         print(f"ignored or no changed stacks, skip preview")
-        return
+        return False
 
     for stack in stacks:
         preview(stack)
+    return True
 
 
 def preview(stack_dir: str):
@@ -60,5 +62,8 @@ def pack_result_files():
 
 
 stack_dirs = util.get_changed_stacks()
-preview_stacks(stack_dirs)
-pack_result_files()
+success = preview_stacks(stack_dirs)
+if success:
+    pack_result_files()
+with open(os.environ[GITHUB_OUTPUT], 'a') as fh:
+    print(f'preview_success={str(success).lower()}', file=fh)
