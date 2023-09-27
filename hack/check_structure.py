@@ -38,11 +38,11 @@ stack_dirs = util.get_changed_stacks()
 
 @pytest.mark.parametrize("project_dir", project_dirs)
 def test_project_structure(project_dir: str):
-    print(f"Verifying structure of project {project_dir}...")
+    print(f"Check structure of project {project_dir}")
     check_project_meta(Path(project_dir))
 
 
 @pytest.mark.parametrize("stack_dir", stack_dirs)
 def test_stack_structure(stack_dir: str):
-    print(f"Verifying structure of stack {stack_dir}...")
+    print(f"Check structure of stack {stack_dir}")
     check_stack_meta(Path(stack_dir))

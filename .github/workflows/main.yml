@@ -10,74 +10,144 @@ jobs:
   get-changed-project-stack:
     runs-on: ubuntu-latest
     steps:
-      - id: git-clone
-        uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - id: install-python
+      - name: Install Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.9
-      - id: git-diff
+      - name: Git Diff
+        id: git-diff
         uses: technote-space/get-diff-action@v6
-      - id: changed-project-stack
+      - name: Get Changed Project and Stack
+        id: get-changed-project-and-stack
+        env:
+          CHANGED_PATHS: ${{ steps.git-diff.outputs.diff }}
         run: |
           export CHANGED_PATHS="${{ steps.git-diff.outputs.diff }}"
-          python hack/get_changed_project_stack.py
+          python3 hack/get_changed_project_stack.py
+      - name: Print Changed Project and Stack
+        run: |
+          echo "Changed projects: ${{ steps.get-changed-project-and-stack.outputs.changed_projects }}"
+          echo "Changed stacks: ${{ steps.get-changed-project-and-stack.outputs.changed_stacks }}"
     outputs:
-      changed_projects: ${{ steps.changed-project-stack.outputs.changed_projects }}
-      changed_stacks: ${{ steps.changed-project-stack.outputs.changed_stacks }}
+      changed_projects: ${{ steps.get-changed-project-and-stack.outputs.changed_projects }}
+      changed_stacks: ${{ steps.get-changed-project-and-stack.outputs.changed_stacks }}
 
   check-structure:
-   needs: get-changed-project-stack
-   runs-on: ubuntu-latest
-   container:
-     image: kusionstack/kusion:latest
-     env:
-       CHANGED_PROJECTS: ${{ needs.get-changed-project-stack.outputs.changed_projects }}
-       CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
-   steps:
-     - id: git-clone
-       uses: actions/checkout@v2
-       with:
-         fetch-depth: 0
-     - id: install-pytest-html
-       run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-     - id: check-structure
-       run: python3 -m pytest -v hack/check_structure.py --junitxml ./hack/report/check-structure.xml --html ./hack/report/check-structure.html
-     - id: upload-report
-       if: always()
-       uses: actions/upload-artifact@v2
-       with:
-         name: check-structure-report
-         path: |
-           hack/report/check-structure.xml
-           hack/report/check-structure.html
+    needs: get-changed-project-stack
+    runs-on: ubuntu-latest
+    container:
+      image: kusionstack/kusion:latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Pytest Html
+        run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+      - name: Check Structure
+        env:
+          CHANGED_PROJECTS: ${{ needs.get-changed-project-stack.outputs.changed_projects }}
+          CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+        run: python3 -m pytest -v hack/check_structure.py --junitxml ./hack/report/check-structure.xml --html ./hack/report/check-structure.html
+      - name: Upload Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: check-structure-report
+          path: |
+            hack/report/check-structure.xml
+            hack/report/check-structure.html
 
-   test-correctness:
-     needs: get-changed-project-stack
-     runs-on: ubuntu-latest
-     container:
-       image: kusionstack/kusion:latest
-       env:
-         CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
-     steps:
-       - id: git-clone
-         uses: actions/checkout@v2
-         with:
-           fetch-depth: 0
-       - id: install-pytest-html
-         run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-       - id: test-correctness
-         run: python3 -m pytest -v hack/test_correctness.py --junitxml ./hack/report/test-correctness.xml --html ./hack/report/test-correctness.html
-       - id: upload-report
-         if: always()
-         uses: actions/upload-artifact@v2
-         with:
-           name: test-correctness-report
-           path: |
-             hack/report/test-correctness.xml
-             hack/report/test-correctness.html        
+  test-correctness:
+    needs: get-changed-project-stack
+    runs-on: ubuntu-latest
+    container:
+      image: kusionstack/kusion:latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Pytest Html
+        run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+      - name: Test Correctness
+        env:
+          CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+        run: python3 -m pytest -v hack/test_correctness.py --junitxml ./hack/report/test-correctness.xml --html ./hack/report/test-correctness.html
+      - name: Upload Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-correctness-report
+          path: |
+            hack/report/test-correctness.xml
+            hack/report/test-correctness.html        
+
+  preview:
+    needs: [ get-changed-project-stack, check-structure, test-correctness ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Kusion
+        run: curl https://kusionstack.io/scripts/install.sh | bash
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Setup K3d&K3s
+        uses: nolar/setup-k3d-k3s@v1
+      - name: Preview
+        id: preview
+        env:
+          CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+        run: |
+          #edit the profile in the post step does not work, source kusion env file manually
+          source "$HOME/.kusion/.env"
+          python3 hack/preview_changed_stacks.py
+      - name: Upload Report
+        if: ${{ steps.preview.outputs.preview_success == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: preview-report
+          path: hack/report/preview-result.zip
+
+  apply:
+    needs: [get-changed-project-stack, preview]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Kusion
+        run: curl https://kusionstack.io/scripts/install.sh | bash
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Setup K3d&K3s
+        uses: nolar/setup-k3d-k3s@v1
+      - name: Apply
+        id: apply
+        env:
+          CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+        run: |
+          #edit the profile in the post step does not work, source kusion env file manually
+          source "$HOME/.kusion/.env"
+          python3 hack/apply_changed_stacks.py
+      - name: Upload Report
+        if: ${{ steps.apply.outputs.apply_success == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: apply-report
+          path: hack/report/apply-result.zip
 
   # deprecated checkpoints. need upgrade
   # lint:
@@ -90,7 +160,7 @@ jobs:
   #       AFFECTED_STACKS: ${{needs.deps.outputs.affected_stacks}}
   #       AFFECTED_PROJECTS: ${{needs.deps.outputs.affected_projs}}
   #   steps:
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v4
   #     - uses: actions/setup-python@v4
   #       with:
   #         python-version: '3.9'
@@ -106,7 +176,7 @@ jobs:
   #         python3 -m pytest -v -n 5 hack/lint_check.py --junitxml ./hack/report/lint.xml --html=./hack/report/lint.html
   #     - id: upload-lint-report
   #       if: always()
-  #       uses: actions/upload-artifact@v2
+  #       uses: actions/upload-artifact@v3
   #       with:
   #         name: lint-report
   #         path: |
