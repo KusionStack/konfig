@@ -6,7 +6,7 @@ import catalog.models.schema.v1.workload.network as n
 nginx: ac.AppConfiguration {
     workload: wl.Service {
         containers: {
-            wordpress: c.Container {
+            nginx: c.Container {
                 image = "nginx:1.25.2"
                 resources: {
                     "cpu": "500m"
