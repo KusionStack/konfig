@@ -1,10 +1,8 @@
 # Konfig
 
-[![用 GitHub Codespaces 打开](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=488867056&machine=standardLinux32gb&devcontainer_path=.devcontainer.json)
-
 [英语](README.md) | [中文](README-zh.md)
 
-Konfig 是 KCL 配置中基础设施配置的单一存储库。Konfig 提供给用户开箱即用、高度抽象的配置界面，模型库最初朴素的出发点就是改善 YAML 用户的效率和体验，我们希望通过将代码更繁杂的模型抽象封装到统一的模型中，从而简化用户侧配置代码的编写。当然您也可以使用 kpm 工具将 Konfig 代码作为依赖集成到您的配置代码中。
+Konfig 是 KCL 配置中基础设施配置的存储库。Konfig 提供给用户开箱即用、高度抽象的配置界面，模型库最初朴素的出发点就是改善 YAML 用户的效率和体验，我们希望通过将代码更繁杂的模型抽象封装到统一的模型中，从而简化用户侧配置代码的编写。当然您也可以使用 kpm 工具将 Konfig 代码作为依赖集成到您的配置代码中。
 
 更多细节可参考：[《模型概览》](https://kcl-lang.io/docs/user_docs/guides/working-with-konfig/overview)
 

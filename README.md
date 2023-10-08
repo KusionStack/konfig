@@ -1,10 +1,8 @@
 # Konfig
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=488867056&machine=standardLinux32gb&devcontainer_path=.devcontainer.json)
-
 [English](README.md) | [Chinese](README-zh.md)
 
-Konfig is the mono repository of the infra configuration in KCL(Kusion Configuration Language).
+Konfig is the repository of the infra configuration in KCL.
 
 Konfig provides users with an out-of-the-box, highly abstract configuration interface. The original starting point of the model library is to improve the efficiency and experience of YAML users. We hope to simplify the writing of user-side configuration code by abstracting and encapsulating the model with more complex code into a unified model.
 
