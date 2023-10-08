@@ -1,7 +1,0 @@
-kcl_options:
-  - key: cluster
-    value: default
-  - key: app
-    value: http-echo
-  - key: env
-    value: dev

@@ -1,6 +1,6 @@
 [package]
 name = "konfig"
-version = "0.1.0"
+version = "0.3.0"
 
 [dependencies]
-k8s = "1.27"
+k8s = "1.28"

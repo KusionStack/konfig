@@ -37,6 +37,10 @@ Konfig 是 KCL 配置中基础设施配置的单一存储库。Konfig 提供给�
 └── kcl.mod             # 大库配置文件，通常用来标识大库根目录位置以及大库所需依赖
 ```
 
+## 前置条件
+
+安装 [kpm](https://kcl-lang.io/docs/user_docs/guides/package-management/installation)
+
 ## 快速开始
 
 参考[这里](https://kcl-lang.io/docs/user_docs/guides/working-with-konfig/guide)

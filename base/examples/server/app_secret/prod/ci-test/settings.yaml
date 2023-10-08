@@ -1,7 +1,0 @@
-kcl_options:
-  - key: cluster
-    value: demo-cluster-name
-  - key: app
-    value: sampleapp
-  - key: env
-    value: prod
