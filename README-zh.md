@@ -14,27 +14,35 @@ Konfig 是 KCL 配置中基础设施配置的单一存储库。Konfig 提供给�
 
 ```bash
 .
-├── Makefile            # 通过 Makefile 封装常用命令
-├── README.md           # 配置大库说明
-├── appops              # 应用运维目录，用来放置所有应用的 KCL 运维配置
-│   ├── clickhouse-operator
-│   ├── code-city
-│   ├── guestbook
-│   ├── http-echo
-│   └── nginx-example
-├── base                # 模型库
-│   ├── examples        # 样例代码
-│   │   ├── monitoring  # 监控配置样例
-│   │   ├── native      # Kubernetes 资源配置样例
-│   │   ├── provider    # 基础资源配置样例
-│   │   └── server      # 云原生应用运维配置模型样例
-│   └── pkg
-│       ├── kusion_kubernetes   # Kubernetes 底层模型库
-│       ├── kusion_models       # 核心模型库
-│       ├── kusion_prometheus   # Prometheus 底层模型库
-│       └── kusion_provider     # 基础资源 底层模型库
-├── hack                # 放置一些脚本
-└── kcl.mod             # 大库配置文件，通常用来标识大库根目录位置以及大库所需依赖
+├── LICENSE
+├── Makefile
+├── README-zh.md
+├── README.md
+├── examples            # konfig examples
+├── kcl.mod             # konfig package metadata file
+├── kcl.mod.lock        # konfig package metadata lock file
+└── models
+    ├── commons         # Common models
+    ├── kube            # Cloud-native resource core models
+    │   ├── backend         # Back-end models
+    │   ├── frontend        # Front-end models
+    │   │   ├── common          # Common front-end models
+    │   │   ├── configmap       # ConfigMap
+    │   │   ├── container       # Container
+    │   │   ├── ingress         # Ingress
+    │   │   ├── resource        # Resource
+    │   │   ├── secret          # Secret
+    │   │   ├── service         # Service
+    │   │   ├── sidecar         # Sidecar
+    │   │   ├── strategy        # strategy
+    │   │   ├── volume          # Volume
+    │   │   └── server.k        # The `Server` model
+    │   ├── metadata        # Kubernetes metadata
+    │   ├── mixins          # Mixin
+    │   ├── render          # Front-to-back-end renderers.
+    │   ├── templates       # Data template
+    │   └── utils
+    └── metadata           # Common metadata
 ```
 
 ## 前置条件

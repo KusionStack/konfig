@@ -20,86 +20,31 @@ The overall structure of the configuration library is as follows:
 ├── Makefile
 ├── README-zh.md
 ├── README.md
-├── examples
-├── kcl.mod
-├── kcl.mod.lock
-├── models
-│   ├── commons
-│   └── kube
-│       ├── backend
-│       │   ├── job_backend.k
-│       │   └── server_backend.k
-│       ├── frontend
-│       │   ├── common
-│       │   │   └── metadata.k
-│       │   ├── configmap
-│       │   │   └── configmap.k
-│       │   ├── container
-│       │   │   ├── container.k
-│       │   │   ├── env
-│       │   │   │   └── env.k
-│       │   │   ├── lifecycle
-│       │   │   │   └── lifecycle.k
-│       │   │   ├── port
-│       │   │   │   └── container_port.k
-│       │   │   └── probe
-│       │   │       └── probe.k
-│       │   ├── ingress
-│       │   │   └── ingress.k
-│       │   ├── job.k
-│       │   ├── rbac
-│       │   │   ├── cluster_role.k
-│       │   │   ├── cluster_role_binding.k
-│       │   │   ├── role.k
-│       │   │   └── role_binding.k
-│       │   ├── resource
-│       │   │   ├── resource.k
-│       │   │   └── resource_requirements.k
-│       │   ├── secret
-│       │   │   └── secret.k
-│       │   ├── server.k
-│       │   ├── service
-│       │   │   └── service.k
-│       │   ├── serviceaccount
-│       │   │   └── service_account.k
-│       │   ├── sidecar
-│       │   │   ├── sidecar.k
-│       │   │   └── simple_sidecar.k
-│       │   ├── storage
-│       │   │   ├── database.k
-│       │   │   └── objectstorage.k
-│       │   ├── strategy
-│       │   │   └── scheduling_strategy.k
-│       │   └── volume
-│       │       └── volume.k
-│       ├── metadata
-│       │   └── metadata.k
-│       ├── mixins
-│       │   ├── configmap_mixin.k
-│       │   ├── ingress_mixin.k
-│       │   ├── metadata_mixin.k
-│       │   ├── namespace_mixin.k
-│       │   ├── secret_mixin.k
-│       │   ├── service_mixin.k
-│       │   └── serviceaccount_mixin.k
-│       ├── protocol
-│       │   └── server_protocol.k
-│       ├── render
-│       │   └── render.k
-│       ├── resource
-│       │   ├── resource.k
-│       │   └── resourceorder.k
-│       ├── templates
-│       │   └── resource.k
-│       └── utils
-│           ├── application_builder.k
-│           ├── container_frontend2kube.k
-│           ├── metadata_builder.k
-│           ├── str2resource_requirements.k
-│           ├── str2resource_requirements_test.k
-│           └── volume_patch.k
-└── scripts
-    └── test.sh
+├── examples            # konfig examples
+├── kcl.mod             # konfig package metadata file
+├── kcl.mod.lock        # konfig package metadata lock file
+└── models
+    ├── commons         # Common models
+    ├── kube            # Cloud-native resource core models
+    │   ├── backend         # Back-end models
+    │   ├── frontend        # Front-end models
+    │   │   ├── common          # Common front-end models
+    │   │   ├── configmap       # ConfigMap
+    │   │   ├── container       # Container
+    │   │   ├── ingress         # Ingress
+    │   │   ├── resource        # Resource
+    │   │   ├── secret          # Secret
+    │   │   ├── service         # Service
+    │   │   ├── sidecar         # Sidecar
+    │   │   ├── strategy        # strategy
+    │   │   ├── volume          # Volume
+    │   │   └── server.k        # The `Server` model
+    │   ├── metadata        # Kubernetes metadata
+    │   ├── mixins          # Mixin
+    │   ├── render          # Front-to-back-end renderers.
+    │   ├── templates       # Data template
+    │   └── utils
+    └── metadata           # Common metadata
 ```
 
 ## Prerequisites
