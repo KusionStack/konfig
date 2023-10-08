@@ -1,7 +1,0 @@
-kcl_options:
-  - key: cluster
-    value: default
-  - key: app
-    value: kcl-vault-csi
-  - key: env
-    value: dev
