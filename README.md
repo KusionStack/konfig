@@ -47,7 +47,7 @@ The overall structure of the configuration library is as follows:
 
 ## Prerequisites
 
-Install [kpm](https://kcl-lang.io/docs/user_docs/guides/package-management/installation)
+Install [KCL](https://kcl-lang.io/docs/user_docs/getting-started/install)
 
 ## Quick Start
 
