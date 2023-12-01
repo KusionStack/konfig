@@ -5,7 +5,7 @@ helloworld: ac.AppConfiguration {
     workload.replicas = 3
     workload.containers.helloworld: {
         # dev stack has different app configuration
-        image = "gcr.io/google-samples/gb-frontend:v5"
+        image = "nginx:1.14.2"
         resources = {
             "cpu": "250m"
             "memory": "256Mi"
