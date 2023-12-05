@@ -14,7 +14,7 @@ def test_correctness(stack_dir):
         print(f"Ignore stack {stack_dir}.")
         return
     print(f"Test correctness of stack {stack_dir}...")
-    cmd = [KUSION_CMD, COMPILE_CMD]
+    cmd = [KUSION_CMD, BUILD_CMD]
     process = subprocess.run(
         cmd, capture_output=True, cwd=Path(stack_dir), env=dict(os.environ)
     )

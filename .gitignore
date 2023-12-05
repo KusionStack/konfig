@@ -21,3 +21,5 @@ report/
 kusion_state.json
 
 changed_list.txt
+
+*.lock
