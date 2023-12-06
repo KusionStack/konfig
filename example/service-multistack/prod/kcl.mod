@@ -1,5 +1,5 @@
 [package]
-name = "multi-stack"
+name = "service-multistack"
 edition = "0.5.0"
 version = "0.1.0"
 

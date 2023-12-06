@@ -10,6 +10,7 @@ import catalog.models.schema.v1.accessories.database as db
 
 # main.k declares reusable configurations for all stacks.
 wordpress: ac.AppConfiguration {
+    # the main workload configurations
     workload: wl.Service {
         containers: {
             wordpress: c.Container {
@@ -31,6 +32,7 @@ wordpress: ac.AppConfiguration {
             }
         ]
     }
+    # database accessory configurations
     database: db.Database {
         type: "alicloud"
         engine: "MySQL"

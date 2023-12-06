@@ -1,26 +1,23 @@
 import catalog.models.schema.v1 as ac
 import catalog.models.schema.v1.workload as wl
-import catalog.models.schema.v1.workload.container as c
 import catalog.models.schema.v1.workload.network as n
+import catalog.models.schema.v1.workload.container as c
 
-nginx: ac.AppConfiguration {
+echoserver: ac.AppConfiguration {
     workload: wl.Service {
         containers: {
-            nginx: c.Container {
-                image = "nginx:1.25.2"
+            "server": c.Container {
+                image = "<no value>"
                 resources: {
-                    "cpu": "500m"
-                    "memory": "512Mi"
+                    "cpu": "250m"
+                    "memory": "256Mi"
                 }
             }
         }
         replicas: 1
         ports: [
             n.Port {
-                type: "aliyun"
                 port: 80
-                protocol: "TCP"
-                public: True
             }
         ]
     }
