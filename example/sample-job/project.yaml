@@ -1,4 +1,4 @@
 # The project basic info
-name: simpleservice
+name: sample-job
 generator:
   type: AppConfiguration
