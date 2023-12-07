@@ -1,4 +1,4 @@
 # The project basic info
-name: samplejob
+name: service-multi-stack
 generator:
   type: AppConfiguration
