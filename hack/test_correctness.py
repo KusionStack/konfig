@@ -6,6 +6,7 @@ from lib.common import *
 from lib import util
 
 stack_dirs = util.get_changed_stacks()
+util.create_workspaces(stack_dirs)
 
 
 @pytest.mark.parametrize("stack_dir", stack_dirs)
