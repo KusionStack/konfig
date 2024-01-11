@@ -1,14 +1,15 @@
 # konfig
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=488867056&machine=standardLinux32gb&devcontainer_path=.devcontainer.json)
 
-konfig repository contains various example applications code, you can use these example applications to quickly try out and learn how to use [Kusion](https://github.com/KusionStack/kusion).
+konfig contains various example applications code, you can use these example applications to quickly try out and learn how to use [Kusion](https://github.com/KusionStack/kusion).
 
-## Getting Started
+If you're new to Kusion, it's a good idea to start by [Getting Started](https://www.kusionstack.io/docs/kusion/getting-started/install-kusion), which includes quickstart installation, guided tutorials and deployment instructions. Then you can go to [User Guides](https://www.kusionstack.io/docs) to find more Kusion practical application scenarios, and konfig holds the corresponding examples of the user guides.
 
-If you're new to Kusion, start by reviewing the [Getting Started](https://www.kusionstack.io/docs/user_docs/getting-started/) page, which includes quickstart installation, guided tutorials and deployment instructions.
+## konfig examples
 
-All guided tutorials use applications in this repository, located in the `example` directory.
-
-## Deploying Examples
-
-You can experiment with the different examples by entering each directory and running `kusion apply`. Some examples have prerequisites, e.g. accessible Kubernetes cluster or account for cloud provider. Please refer to guided tutorials in the [User Guide](https://www.kusionstack.io/docs/user_docs/guides/) for specific prerequisites.
+|name|description|user guide|
+|----|-----------|----------|
+|[nginx](example/nginx)|An exposing nginx service.|[Expose Application Service Deployed on CSP Kubernetes](https://www.kusionstack.io/docs/kusion/user-guides/cloud-resources/expose-service)|
+|[sample-job](example/sample-job)|An one-off or recurring execution task.|[Schedule a Job](https://www.kusionstack.io/docs/kusion/user-guides/working-with-k8s/job)|
+|[service-multi-stack](example/service-multi-stack)|A project which contains multiple stacks.|[Deploy Application Securely and Efficiently via GitHub Actions](https://www.kusionstack.io/docs/kusion/user-guides/github-actions/deploy-application-via-github-actions)|
+|[simple-service](example/simple-service)|A simple service only contains workload resources.|[Deploy Application](https://www.kusionstack.io/docs/kusion/user-guides/working-with-k8s/deploy-application)|
+|[wordpress](example/wordpress)|The wordpress application which contains workload and database resource.|[Deliver the WordPress Application with Cloud RDS](https://www.kusionstack.io/docs/next/kusion/user-guides/cloud-resources/database)|
