@@ -22,4 +22,7 @@ kusion_state.json
 
 changed_list.txt
 
-*.lock
+*#.lock
+
+# kusion state
+kusion_state.yaml
