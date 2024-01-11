@@ -13,7 +13,7 @@ def split_changed_paths_str(changed_paths_str: str) -> List[str]:
 
 def get_changed_project_paths(changed_paths: List[str]) -> List[str]:
     project_paths = []
-    check_files = [KCL_FILE_SUFFIX, KCL_MOD_FILE, KCL_MOD_LOCK_FILE, PROJECT_FILE, STACK_FILE]
+    check_files = [KCL_FILE_SUFFIX, KCL_MOD_FILE, PROJECT_FILE, STACK_FILE]
     for changed_path in changed_paths:
         if not changed_path:
             continue
@@ -33,7 +33,7 @@ def get_changed_project_paths(changed_paths: List[str]) -> List[str]:
 
 def get_changed_stack_paths(changed_paths: List[str], project_paths: List[str]) -> List[str]:
     stack_paths = []
-    check_files = [KCL_FILE_SUFFIX, KCL_MOD_FILE, KCL_MOD_LOCK_FILE, PROJECT_FILE, STACK_FILE]
+    check_files = [KCL_FILE_SUFFIX, KCL_MOD_FILE, PROJECT_FILE, STACK_FILE]
     for changed_path in changed_paths:
         if not changed_path:
             continue
