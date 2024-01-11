@@ -3,6 +3,8 @@ import catalog.models.schema.v1.workload as wl
 import catalog.models.schema.v1.workload.container as c
 import catalog.models.schema.v1.workload.container.probe as p
 import catalog.models.schema.v1.workload.network as n
+import catalog.models.schema.v1.monitoring as m
+import catalog.models.schema.v1.trait as t
 
 helloworld: ac.AppConfiguration {
     workload: wl.Service {
@@ -27,10 +29,20 @@ helloworld: ac.AppConfiguration {
             }
         }
         replicas: 2
+        # Comment the following block to un-expose service 
         ports: [
             n.Port {
-                port: 80
+                port: 8080
+                targetPort: 80
             }
         ]
+    }
+    # Comment the following block to remove opsRule 
+    opsRule: t.OpsRule {
+        maxUnavailable: "30%"
+    }
+    # Comment the following block to disable monitoring 
+    monitoring: m.Prometheus{
+        path:           "/metrics"
     }
 }
