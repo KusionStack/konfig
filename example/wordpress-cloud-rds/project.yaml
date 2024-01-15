@@ -1,4 +1,4 @@
 # The project basic info
-name: wordpress
+name: wordpress-cloud-rds
 generator:
   type: AppConfiguration
