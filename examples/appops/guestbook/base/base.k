@@ -9,12 +9,9 @@ guestbookFrontend: frontend.Server {
     # Main Container Configuration
     mainContainer = container.Main {
         name = "php-redis"
-        env = [
-            {
-                name = "GET_HOSTS_FROM"
-                value = "dns"
-            }
-        ]
+        env.GET_HOSTS_FROM: {
+            value = "dns"
+        }
         ports = [{containerPort = 80}]
     }
     schedulingStrategy.resource = res_tpl.tiny

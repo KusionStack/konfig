@@ -17,12 +17,9 @@ appConfiguration: frontend.Server {
         # 主容器启动参数，可选
         args = ["start"]
         # 主容器环境变量，可选
-        env = [
-            e.Env {
-                name = "app.version"
-                value = "v1.0.0"
-            }
-        ]
+        env: {
+            "app.version": {value = "v1.0.0"}
+        }
         envFrom = [
             e.EnvFromSource {
                 configMapRef = "my-configmap"
