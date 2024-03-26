@@ -11,12 +11,9 @@ appConfiguration: frontend.Server {
         s.Sidecar {
             name = "sidecar-log-collector"
             image = "gcr.io/google_containers/fluentd-sidecar-es:1.0"
-            env = [
-                e.Env {
-                    name = "FILES_TO_COLLECT"
-                    value = "/mnt/log/synthetic-count.log /mnt/log/synthetic-dates.log"
-                }
-            ]
+            env: {
+                "FILES_TO_COLLECT": {value = "/mnt/log/synthetic-count.log /mnt/log/synthetic-dates.log"}
+            }
             resource = res_tpl.small
         }
     ]

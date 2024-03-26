@@ -1,7 +1,6 @@
 import konfig.models.kube.frontend
 import konfig.models.kube.frontend.service
 import konfig.models.kube.frontend.container
-import konfig.models.kube.templates.resource as res_tpl
 
 # Application Configuration
 appConfiguration: frontend.Server {
@@ -10,6 +9,9 @@ appConfiguration: frontend.Server {
         ports = [
             {containerPort = 80}
         ]
+        env.MY_ENV: {
+            value = "MY_VALUE"
+        }
     }
     image = "nginx:1.7.8"
     services = [

@@ -3,7 +3,7 @@ name = "http-echo-dev"
 version = "0.0.1"
 
 [dependencies]
-konfig = "0.3.0"
+konfig = { path = "../../../../../konfig" }
 k8s = "1.28"
 
 [profile]
