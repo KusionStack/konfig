@@ -1,8 +1,8 @@
-import catalog.models.schema.v1 as ac
-import catalog.models.schema.v1.workload as wl
-import catalog.models.schema.v1.workload.container as c
-import catalog.models.schema.v1.workload.network as n
-import catalog.models.schema.v1.accessories.mysql
+import kam.v1.app_configuration as ac
+import kam.v1.workload as wl
+import kam.v1.workload.container as c
+import network as n
+import mysql as m
 
 # main.k declares customized configurations for prod stacks.
 wordpress: ac.AppConfiguration {
@@ -23,14 +23,16 @@ wordpress: ac.AppConfiguration {
             }
         }
         replicas: 1
-        ports: [
-            n.Port {
-                port: 80
-            }
-        ]
     }
-    database: {
-        wordpress: mysql.MySQL {
+    accessories: {
+        "network": n.Network {
+            ports: [
+                n.Port {
+                    port: 80
+                }
+            ]
+        }
+        "mysql": m.MySQL {
             type: "cloud"
             version: "8.0"
         }
