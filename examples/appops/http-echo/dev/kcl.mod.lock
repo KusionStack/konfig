@@ -9,9 +9,6 @@
     oci_tag = "1.28"
   [dependencies.konfig]
     name = "konfig"
-    full_name = "konfig_0.3.0"
-    version = "0.3.0"
-    sum = "QFw8ix6OkZqX9lLegyKB4I68ru70z3mGhfuqj64clTM="
-    reg = "ghcr.io"
-    repo = "kcl-lang/konfig"
-    oci_tag = "0.3.0"
+    full_name = "konfig_0.4.0"
+    version = "0.4.0"
+    sum = "juuqFOVyrhZs9qbAUPKQBANqO+9rwjZ9nU7cXAJjolU="

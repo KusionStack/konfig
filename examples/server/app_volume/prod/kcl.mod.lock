@@ -9,7 +9,6 @@
     oci_tag = "1.28"
   [dependencies.konfig]
     name = "konfig"
-    full_name = "konfig_0.2.0"
-    version = "0.2.0"
-    sum = "Sm+lY6kjDC6PG8NUx1aWvK3+J/ToXIToeCS5FUZKIQ8="
-    path = "../../../../../konfig"
+    full_name = "konfig_0.4.0"
+    version = "0.4.0"
+    sum = "/1BxcfG8cLVSrFz087f563S0r9brXtXAYys0NVlJlp8="
