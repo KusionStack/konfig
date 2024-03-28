@@ -1,7 +1,7 @@
-import catalog.models.schema.v1 as ac
-import catalog.models.schema.v1.workload as wl
-import catalog.models.schema.v1.workload.container as c
-import catalog.models.schema.v1.workload.network as n
+import kam.v1.app_configuration as ac
+import kam.v1.workload as wl
+import kam.v1.workload.container as c
+import network as n
 
 nginx: ac.AppConfiguration {
     workload: wl.Service {
@@ -15,12 +15,16 @@ nginx: ac.AppConfiguration {
             }
         }
         replicas: 1
-        ports: [
-            n.Port {
-                port: 80
-                protocol: "TCP"
-                public: True
-            }
-        ]
+    }
+    accessories: {
+        "network": n.Network {
+            ports: [
+                n.Port {
+                    port: 80
+                    protocol: "TCP"
+                    public: True
+                }
+            ]
+        }
     }
 }

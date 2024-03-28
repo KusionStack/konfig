@@ -1,7 +1,7 @@
-import catalog.models.schema.v1 as ac
-import catalog.models.schema.v1.workload as wl
-import catalog.models.schema.v1.workload.network as n
-import catalog.models.schema.v1.workload.container as c
+import kam.v1.app_configuration as ac
+import kam.v1.workload as wl
+import kam.v1.workload.container as c
+import network as n
 
 echoserver: ac.AppConfiguration {
     workload: wl.Service {
@@ -15,10 +15,14 @@ echoserver: ac.AppConfiguration {
             }
         }
         replicas: 1
-        ports: [
-            n.Port {
-                port: 80
-            }
-        ]
+    }
+    accessories: {
+        "network": n.Network {
+            ports: [
+                n.Port {
+                    port: 80
+                }
+            ]
+        }
     }
 }
