@@ -72,6 +72,7 @@ jobs:
           OSS_ACCESS_KEY_ID: "${{ secrets.OSS_ACCESS_KEY_ID }}"
           OSS_ACCESS_KEY_SECRET: "${{ secrets.OSS_ACCESS_KEY_SECRET }}"
           WORKSPACE_FILE_DIR: workspaces
+          SECRETS_TEST: "${{ secrets.SECRETS_TEST }}"
         run: |
           # manually source kusion env file
           source "$HOME/.kusion/.env"
