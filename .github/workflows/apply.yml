@@ -1,0 +1,96 @@
+name: Apply
+on: 
+  push:
+    branches:
+      - "main"
+
+jobs:
+  get-changed-project-stack: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install Pytest Html
+        run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+
+      - name: Git Diff
+        id: git-diff
+        uses: technote-space/get-diff-action@v6
+
+      - name: Get Changed Projects and Stacks
+        id: get-changed-projects-and-stacks
+        env: 
+          CHANGED_PATHS: ${{ steps.git-diff.outputs.diff }}
+        run: |
+          export CHANGED_PATHS="${{ steps.git-diff.outputs.diff }}"
+          python3 hack/get_changed_projects_and_stacks.py
+
+      - name: Print Changed Projects and Stacks
+        run: |
+          echo "Changed projects: ${{ steps.get-changed-projects-and-stacks.outputs.changed_projects }}"
+          echo "Changed stacks: ${{ steps.get-changed-projects-and-stacks.outputs.changed_stacks }}"
+    outputs: 
+      changed_projects: ${{ steps.get-changed-projects-and-stacks.outputs.changed_projects }}
+      changed_stacks: ${{ steps.get-changed-projects-and-stacks.outputs.changed_stacks }}
+
+  apply: 
+    needs: [ get-changed-project-stack ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Kusion 
+        run: curl https://www.kusionstack.io/scripts/install.sh | sh -s 0.12.0-rc.1
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install Pytest Html
+        run: python3 -m pip install pytest-html pyyaml -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+
+      - name: Setup K3d&K3s
+        uses: nolar/setup-k3d-k3s@v1
+
+      - name: Apply
+        id: apply
+        env: 
+          CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
+          OSS_ACCESS_KEY_ID: '${{ secrets.OSS_ACCESS_KEY_ID }}'
+          OSS_ACCESS_KEY_SECRET: '${{ secrets.OSS_ACCESS_KEY_SECRET }}'
+          WORKSPACE_FILE_DIR: workspaces
+        run: |
+          # manually source kusion env file
+          source "$HOME/.kusion/.env"
+
+          # setup remote backend for kusion cli
+          kusion config set backends.oss_test '{"type":"oss","configs":{"bucket":"kusion-test","endpoint":"oss-cn-shanghai.aliyuncs.com"}}'
+          kusion config set backends.current oss_test
+
+          # execute python script for applying
+          python3 hack/apply_changed_stacks.py
+
+      - name: Upload Report
+        id: upload-report
+        if: ${{ steps.apply.outputs.apply_success == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: apply-report
+          path: hack/report/apply-result.zip
+
+      - name: Echo URL 
+        if: ${{ steps.apply.outputs.apply_success == 'true' }}
+        run: |
+          echo "Please check the apply result at: ${{ steps.upload-report.outputs.artifact-url }}"

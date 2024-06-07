@@ -24,5 +24,7 @@ CREATE_CMD = "create"
 NO_STYLE_FLAG = "--no-style"
 YES_FLAG = "--yes"
 FILE_FLAG = "--file"
+NO_DETAIL_FLAG = "--detail=false"
+NO_WATCH_FLAG = "--watch=false"
 
 IGNORE_PROJECTS = ["example/wordpress"]
