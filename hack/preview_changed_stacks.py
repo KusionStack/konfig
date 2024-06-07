@@ -34,7 +34,7 @@ def preview_stacks(stack_dirs: List[str]) -> bool:
 
 def preview(stack_dir: str):
     print(f"Preview stack {stack_dir}...")
-    cmd = [KUSION_CMD, PREVIEW_CMD, NO_STYLE_FLAG]
+    cmd = [KUSION_CMD, PREVIEW_CMD, NO_STYLE_FLAG, NO_DETAIL_FLAG]
     process = subprocess.run(
         cmd, capture_output=True, cwd=Path(stack_dir), env=dict(os.environ)
     )
@@ -62,7 +62,7 @@ def pack_result_files():
 
 
 stack_dirs = util.get_changed_stacks()
-util.create_workspaces(stack_dirs)
+# util.create_workspaces(stack_dirs)
 success = preview_stacks(stack_dirs)
 if success:
     pack_result_files()
