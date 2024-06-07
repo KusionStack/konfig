@@ -12,7 +12,7 @@ agent: ac.AppConfiguration {
             opensearch: c.Container {
                 image: "kusionstack/ai-agent-demo:v0.1.0"
                 env: {
-                    "OPENAI_API_KEY": "secret://ai-agent/OPENAI_API_KEY"
+                    # "OPENAI_API_KEY": "secret://ai-agent/OPENAI_API_KEY"
                     # "RAG_ENABLED": "true"
                     # "OPEN_SEARCH_AK": "secret://ai-agent/OPEN_SEARCH_AK"
                     # "OPEN_SEARCH_SK": "secret://ai-agent/OPEN_SEARCH_SK"
@@ -24,7 +24,8 @@ agent: ac.AppConfiguration {
             "ai-agent": sec.Secret {
                 type: "external"
                 data: {
-                    "OPENAI_API_KEY": "ref://ai-agent/OPENAI_API_KEY"
+                    # replace all references with your own tokens
+                    # "OPENAI_API_KEY": "ref://ai-agent/OPENAI_API_KEY"
                     # "OPEN_SEARCH_AK": "ref://ai-agent/OPEN_SEARCH_AK"
                     # "OPEN_SEARCH_SK": "ref://ai-agent/OPEN_SEARCH_SK"
                 }

@@ -1,4 +1,10 @@
 modules:
+  service:
+    path: oci://ghcr.io/kusionstack/service
+    version: 0.1.0
+    configs:
+      default:
+        replicas: 1
   opensearch:
     path: oci://ghcr.io/kusionstack/opensearch
     version: 0.1.0
@@ -18,3 +24,8 @@ modules:
             - "*"
           action:
           - es:*
+# AWS SecretManager config
+# secretStore:
+#   provider:
+#     aws:
+#       region: us-east-1
