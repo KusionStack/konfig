@@ -73,6 +73,8 @@ jobs:
           OSS_ACCESS_KEY_SECRET: "${{ secrets.OSS_ACCESS_KEY_SECRET }}"
           WORKSPACE_FILE_DIR: workspaces
           SECRETS_TEST_TEST: "${{ secrets.SECRETS_TEST }}"
+          ALICLOUD_ACCESS_KEY: ${{ secrets.ALICLOUD_ACCESS_KEY }}
+          ALICLOUD_SECRET_KEY: ${{ secrets.ALICLOUD_SECRET_KEY }}
         run: |
           # manually source kusion env file
           source "$HOME/.kusion/.env"
