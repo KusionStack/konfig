@@ -69,8 +69,8 @@ jobs:
         id: preview
         env: 
           CHANGED_STACKS: ${{ needs.get-changed-project-stack.outputs.changed_stacks }}
-          OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
-          OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+          OSS_ACCESS_KEY_ID: "${{ secrets.OSS_ACCESS_KEY_ID }}"
+          OSS_ACCESS_KEY_SECRET: "${{ secrets.OSS_ACCESS_KEY_SECRET }}"
           WORKSPACE_FILE_DIR: workspaces
         run: |
           # manually source kusion env file
