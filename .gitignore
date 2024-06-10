@@ -26,3 +26,6 @@ changed_list.txt
 
 # kusion state
 kusion_state.yaml
+
+# kcl mod lock files
+kcl.mod.lock
