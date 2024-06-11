@@ -3,7 +3,7 @@ import kam.v1.app_configuration as ac
 import service as svc
 import service.secret as sec
 import service.container as c
-import opensearch.opensearch as o
+# import opensearch.opensearch as o
 
 agent: ac.AppConfiguration {
     # Declare the workload configurations.
@@ -20,23 +20,23 @@ agent: ac.AppConfiguration {
             }
         }
         # Secrets used to retrieve secret data from AWS Secrets Manager
-        secrets: {
-            "ai-agent": sec.Secret {
-                type: "external"
-                data: {
-                    # replace all references with your own tokens
-                    # "OPENAI_API_KEY": "ref://ai-agent/OPENAI_API_KEY"
-                    # "OPEN_SEARCH_AK": "ref://ai-agent/OPEN_SEARCH_AK"
-                    # "OPEN_SEARCH_SK": "ref://ai-agent/OPEN_SEARCH_SK"
-                }
-            }
-        }
+        # secrets: {
+        #     "ai-agent": sec.Secret {
+        #         type: "external"
+        #         data: {
+        #             # replace all references with your own tokens
+        #             # "OPENAI_API_KEY": "ref://ai-agent/OPENAI_API_KEY"
+        #             # "OPEN_SEARCH_AK": "ref://ai-agent/OPEN_SEARCH_AK"
+        #             # "OPEN_SEARCH_SK": "ref://ai-agent/OPEN_SEARCH_SK"
+        #         }
+        #     }
+        # }
     }
     # Declare the openSearch module configurations.
     accessories: {
-        "opensearch": o.OpenSearch {
-            domainName: "ai-agent-demo"
-            engineVersion: "OpenSearch_2.13"
-        }
+        # "opensearch": o.OpenSearch {
+        #     domainName: "ai-agent-demo"
+        #     engineVersion: "OpenSearch_2.13"
+        # }
     }
 }

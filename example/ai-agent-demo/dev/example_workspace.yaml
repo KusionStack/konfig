@@ -25,7 +25,7 @@ modules:
           action:
           - es:*
 # AWS SecretManager config
-# secretStore:
-#   provider:
-#     aws:
-#       region: us-east-1
+secretStore:
+  provider:
+    aws:
+      region: us-east-1
