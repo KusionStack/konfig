@@ -52,7 +52,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Kusion 
-        run: curl https://www.kusionstack.io/scripts/install.sh | sh -s 0.12.0-rc.1
+        run: curl https://www.kusionstack.io/scripts/install.sh | sh -s 0.12.0-rc.2
 
       - name: Install Python
         uses: actions/setup-python@v4
@@ -72,6 +72,7 @@ jobs:
           OSS_ACCESS_KEY_ID: '${{ secrets.OSS_ACCESS_KEY_ID }}'
           OSS_ACCESS_KEY_SECRET: '${{ secrets.OSS_ACCESS_KEY_SECRET }}'
           WORKSPACE_FILE_DIR: workspaces
+          AWS_REGION: us-east-1
         run: |
           # manually source kusion env file
           source "$HOME/.kusion/.env"

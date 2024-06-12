@@ -1,10 +1,10 @@
 import kam.v1.app_configuration as ac
-import kam.v1.workload as wl
-import kam.v1.workload.container as c
+import service
+import service.container as c
 import network as n
 
 echoserver: ac.AppConfiguration {
-    workload: wl.Service {
+    workload: service.Service {
         containers: {
             "server": c.Container {
                 image = "<no value>"

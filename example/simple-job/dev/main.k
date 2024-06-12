@@ -1,9 +1,9 @@
 import kam.v1.app_configuration as ac
-import kam.v1.workload as wl
-import kam.v1.workload.container as c
+import job
+import job.container as c
 
 helloworld: ac.AppConfiguration {
-    workload: wl.Job {
+    workload: job.Job {
         containers: {
             "busybox": c.Container {
                 # The target image
