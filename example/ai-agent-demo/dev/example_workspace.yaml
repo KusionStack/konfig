@@ -1,0 +1,31 @@
+modules:
+  service:
+    path: oci://ghcr.io/kusionstack/service
+    version: 0.1.0
+    configs:
+      default:
+        replicas: 1
+  opensearch:
+    path: oci://ghcr.io/kusionstack/opensearch
+    version: 0.1.0
+    configs:
+      default:
+        region: us-east-1
+        clusterConfig:
+            instanceType: r6g.large.search
+        ebsOptions:
+          ebsEnabled: true
+          volumeSize: 10
+        statement:
+        - effect: Allow
+          principals:
+          - type: AWS
+            identifiers:
+            - "*"
+          action:
+          - es:*
+# AWS SecretManager config
+secretStore:
+  provider:
+    aws:
+      region: us-east-1
