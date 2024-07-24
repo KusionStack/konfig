@@ -34,7 +34,7 @@ remove_duplicated_iter = lambda data: [], func {
 
 __renderServerFrontendInstances__ = [inst for inst in frontend.Server.instances() if typeof(inst) == "Server"]
 __renderServerBackendInstances__ = [backend.ServerBackend(inst) for inst in __renderServerFrontendInstances__]
-__serverExtraResources: [{str:}] = [v for s in __renderServerFrontendInstances__ for k, v in s.extraResources]
+__serverExtraResources: [{str:}] = [v for s in __renderServerFrontendInstances__ for k, v in s.extraResources or []]
 
 __renderJobFrontendInstances__ = [inst for inst in frontend.Job.instances() if typeof(inst) == "Job"]
 __renderJobBackendInstances__ = [backend.JobBackend(inst) for inst in __renderJobFrontendInstances__]

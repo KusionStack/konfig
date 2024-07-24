@@ -18,4 +18,7 @@ appConfiguration: frontend.Server {
             type = "Opaque"
         }
     ]
+    podMetadata.labels: {
+        "app.kubernetes.io/env" = "myenv"
+    }
 }
