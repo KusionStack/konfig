@@ -1,6 +1,5 @@
 import konfig.models.kube.frontend
 import konfig.models.kube.frontend.sidecar as s
-import konfig.models.kube.frontend.container.env as e
 import konfig.models.kube.frontend.volume as v
 import konfig.models.kube.templates.resource as res_tpl
 
