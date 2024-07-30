@@ -14,10 +14,6 @@ jobs:
       - name: KCL Installation
         run: wget -q https://kcl-lang.io/script/install-cli.sh -O - | /bin/bash
 
-      - uses: actions/setup-go@v1
-        with:
-          go-version: "1.19"
-
       - name: Example tests
         shell: bash -ieo pipefail {0}
-        run: PATH=$PATH:$HOME/go/bin ./scripts/test.sh
+        run: ./scripts/test.sh
