@@ -7,7 +7,7 @@ on:
 
 jobs: 
   get-changed-project-stack: 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -64,6 +64,8 @@ jobs:
 
       - name: Setup K3d&K3s
         uses: nolar/setup-k3d-k3s@v1
+        with: 
+          version: v1.25.15+k3s1
 
       - name: Preview
         id: preview
