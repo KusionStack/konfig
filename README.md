@@ -1,4 +1,6 @@
 # konfig
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FKusionStack%2Fkonfig.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FKusionStack%2Fkonfig?ref=badge_shield)
+
 
 konfig contains various example applications code, you can use these example applications to quickly try out and learn how to use [Kusion](https://github.com/KusionStack/kusion).
 
@@ -14,3 +16,7 @@ If you're new to Kusion, it's a good idea to start by [Getting Started](https://
 | [simple-service](example/simple-service)           | A simple service only contains workload resources.                             |[Deploy Application](https://www.kusionstack.io/docs/kusion/user-guides/working-with-k8s/deploy-application)|
 | [wordpress-cloud-rds](example/wordpress-cloud-rds) | The wordpress application which contains workload and cloud database resource. |[Deliver the WordPress Application with Cloud RDS](https://www.kusionstack.io/docs/next/kusion/user-guides/cloud-resources/database)|
 | [wordpress-local-db](example/wordpress-lcoal-db)   | The wordpress application which contains workload and local database resource. |[Deliver the WordPress Application on Kubernetes](https://www.kusionstack.io/docs/kusion/getting-started/deliver-wordpress)|
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FKusionStack%2Fkonfig.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FKusionStack%2Fkonfig?ref=badge_large)
