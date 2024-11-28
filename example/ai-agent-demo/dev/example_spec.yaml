@@ -1,0 +1,75 @@
+[96m[96m ⣾ [0m[0m [96m[96mGenerating Spec in the Stack dev...[0m[0m[90m[90m (0s)[0m[0m[96m[96m ⣽ [0m[0m [96m[96mGenerating Spec in the Stack dev...[0m[0m[90m[90m (0s)[0m[0m[96m[96m ⣻ [0m[0m [96m[96mGenerating Spec in the Stack dev...[0m[0m[90m[90m (0s)[0m[0m[96m[96m ⢿ [0m[0m [96m[96mGenerating Spec in the Stack dev...[0m[0m[90m[90m (0s)[0m[0m[96m[96m ⡿ [0m[0m [96m[96mGenerating Spec in the Stack dev...[0m[0m[90m[90m (0s)[0m[0m[96m[96m ⣟ [0m[0m [96m[96mGenerating Spec in the Stack dev...[0m[0m[90m[90m (1s)[0m[0m[96m[96m ⣯ [0m[0m [96m[96mGenerating Spec in the Stack dev...[0m[0m[90m[90m (1s)[0m[0m[96m[96m ⣷ [0m[0m [96m[96mGenerating Spec in the Stack dev...[0m[0m[90m[90m (1s)[0m[0m[96m[96m ⣾ [0m[0m [96m[96mGenerating Spec in the Stack dev...[0m[0m[90m[90m (1s)[0m[0m                                                                                [32m[32m ✔︎ [0m[0m [32m[32mGenerating Spec in the Stack dev...[0m[0m
+resources:
+    - id: v1:Namespace:ai-agent-demo
+      type: Kubernetes
+      attributes:
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+            creationTimestamp: null
+            name: ai-agent-demo
+        spec: {}
+        status: {}
+      extensions:
+        GVK: /v1, Kind=Namespace
+    - id: apps/v1:Deployment:ai-agent-demo:ai-agent-demo-dev-agent
+      type: Kubernetes
+      attributes:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+            creationTimestamp: null
+            labels:
+                app.kubernetes.io/name: agent
+                app.kubernetes.io/part-of: ai-agent-demo
+            name: ai-agent-demo-dev-agent
+            namespace: ai-agent-demo
+        spec:
+            replicas: 1
+            selector:
+                matchLabels:
+                    app.kubernetes.io/name: agent
+                    app.kubernetes.io/part-of: ai-agent-demo
+            strategy: {}
+            template:
+                metadata:
+                    creationTimestamp: null
+                    labels:
+                        app.kubernetes.io/name: agent
+                        app.kubernetes.io/part-of: ai-agent-demo
+                spec:
+                    containers:
+                        - env:
+                            - name: OPEN_SEARCH_REGION
+                              value: us-east-1
+                            - name: OPEN_SEARCH_ENDPOINT
+                              value: $kusion_path.hashicorp:aws:aws_opensearch_domain:ai-agent-demo-dev-agent.endpoint
+                          image: kusionstack/ai-agent-demo:v0.1.0
+                          name: opensearch
+                          resources: {}
+        status: {}
+      dependsOn:
+        - v1:Namespace:ai-agent-demo
+      extensions:
+        GVK: apps/v1, Kind=Deployment
+        kusion.io/is-workload: true
+    - id: hashicorp:aws:aws_opensearch_domain:ai-agent-demo-dev-agent
+      type: Terraform
+      attributes:
+        access_policies: '[{"effect":"Allow","principals":[{"type":"AWS","identifiers":["*"]}],"action":["es:*"]}]'
+        cluster_config:
+            instance_type: r6g.large.search
+        domain_name: ai-agent-demo
+        ebs_options:
+            ebs_enabled: true
+            volume_size: 10
+        engine_version: OpenSearch_2.13
+      extensions:
+        provider: registry.terraform.io/hashicorp/aws/5.51.1
+        providerMeta:
+            region: us-east-1
+        resourceType: aws_opensearch_domain
+secretStore: null
+context:
+    kubeconfig_path: /Users/forest/.eu126.kubeconfig
+

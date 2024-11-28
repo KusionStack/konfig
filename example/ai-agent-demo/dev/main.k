@@ -3,7 +3,7 @@ import kam.v1.app_configuration as ac
 import service as svc
 import service.secret as sec
 import service.container as c
-# import opensearch.opensearch as o
+import opensearch.opensearch as o
 
 agent: ac.AppConfiguration {
     # Declare the workload configurations.
@@ -34,9 +34,9 @@ agent: ac.AppConfiguration {
     }
     # Declare the openSearch module configurations.
     accessories: {
-        # "opensearch": o.OpenSearch {
-        #     domainName: "ai-agent-demo"
-        #     engineVersion: "OpenSearch_2.13"
-        # }
+         "opensearch": o.OpenSearch {
+             domainName: "ai-agent-demo"
+             engineVersion: "OpenSearch_2.13"
+         }
     }
 }
