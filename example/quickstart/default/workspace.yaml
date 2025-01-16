@@ -1,0 +1,18 @@
+modules:
+  kam:
+    path: git://github.com/KusionStack/kam
+    version: 0.2.2
+    configs:
+      default: {}
+  network:
+    path: oci://ghcr.io/kusionstack/network
+    version: 0.3.0
+    configs:
+      default: {}
+  service:
+    path: oci://ghcr.io/kusionstack/service
+    version: 0.2.1
+    configs:
+      default: {}
+context:
+  KUBECONFIG_PATH: /path/to/kubeconfig
